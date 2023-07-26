@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
+import 'package:quotation_flutter/screens/quotation/quotation.dart';
 import 'package:quotation_flutter/utils/authUtils/app_utils.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool isSecure = true;
   TextEditingController mobileController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -47,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Text(
               "Sign In",
-              style: GoogleFonts.lato(
+              style: TextStyle(
                 color: Theme.of(context).colorScheme.primary,
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
@@ -60,6 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
               children: [
                 TextFormField(
+                  controller: mobileController,
                   decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.phone_android),
                       alignLabelWithHint: true,
@@ -70,10 +73,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 10,
                 ),
                 TextFormField(
+                  controller: passwordController,
                   obscuringCharacter: "*",
                   obscureText: isSecure,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.phone_android),
+                    prefixIcon: const Icon(Icons.enhanced_encryption),
                     alignLabelWithHint: true,
                     label: const Text("Password"),
                     border: const OutlineInputBorder(),
@@ -93,7 +97,24 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 10,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    final loginResponse = await ref
+                        .read(loginProvider.notifier)
+                        .login(mobileController.text, passwordController.text);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WillPopScope(
+                          onWillPop: () async {
+                            return false;
+                          },
+                          child: QuotationScreen(
+                            loginResponse: loginResponse['message'],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                   child: const Text("Sign In"),
                 )
               ],
