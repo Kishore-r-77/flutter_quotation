@@ -101,19 +101,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     final loginResponse = await ref
                         .read(loginProvider.notifier)
                         .login(mobileController.text, passwordController.text);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => WillPopScope(
-                          onWillPop: () async {
-                            return false;
-                          },
-                          child: QuotationScreen(
-                            loginResponse: loginResponse['message'],
+                    setState(() {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => WillPopScope(
+                            onWillPop: () async {
+                              return false;
+                            },
+                            child: QuotationScreen(
+                              loginResponse: loginResponse['message'],
+                            ),
                           ),
                         ),
-                      ),
-                    );
+                      );
+                    });
                   },
                   child: const Text("Sign In"),
                 )
