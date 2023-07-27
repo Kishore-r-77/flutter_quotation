@@ -48,8 +48,9 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: IconButton(
           onPressed: () {},
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_forward,
+            color: Theme.of(context).colorScheme.background,
           ),
         ),
       ),
@@ -58,7 +59,7 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           decoration: BoxDecoration(
-            color: AppUtils.appLightBackground,
+            color: Theme.of(context).colorScheme.surface,
           ),
           alignment: Alignment.center,
           child: Column(
@@ -142,11 +143,14 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
                       ),
                     ),
                     borderOnForeground: false,
-                    shadowColor: Theme.of(context).colorScheme.primary,
-                    elevation: 10,
+                    // shadowColor: Theme.of(context).colorScheme.primary,
+                    elevation: 12,
                     child: ListTile(
                       leading: Text(
                         '${quotationLists[index]['ID']}',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                       ),
                       title: Row(children: [
                         Text(
@@ -165,10 +169,12 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
                           ),
                         ),
                       ]),
-                      trailing: Icon(
-                        Icons.info,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                      trailing: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.info,
+                            color: Theme.of(context).colorScheme.primary,
+                          )),
                     ),
                   ),
                 ),

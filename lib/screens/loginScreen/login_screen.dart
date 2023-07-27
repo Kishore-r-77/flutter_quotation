@@ -31,16 +31,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         margin: const EdgeInsets.all(8),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: AppUtils.appLightBackground,
+          color: Theme.of(context).colorScheme.background,
         ),
         child: Column(
           children: [
             CircleAvatar(
               radius: 40,
-              backgroundColor: Theme.of(context).colorScheme.background,
+              backgroundColor: Theme.of(context).colorScheme.tertiary,
               child: Icon(
                 Icons.person,
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.onSecondary,
                 size: 40,
               ),
             ),
@@ -62,6 +62,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 child: Column(
               children: [
                 TextFormField(
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.primary),
                   controller: mobileController,
                   decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.phone_android),
@@ -73,6 +75,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   height: 10,
                 ),
                 TextFormField(
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.primary),
                   controller: passwordController,
                   obscuringCharacter: "*",
                   obscureText: isSecure,
@@ -97,6 +101,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   height: 10,
                 ),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor:
+                          Theme.of(context).colorScheme.onSecondary),
                   onPressed: () async {
                     final loginResponse = await ref
                         .read(loginProvider.notifier)
