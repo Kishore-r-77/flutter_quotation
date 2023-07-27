@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
+import 'package:quotation_flutter/screens/quotation/quotation_enquiry.dart';
 import 'package:quotation_flutter/services/quotation_services.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
@@ -46,6 +47,9 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
   Widget build(BuildContext context) {
     final authToken =
         ref.read(loginProvider.notifier).prefs?.getString("authToken");
+
+    dynamic quotationResponse;
+
     return Scaffold(
       floatingActionButton: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -173,7 +177,22 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
                         ),
                       ]),
                       trailing: IconButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            quotationResponse =
+                                await QuotationServices.getQuotation(
+                                    authToken, quotationLists[index]['ID']);
+
+                            // ignore: use_build_context_synchronously
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => QuotationEnquiry(
+                                    quotationResponse:
+                                        quotationResponse["QHeader"],
+                                    authToken: authToken),
+                              ),
+                            );
+                          },
                           icon: Icon(
                             Icons.info,
                             color: Theme.of(context).colorScheme.primary,
