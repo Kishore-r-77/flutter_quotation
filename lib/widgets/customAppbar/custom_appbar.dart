@@ -22,6 +22,7 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
     }
 
     return AppBar(
+      iconTheme: const IconThemeData(color: Colors.white),
       title: Text(
         widget.title,
         style: const TextStyle(color: Colors.white),

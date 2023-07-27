@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
 import 'package:quotation_flutter/services/quotation_services.dart';
-import 'package:quotation_flutter/utils/authUtils/app_utils.dart';
+import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
 
 class QuotationScreen extends ConsumerStatefulWidget {
   const QuotationScreen({super.key, required this.loginResponse});
-  final Map<String, dynamic> loginResponse;
+  final dynamic loginResponse;
 
   @override
   ConsumerState<QuotationScreen> createState() => _QuotationScreenState();
@@ -43,6 +44,8 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authToken =
+        ref.read(loginProvider.notifier).prefs?.getString("authToken");
     return Scaffold(
       floatingActionButton: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -116,7 +119,7 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
                               onPressed: () async {
                                 var response =
                                     await QuotationServices.getAllQuotation(
-                                        widget.loginResponse['authToken'],
+                                        authToken,
                                         searchString.text,
                                         searchCriteria,
                                         pageNo.text,

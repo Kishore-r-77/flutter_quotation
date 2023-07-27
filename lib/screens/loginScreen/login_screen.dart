@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
-import 'package:quotation_flutter/screens/quotation/quotation.dart';
-import 'package:quotation_flutter/utils/authUtils/app_utils.dart';
+import 'package:quotation_flutter/screens/homepage/homepage.dart';
+import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -117,9 +117,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             onWillPop: () async {
                               return false;
                             },
-                            child: QuotationScreen(
-                              loginResponse: loginResponse['message'],
-                            ),
+                            child: HomePage(
+                                loginResponse: loginResponse['message']),
                           ),
                         ),
                       );
