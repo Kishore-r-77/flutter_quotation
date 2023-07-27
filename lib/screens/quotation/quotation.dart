@@ -140,6 +140,7 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
                 child: ListView.builder(
                   itemCount: quotationLists.length,
                   itemBuilder: (context, index) => Card(
+                    color: Theme.of(context).colorScheme.surface,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(15),
