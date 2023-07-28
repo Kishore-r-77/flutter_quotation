@@ -26,7 +26,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: AppUtils.quotationTitle),
+      appBar: CustomAppBar(
+        title: AppUtils.quotationTitle,
+        isBack: false,
+      ),
       body: Container(
         margin: const EdgeInsets.all(8),
         alignment: Alignment.center,

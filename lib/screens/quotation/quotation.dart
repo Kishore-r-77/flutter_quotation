@@ -61,7 +61,10 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
           ),
         ),
       ),
-      appBar: CustomAppBar(title: AppUtils.quotationTitle),
+      appBar: CustomAppBar(
+        title: AppUtils.quotationTitle,
+        isBack: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
@@ -154,29 +157,46 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
                     // shadowColor: Theme.of(context).colorScheme.primary,
                     elevation: 12,
                     child: ListTile(
-                      leading: Text(
-                        '${quotationLists[index]['ID']}',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+                      title: Row(
+                        children: [
+                          Text(
+                            '${quotationLists[index]['ID']}',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            '${quotationLists[index]['QProduct']}',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                      title: Row(children: [
-                        Text(
-                          '${quotationLists[index]['QProduct']}',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
+                      subtitle: Row(
+                        children: [
+                          Text(
+                            '${quotationLists[index]['QFirstName']}',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          '${quotationLists[index]['QFirstName']}',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
+                          const SizedBox(
+                            width: 10,
                           ),
-                        ),
-                      ]),
+                          Text(
+                            '${quotationLists[index]['QOccupation']}',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ],
+                      ),
                       trailing: IconButton(
                           onPressed: () async {
                             quotationResponse =

@@ -4,8 +4,9 @@ import 'package:quotation_flutter/providers/darkProvider/dark_provider.dart';
 
 class CustomAppBar extends ConsumerStatefulWidget
     implements PreferredSizeWidget {
-  const CustomAppBar({super.key, required this.title});
+  const CustomAppBar({super.key, required this.title, required this.isBack});
   final String title;
+  final bool isBack;
 
   @override
   ConsumerState<CustomAppBar> createState() => _CustomAppBarState();
@@ -22,6 +23,7 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
     }
 
     return AppBar(
+      automaticallyImplyLeading: widget.isBack,
       iconTheme: const IconThemeData(color: Colors.white),
       title: Text(
         widget.title,

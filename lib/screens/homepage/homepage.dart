@@ -19,7 +19,10 @@ class HomePage extends ConsumerWidget {
       },
       child: Scaffold(
         drawer: MainDrawer(loginResponse: loginResponse),
-        appBar: const CustomAppBar(title: "Quotation App"),
+        appBar: const CustomAppBar(
+          title: "Quotation App",
+          isBack: true,
+        ),
         body: Container(
           decoration: const BoxDecoration(),
           child: Align(
