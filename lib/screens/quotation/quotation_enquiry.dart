@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:quotation_flutter/services/address/address_service.dart';
 import 'package:quotation_flutter/services/agency/agency_service.dart';
 import 'package:quotation_flutter/services/client/client_service.dart';
+import 'package:quotation_flutter/widgets/Address/address_modal.dart';
 import 'package:quotation_flutter/widgets/agency/agency_modal.dart';
 import 'package:quotation_flutter/widgets/client/client_modal.dart';
 import 'package:quotation_flutter/widgets/customWidgets/custom_lookup_field.dart';
@@ -190,8 +192,6 @@ class _QuotationEnquiryState extends State<QuotationEnquiry> {
                         builder: (ctx) =>
                             ClientModal(clientResponse: clientResp["Client"]),
                       );
-                    }).catchErr((err) {
-                      return err.message;
                     });
                   },
                 ),
@@ -202,7 +202,20 @@ class _QuotationEnquiryState extends State<QuotationEnquiry> {
                   value: "${widget.quotationResponse['AddressID']}",
                   label: "Address ID",
                   icon: const Icon(Icons.info),
-                  lookupFunction: () {},
+                  lookupFunction: () {
+                    AddressService.getAddress(widget.authToken,
+                            widget.quotationResponse['AddressID'])
+                        .then((addressResp) {
+                      return showModalBottomSheet(
+                        backgroundColor: Theme.of(context).colorScheme.surface,
+                        useSafeArea: true,
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (ctx) => AddressModal(
+                            addressResponse: addressResp["Address"]),
+                      );
+                    });
+                  },
                 ),
                 const SizedBox(
                   width: 20,
