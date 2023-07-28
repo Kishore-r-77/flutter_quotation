@@ -55,16 +55,19 @@ class _QuotationEnquiryState extends State<QuotationEnquiry> {
                   const SizedBox(
                     width: 20,
                   ),
-                  QuotationField(
-                    value: "${widget.quotationResponse['ClientID']}",
-                    label: "Client ID",
-                  ),
                   const SizedBox(
                     width: 20,
                   ),
                   QuotationField(
                     value: "${widget.quotationResponse['QProduct']}",
-                    label: "QProduct",
+                    label: "Product",
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  QuotationField(
+                    value: formatDate(widget.quotationResponse['QuoteDate']),
+                    label: "Quote Date",
                   ),
                 ],
               ),
@@ -74,22 +77,22 @@ class _QuotationEnquiryState extends State<QuotationEnquiry> {
               Row(
                 children: [
                   QuotationField(
-                    value: formatDate(widget.quotationResponse['QuoteDate']),
-                    label: "Quote Date",
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  QuotationField(
                     value: "${widget.quotationResponse['QFirstName']}",
-                    label: "QFirst Name",
+                    label: "First Name",
                   ),
                   const SizedBox(
                     width: 20,
                   ),
                   QuotationField(
                     value: "${widget.quotationResponse['QMidName']}",
-                    label: "QMid Name",
+                    label: "Mid Name",
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  QuotationField(
+                    value: "${widget.quotationResponse['QLastName']}",
+                    label: "Last Name",
                   ),
                 ],
               ),
@@ -99,22 +102,22 @@ class _QuotationEnquiryState extends State<QuotationEnquiry> {
               Row(
                 children: [
                   QuotationField(
-                    value: "${widget.quotationResponse['QLastName']}",
-                    label: "QLast Name",
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  QuotationField(
                     value: formatDate(widget.quotationResponse['QDob']),
-                    label: "QDOB",
+                    label: "DOB",
                   ),
                   const SizedBox(
                     width: 20,
                   ),
                   QuotationField(
                     value: "${widget.quotationResponse['QGender']}",
-                    label: "QGender",
+                    label: "Gender",
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  QuotationField(
+                    value: "${widget.quotationResponse['QEmail']}",
+                    label: "Email",
                   ),
                 ],
               ),
@@ -124,22 +127,22 @@ class _QuotationEnquiryState extends State<QuotationEnquiry> {
               Row(
                 children: [
                   QuotationField(
-                    value: "${widget.quotationResponse['QEmail']}",
-                    label: "QEmail",
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  QuotationField(
                     value: "${widget.quotationResponse['QNri']}",
-                    label: "QNri",
+                    label: "Nri",
                   ),
                   const SizedBox(
                     width: 20,
                   ),
                   QuotationField(
                     value: "${widget.quotationResponse['QMobile']}",
-                    label: "QMobile",
+                    label: "Mobile",
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  QuotationField(
+                    value: "${widget.quotationResponse['QOccGroup']}",
+                    label: "Occ Group",
                   ),
                 ],
               ),
@@ -149,22 +152,22 @@ class _QuotationEnquiryState extends State<QuotationEnquiry> {
               Row(
                 children: [
                   QuotationField(
-                    value: "${widget.quotationResponse['QOccGroup']}",
-                    label: "QOcc Group",
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  QuotationField(
                     value: "${widget.quotationResponse['QOccupation']}",
-                    label: "QOccupation",
+                    label: "Occupation",
                   ),
                   const SizedBox(
                     width: 20,
                   ),
                   QuotationField(
                     value: "${widget.quotationResponse['QAnnualIncome']}",
-                    label: "QAnual Income",
+                    label: "Anual Income",
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  QuotationField(
+                    value: "${widget.quotationResponse['QDeclaration']}",
+                    label: "Decleration",
                   ),
                 ],
               ),
@@ -174,8 +177,8 @@ class _QuotationEnquiryState extends State<QuotationEnquiry> {
               Row(
                 children: [
                   QuotationField(
-                    value: "${widget.quotationResponse['QDeclaration']}",
-                    label: "QDecleration",
+                    value: "${widget.quotationResponse['ClientID']}",
+                    label: "Client ID",
                   ),
                   const SizedBox(
                     width: 20,
