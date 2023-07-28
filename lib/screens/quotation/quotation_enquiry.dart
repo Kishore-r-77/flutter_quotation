@@ -179,7 +179,8 @@ class _QuotationEnquiryState extends State<QuotationEnquiry> {
                 CustomLookupField(
                   value: "${widget.quotationResponse['ClientID']}",
                   label: "Client ID",
-                  icon: const Icon(Icons.info),
+                  icon: Icon(Icons.info,
+                      color: Theme.of(context).colorScheme.primary),
                   lookupFunction: () {
                     ClientService.getClient(widget.authToken,
                             widget.quotationResponse['ClientID'])
@@ -201,7 +202,8 @@ class _QuotationEnquiryState extends State<QuotationEnquiry> {
                 CustomLookupField(
                   value: "${widget.quotationResponse['AddressID']}",
                   label: "Address ID",
-                  icon: const Icon(Icons.info),
+                  icon: Icon(Icons.info,
+                      color: Theme.of(context).colorScheme.primary),
                   lookupFunction: () {
                     AddressService.getAddress(widget.authToken,
                             widget.quotationResponse['AddressID'])
@@ -223,7 +225,8 @@ class _QuotationEnquiryState extends State<QuotationEnquiry> {
                 CustomLookupField(
                   value: "${widget.quotationResponse['AgencyID']}",
                   label: "Agency ID",
-                  icon: const Icon(Icons.info),
+                  icon: Icon(Icons.info,
+                      color: Theme.of(context).colorScheme.primary),
                   lookupFunction: () async {
                     final agencyResponse = await AgencyService.getAddress(
                         widget.authToken, widget.quotationResponse['AgencyID']);
