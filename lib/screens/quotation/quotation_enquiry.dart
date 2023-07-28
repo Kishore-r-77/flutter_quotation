@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:quotation_flutter/services/agency/agency_service.dart';
 import 'package:quotation_flutter/services/client/client_service.dart';
+import 'package:quotation_flutter/widgets/agency/agency_modal.dart';
 import 'package:quotation_flutter/widgets/client/client_modal.dart';
 import 'package:quotation_flutter/widgets/customWidgets/custom_lookup_field.dart';
 
@@ -209,7 +211,22 @@ class _QuotationEnquiryState extends State<QuotationEnquiry> {
                   value: "${widget.quotationResponse['AgencyID']}",
                   label: "Agency ID",
                   icon: const Icon(Icons.info),
-                  lookupFunction: () {},
+                  lookupFunction: () async {
+                    final agencyResponse = await AgencyService.getAddress(
+                        widget.authToken, widget.quotationResponse['AgencyID']);
+
+                    setState(() {
+                      showModalBottomSheet(
+                        backgroundColor: Theme.of(context).colorScheme.surface,
+                        useSafeArea: true,
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (ctx) => AgencyModal(
+                          clientResponse: agencyResponse["Agency"],
+                        ),
+                      );
+                    });
+                  },
                 ),
               ],
             ),
