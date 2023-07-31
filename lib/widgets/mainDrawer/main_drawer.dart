@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quotation_flutter/screens/loginScreen/login_screen.dart';
 import 'package:quotation_flutter/screens/quotation/quotation.dart';
 
+import '../../screens/client/client.dart';
+
 class MainDrawer extends ConsumerStatefulWidget {
   const MainDrawer({super.key, required this.loginResponse});
   final dynamic loginResponse;
@@ -68,6 +70,30 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
                 MaterialPageRoute(
                   builder: (context) =>
                       QuotationScreen(loginResponse: widget.loginResponse),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.people,
+              size: 26,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            title: Text(
+              'Clients',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 24,
+                  ),
+            ),
+            onTap: () async {
+              // ignore: use_build_context_synchronously
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      ClientScreen(loginResponse: widget.loginResponse),
                 ),
               );
             },

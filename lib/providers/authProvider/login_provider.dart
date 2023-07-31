@@ -10,7 +10,8 @@ class LoginNotifierProvider extends StateNotifier<dynamic> {
 
   Future<dynamic> login(phone, password) async {
     try {
-      final response = await dio.post("http://localhost:3000/api/v1/auth/login",
+      final response = await dio.post(
+          "http://localhost:3000/api/v1/auth/login",
           data: {"phone": phone, "password": password, "channel": "app"});
       if (response.statusCode == 200) {
         prefs = await SharedPreferences.getInstance();

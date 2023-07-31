@@ -6,7 +6,7 @@ class AgencyService {
   static dynamic getAddress(token, id) async {
     try {
       final response = await dio.get(
-        'http://localhost:3000/api/v1/pacificservices/agencyget/$id',
+        'http://192.168.1.13:3000/api/v1/pacificservices/agencyget/$id',
         options: Options(headers: {"Cookie": "Authorization=$token"}),
       );
       if (response.statusCode == 200) {
