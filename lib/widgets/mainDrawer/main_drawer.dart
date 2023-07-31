@@ -4,6 +4,7 @@ import 'package:quotation_flutter/screens/address/address.dart';
 import 'package:quotation_flutter/screens/agency/agency.dart';
 import 'package:quotation_flutter/screens/loginScreen/login_screen.dart';
 import 'package:quotation_flutter/screens/quotation/quotation.dart';
+import 'package:quotation_flutter/services/authService/auth_services.dart';
 
 class MainDrawer extends ConsumerStatefulWidget {
   const MainDrawer({super.key, required this.loginResponse});
@@ -159,13 +160,21 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
                     fontSize: 24,
                   ),
             ),
-            onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const LoginScreen(),
-                ),
-              );
+            onTap: () async {
+              final logoutStatusCode = await AuthServices.logout();
+
+              if (logoutStatusCode == 200) {
+                setState(() {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const LoginScreen(),
+                    ),
+                  );
+                });
+              } else {
+                return;
+              }
             },
           ),
         ],
