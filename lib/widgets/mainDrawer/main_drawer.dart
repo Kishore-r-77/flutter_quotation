@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quotation_flutter/screens/address/address.dart';
+import 'package:quotation_flutter/screens/agency/agency.dart';
 import 'package:quotation_flutter/screens/loginScreen/login_screen.dart';
 import 'package:quotation_flutter/screens/quotation/quotation.dart';
 
@@ -47,6 +49,78 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
                 ),
               ],
             ),
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.location_city,
+              size: 26,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            title: Text(
+              'Address',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 24,
+                  ),
+            ),
+            onTap: () async {
+              // ignore: use_build_context_synchronously
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      AddressScreen(loginResponse: widget.loginResponse),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.person,
+              size: 26,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            title: Text(
+              'Client',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 24,
+                  ),
+            ),
+            onTap: () async {
+              // ignore: use_build_context_synchronously
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      QuotationScreen(loginResponse: widget.loginResponse),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.people,
+              size: 26,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            title: Text(
+              'Agency',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 24,
+                  ),
+            ),
+            onTap: () async {
+              // ignore: use_build_context_synchronously
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      AgencyScreen(loginResponse: widget.loginResponse),
+                ),
+              );
+            },
           ),
           ListTile(
             leading: Icon(
