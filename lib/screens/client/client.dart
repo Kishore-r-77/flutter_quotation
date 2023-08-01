@@ -203,24 +203,25 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
                         ],
                       ),
                       trailing: IconButton(
-                          onPressed: () async {
-                            clientResponse = await ClientService.getClient(
-                                authToken, clientLists[index]['ID']);
+                        onPressed: () async {
+                          clientResponse = await ClientService.getClient(
+                              authToken, clientLists[index]['ID']);
 
-                            // ignore: use_build_context_synchronously
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ClientEnquiry(
-                                    clientResponse: clientResponse["Client"],
-                                    authToken: authToken),
-                              ),
-                            );
-                          },
-                          icon: Icon(
-                            Icons.info,
-                            color: Theme.of(context).colorScheme.primary,
-                          )),
+                          // ignore: use_build_context_synchronously
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ClientEnquiry(
+                                  clientResponse: clientResponse["Client"],
+                                  authToken: authToken),
+                            ),
+                          );
+                        },
+                        icon: Icon(
+                          Icons.info,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
                     ),
                   ),
                 ),
