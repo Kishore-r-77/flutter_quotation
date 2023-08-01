@@ -12,11 +12,12 @@ class ClientService {
         "http://localhost:3000/api/v1/basicservices/getallclient",
         queryParameters: {
           "searchString": searchString,
-          "searchCriteria": searchCriteria
+          "searchCriteria": searchCriteria,
+          "pageSize": pageSize
         },
         options: Options(headers: {"Cookie": "Authorization=$token"}),
       );
-
+      print(pageSize);
       return response.data;
     } catch (err) {
       throw Exception(err);

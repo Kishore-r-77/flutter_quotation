@@ -17,17 +17,38 @@ class ClientScreen extends ConsumerStatefulWidget {
 }
 
 class _ClientScreenState extends ConsumerState<ClientScreen> {
+  final scrollController = ScrollController();
+  bool isLoading = false;
   List<dynamic> clientLists = [];
   List<dynamic> fieldMap = [];
   TextEditingController searchString = TextEditingController();
   String searchCriteria = "id";
   TextEditingController pageNo = TextEditingController();
-  TextEditingController pageSize = TextEditingController();
+  int pageSize = 5;
   @override
   void initState() {
     super.initState();
-    getAllClients(widget.loginResponse['authToken'], searchString.text,
-        searchCriteria, pageNo.text, pageSize.text);
+    scrollController.addListener(_scrollListener);
+    getAllClients(
+      widget.loginResponse['authToken'],
+      searchString.text,
+      searchCriteria,
+      pageNo.text,
+      pageSize,
+    );
+  }
+
+  void _scrollListener() async {
+    if (isLoading) return;
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
+      setState(() {
+        isLoading = true;
+      });
+      pageSize += 1;
+      await getAllClients(widget.loginResponse['authToken'], searchString.text,
+          searchCriteria, pageNo.text, pageSize);
+    }
   }
 
   Future<void> getAllClients(
@@ -40,7 +61,7 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
       pageSize,
     );
     setState(() {
-      clientLists = response["All Clients"];
+      clientLists = clientLists + response["All Clients"];
       fieldMap = response["Field Map"];
     });
   }
@@ -50,7 +71,6 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
     final authToken =
         ref.read(loginProvider.notifier).prefs?.getString("authToken");
 
-    dynamic quotationResponse;
     dynamic clientResponse;
 
     return Scaffold(
@@ -134,7 +154,7 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
                                         searchString.text,
                                         searchCriteria,
                                         pageNo.text,
-                                        pageSize.text);
+                                        pageSize);
                                 setState(() {
                                   clientLists = response['All Clients'];
                                 });
@@ -149,7 +169,9 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
               Flexible(
                 fit: FlexFit.loose,
                 child: ListView.builder(
-                  itemCount: clientLists.length,
+                  controller: scrollController,
+                  itemCount:
+                      isLoading ? clientLists.length + 1 : clientLists.length,
                   itemBuilder: (context, index) => Card(
                     color: Theme.of(context).colorScheme.surface,
                     shape: const RoundedRectangleBorder(
