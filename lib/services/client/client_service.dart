@@ -13,11 +13,11 @@ class ClientService {
         queryParameters: {
           "searchString": searchString,
           "searchCriteria": searchCriteria,
-          "pageSize": 100
+          "pageSize": pageSize
         },
         options: Options(headers: {"Cookie": "Authorization=$token"}),
       );
-
+      print(pageSize);
       return response.data;
     } catch (err) {
       throw Exception(err);
