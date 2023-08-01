@@ -25,19 +25,11 @@ class _ClientEnquiryState extends State<ClientEnquiry> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: AppUtils.quotationTitle, isBack: true),
+      appBar: const CustomAppBar(title: "Client Enquiry", isBack: true),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: [
-            Text(
-              "Client Enquiry",
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize:
-                      Theme.of(context).textTheme.titleLarge?.fontSize ?? 0.0,
-                  fontWeight: FontWeight.bold),
-            ),
             const SizedBox(
               height: 20,
             ),

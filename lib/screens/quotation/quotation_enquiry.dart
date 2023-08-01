@@ -33,19 +33,11 @@ class _QuotationEnquiryState extends State<QuotationEnquiry> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: AppUtils.quotationTitle, isBack: true),
+      appBar: const CustomAppBar(title: "Quotation Enquiry", isBack: true),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Text(
-              "Quotation Enquiry",
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize:
-                      Theme.of(context).textTheme.titleLarge?.fontSize ?? 0.0,
-                  fontWeight: FontWeight.bold),
-            ),
             const SizedBox(
               height: 20,
             ),

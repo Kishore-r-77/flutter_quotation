@@ -9,10 +9,11 @@ class ClientService {
       token, searchString, searchCriteria, pageNo, pageSize) async {
     try {
       final response = await dio.get(
-        "http://localhost:3000/api/v1/basicservices/getallclient",
+        "${AppUtils.appUrl}/api/v1/basicservices/getallclient",
         queryParameters: {
           "searchString": searchString,
-          "searchCriteria": searchCriteria
+          "searchCriteria": searchCriteria,
+          "pageSize": 100
         },
         options: Options(headers: {"Cookie": "Authorization=$token"}),
       );
