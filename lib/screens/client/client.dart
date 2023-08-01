@@ -129,7 +129,7 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
                           suffix: IconButton(
                               onPressed: () async {
                                 var response =
-                                    await QuotationServices.getAllQuotation(
+                                    await ClientService.getAllClients(
                                         authToken,
                                         searchString.text,
                                         searchCriteria,
