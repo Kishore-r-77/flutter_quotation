@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 
 Dio dio = Dio();
 
@@ -26,7 +27,7 @@ class ClientService {
   static dynamic getClient(token, id) async {
     try {
       final response = await dio.get(
-        'http://localhost:3000/api/v1/basicservices/clientget/$id',
+        '${AppUtils.appUrl}/api/v1/basicservices/clientget/$id',
         options: Options(headers: {"Cookie": "Authorization=$token"}),
       );
       if (response.statusCode == 200) {

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Dio dio = Dio();
@@ -10,12 +11,12 @@ class LoginNotifierProvider extends StateNotifier<dynamic> {
 
   Future<dynamic> login(phone, password) async {
     try {
-      final response = await dio.post(
-          "http://localhost:3000/api/v1/auth/login",
+      final response = await dio.post("${AppUtils.appUrl}/api/v1/auth/login",
           data: {"phone": phone, "password": password, "channel": "app"});
       if (response.statusCode == 200) {
         prefs = await SharedPreferences.getInstance();
         prefs?.setString('authToken', response.data['message']['authToken']);
+        state = response.data['message']['authToken'];
         return response.data;
       } else {
         throw Exception("Something went wrong");

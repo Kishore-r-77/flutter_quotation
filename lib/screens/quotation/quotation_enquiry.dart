@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:quotation_flutter/services/address/address_service.dart';
 import 'package:quotation_flutter/services/agency/agency_service.dart';
 import 'package:quotation_flutter/services/client/client_service.dart';
-import 'package:quotation_flutter/widgets/Address/address_modal.dart';
+import 'package:quotation_flutter/widgets/address/address_modal.dart';
 import 'package:quotation_flutter/widgets/agency/agency_modal.dart';
 import 'package:quotation_flutter/widgets/client/client_modal.dart';
 import 'package:quotation_flutter/widgets/customWidgets/custom_lookup_field.dart';
@@ -228,7 +228,7 @@ class _QuotationEnquiryState extends State<QuotationEnquiry> {
                   icon: Icon(Icons.info,
                       color: Theme.of(context).colorScheme.primary),
                   lookupFunction: () async {
-                    final agencyResponse = await AgencyService.getAddress(
+                    final agencyResponse = await AgencyService.getAgency(
                         widget.authToken, widget.quotationResponse['AgencyID']);
 
                     setState(() {
