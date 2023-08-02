@@ -17,15 +17,31 @@ class AddressScreen extends ConsumerStatefulWidget {
 class _AddressScreenState extends ConsumerState<AddressScreen> {
   List<dynamic> addressLists = [];
   List<dynamic> fieldMap = [];
+
+  Map<String, dynamic> initialvalues = {
+    "AddressType": "",
+    "AddressLine1": "",
+    "AddressLine2": "",
+    "AddressLine3": "",
+    "AddressLine4": "",
+    "AddressLine5": "",
+    "AddressPostCode": "",
+    "AddressState": "",
+    "AddressCountry": "",
+    "AddressStartDate": "",
+    "AddressEndDate": "",
+    "ClientID": "",
+  };
+
   TextEditingController searchString = TextEditingController();
   String searchCriteria = "address_line1";
   TextEditingController pageNo = TextEditingController();
-  TextEditingController pageSize = TextEditingController();
+  int pageSize = 0;
   @override
   void initState() {
     super.initState();
     getAllAddress(widget.loginResponse['authToken'], searchString.text,
-        searchCriteria, pageNo.text, pageSize.text);
+        searchCriteria, pageNo.text, pageSize);
   }
 
   Future<void> getAllAddress(
@@ -43,6 +59,21 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
     });
   }
 
+  void resetInitialValues() {
+    initialvalues.update("AddressType", (value) => "");
+    initialvalues.update("AddressLine1", (value) => "");
+    initialvalues.update("AddressLine2", (value) => "");
+    initialvalues.update("AddressLine3", (value) => "");
+    initialvalues.update("AddressLine4", (value) => "");
+    initialvalues.update("AddressLine5", (value) => "");
+    initialvalues.update("AddressPostCode", (value) => "");
+    initialvalues.update("AddressState", (value) => "");
+    initialvalues.update("AddressCountry", (value) => "");
+    initialvalues.update("AddressStartDate", (value) => "");
+    initialvalues.update("AddressEndDate", (value) => "");
+    initialvalues.update("ClientID", (value) => "");
+  }
+
   @override
   Widget build(BuildContext context) {
     final authToken =
@@ -54,9 +85,342 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
       floatingActionButton: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            showModalBottomSheet(
+              isScrollControlled: true,
+              useSafeArea: true,
+              context: context,
+              builder: (ctx) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Form(
+                  child: ListView(
+                    padding: const EdgeInsets.all(8.0),
+                    children: [
+                      Row(
+                        children: [
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["AddressLine1"],
+                              onChanged: (value) {
+                                initialvalues.update(
+                                    "AddressLine1", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("Address Line 1"),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["AddressLine2"],
+                              onChanged: (value) {
+                                initialvalues.update(
+                                    "AddressLine2", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("Address Line 2"),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["AddressLine3"],
+                              onChanged: (value) {
+                                initialvalues.update(
+                                    "AddressLine3", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("Address Line 3"),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["AddressLine4"],
+                              onChanged: (value) {
+                                initialvalues.update(
+                                    "AddressLine4", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("Address Line 4"),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["AddressLine5"],
+                              onChanged: (value) {
+                                initialvalues.update(
+                                    "AddressLine5", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("Address Line 4"),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["AddressType"],
+                              onChanged: (value) {
+                                initialvalues.update(
+                                    "AddressType", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("Address Type"),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["AddressPostCode"],
+                              onChanged: (value) {
+                                initialvalues.update(
+                                    "AddressPostCode", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("Address Post Code"),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["AddressState"],
+                              onChanged: (value) {
+                                initialvalues.update(
+                                    "AddressState", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("State"),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["AddressCountry"],
+                              onChanged: (value) {
+                                initialvalues.update(
+                                    "AddressCountry", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("Country"),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["AddressStartDate"],
+                              onChanged: (value) {
+                                initialvalues.update(
+                                    "AddressStartDate", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("Start Date"),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Flexible(
+                        child: TextFormField(
+                          initialValue: initialvalues["AddressEndDate"],
+                          onChanged: (value) {
+                            initialvalues.update(
+                                "AddressEndDate", (val) => value);
+                          },
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                            ),
+                            label: Text("End Date"),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["ClientID"],
+                              onChanged: (value) {
+                                initialvalues.update(
+                                    "ClientID", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("Owner Id"),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                              foregroundColor:
+                                  Theme.of(context).colorScheme.onSecondary,
+                            ),
+                            onPressed: () {
+                              resetInitialValues();
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              "Close",
+                            ),
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                              foregroundColor:
+                                  Theme.of(context).colorScheme.onSecondary,
+                            ),
+                            onPressed: () {
+                              AddressService.createAddress(
+                                  widget.loginResponse['authToken'],
+                                  ref
+                                      .watch(loginProvider.notifier)
+                                      .prefs
+                                      ?.getInt('companyId'),
+                                  initialvalues);
+
+                              resetInitialValues();
+
+                              getAllAddress(
+                                widget.loginResponse['authToken'],
+                                searchString.text,
+                                searchCriteria,
+                                pageNo.text,
+                                pageSize,
+                              );
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              "Submit",
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
           icon: Icon(
-            Icons.arrow_forward,
+            Icons.add,
             color: Theme.of(context).colorScheme.background,
           ),
         ),
@@ -126,11 +490,12 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                               onPressed: () async {
                                 var response =
                                     await AddressService.getAllAddress(
-                                        authToken,
-                                        searchString.text,
-                                        searchCriteria,
-                                        pageNo.text,
-                                        pageSize.text);
+                                  authToken,
+                                  searchString.text,
+                                  searchCriteria,
+                                  pageNo.text,
+                                  pageSize,
+                                );
                                 setState(() {
                                   addressLists = response['All Addresses'];
                                 });

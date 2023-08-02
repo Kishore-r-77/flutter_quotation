@@ -12,7 +12,7 @@ class AddressService {
         queryParameters: {
           "searchString": searchString,
           "searchCriteria": searchCriteria,
-          // "pageSize": 100
+          "pageSize": pageSize
         },
         options: Options(headers: {"Cookie": "Authorization=$token"}),
       );
@@ -39,6 +39,39 @@ class AddressService {
       }
     } catch (err) {
       throw Exception('An error occurred: $err');
+    }
+  }
+
+  static dynamic createAddress(
+    token,
+    companyId,
+    addressData,
+  ) async {
+    try {
+      final response = await dio.post(
+        'http://localhost:3000/api/v1/basicservices/addresscreate',
+        data: {
+          "CompanyID": companyId,
+          "AddressLine1": addressData["AddressLine1"],
+          "AddressLine2": addressData["AddressLine2"],
+          "AddressLine3": addressData["AddressLine3"],
+          "AddressLine4": addressData["AddressLine4"],
+          "AddressLine5": addressData["AddressLine5"],
+          "AddressType": addressData["AddressType"],
+          "AddressPostCode": addressData["AddressPostCode"],
+          "AddressState": addressData["AddressState"],
+          "AddressCountry": addressData["AddressCountry"],
+          "AddressStartDate": addressData["AddressStartDate"],
+          "AddressEndDate": addressData["AddressEndDate"],
+          "ClientID": int.tryParse(addressData["ClientID"])
+        },
+        options: Options(headers: {"Cookie": "Authorization=$token"}),
+      );
+
+      return response.data;
+    } catch (err) {
+      print(err);
+      throw Exception(err);
     }
   }
 }
