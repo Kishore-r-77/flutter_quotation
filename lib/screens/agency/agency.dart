@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
-import 'package:quotation_flutter/screens/address/address_enquiry.dart';
 import 'package:quotation_flutter/screens/agency/agency_enquiry.dart';
 import 'package:quotation_flutter/services/agency/agency_service.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
@@ -18,18 +17,35 @@ class AgencyScreen extends ConsumerStatefulWidget {
 class _AgencyScreenState extends ConsumerState<AgencyScreen> {
   List<dynamic> agencyLists = [];
   List<dynamic> fieldMap = [];
+  Map<String, dynamic> initialvalues = {
+    "AgencyChannelSt": "",
+    "Office": "",
+    "AgencySt": "",
+    "LicenseNo": "",
+    "LicenseStartDate": "",
+    "LicenseEndDate": "",
+    "Startdate": "",
+    "EndDate": "",
+    "TerminationReason": "",
+    "Aadhar": "",
+    "Pan": "",
+    "ClientID": "",
+    "AddressID": "",
+    "BankID": "",
+  };
+
   TextEditingController searchString = TextEditingController();
   String searchCriteria = "agency_channel_id";
   TextEditingController pageNo = TextEditingController();
-  TextEditingController pageSize = TextEditingController();
+  int pageSize = 0;
   @override
   void initState() {
     super.initState();
     getAllAgency(widget.loginResponse['authToken'], searchString.text,
-        searchCriteria, pageNo.text, pageSize.text);
+        searchCriteria, pageNo.text, pageSize);
   }
 
-  Future<void> getAllAgency(
+  Future<dynamic> getAllAgency(
       token, searchString, searchCriteria, pageNo, pageSize) async {
     final response = await AgencyService.getAllAgency(
       token,
@@ -51,13 +67,392 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
 
     dynamic agencyResponse;
 
+    void resetInitialValues() {
+      initialvalues.update("AgencyChannelSt", (value) => "");
+      initialvalues.update("Office", (value) => "");
+      initialvalues.update("AgencySt", (value) => "");
+      initialvalues.update("LicenseNo", (value) => "");
+      initialvalues.update("LicenseStartDate", (value) => "");
+      initialvalues.update("LicenseEndDate", (value) => "");
+      initialvalues.update("Startdate", (value) => "");
+      initialvalues.update("EndDate", (value) => "");
+      initialvalues.update("TerminationReason", (value) => "");
+      initialvalues.update("Aadhar", (value) => "");
+      initialvalues.update("Pan", (value) => "");
+      initialvalues.update("ClientID", (value) => "");
+      initialvalues.update("AddressID", (value) => "");
+      initialvalues.update("BankID", (value) => "");
+    }
+
     return Scaffold(
       floatingActionButton: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            showModalBottomSheet(
+              isScrollControlled: true,
+              useSafeArea: true,
+              context: context,
+              builder: (ctx) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Form(
+                  child: ListView(
+                    padding: const EdgeInsets.all(8.0),
+                    children: [
+                      Row(
+                        children: [
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["AgencyChannelSt"],
+                              onChanged: (value) {
+                                initialvalues.update(
+                                    "AgencyChannelSt", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("Agency Channel st"),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["Office"],
+                              onChanged: (value) {
+                                initialvalues.update("Office", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("Office"),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["AgencySt"],
+                              onChanged: (value) {
+                                initialvalues.update(
+                                    "AgencySt", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("Agency St"),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["Aadhar"],
+                              onChanged: (value) {
+                                initialvalues.update("Aadhar", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("Aadhar"),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["Pan"],
+                              onChanged: (value) {
+                                initialvalues.update("Pan", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("Pan"),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["LicenseNo"],
+                              onChanged: (value) {
+                                initialvalues.update(
+                                    "LicenseNo", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("License No"),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["LicenseStartDate"],
+                              onChanged: (value) {
+                                initialvalues.update(
+                                    "LicenseStartDate", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("License Start Date"),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["LicenseEndDate"],
+                              onChanged: (value) {
+                                initialvalues.update(
+                                    "LicenseEndDate", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("License End Date"),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["Startdate"],
+                              onChanged: (value) {
+                                initialvalues.update(
+                                    "Startdate", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("Start Date"),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["EndDate"],
+                              onChanged: (value) {
+                                initialvalues.update("EndDate", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("End Date"),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Flexible(
+                        child: TextFormField(
+                          initialValue: initialvalues["TerminationReason"],
+                          onChanged: (value) {
+                            initialvalues.update(
+                                "TerminationReason", (val) => value);
+                          },
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                            ),
+                            label: Text("Termination Reason"),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["ClientID"],
+                              onChanged: (value) {
+                                initialvalues.update(
+                                    "ClientID", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("Owner Id"),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["AddressID"],
+                              onChanged: (value) {
+                                initialvalues.update(
+                                    "AddressID", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("Address Id"),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Flexible(
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("Bank Id"),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                              foregroundColor:
+                                  Theme.of(context).colorScheme.onSecondary,
+                            ),
+                            onPressed: () {
+                              resetInitialValues();
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              "Close",
+                            ),
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                              foregroundColor:
+                                  Theme.of(context).colorScheme.onSecondary,
+                            ),
+                            onPressed: () {
+                              AgencyService.createAgency(
+                                  widget.loginResponse['authToken'],
+                                  ref
+                                      .watch(loginProvider.notifier)
+                                      .prefs
+                                      ?.getInt('companyId'),
+                                  initialvalues);
+                              resetInitialValues();
+                              setState(() async {
+                                final agencyResp = await getAllAgency(
+                                  widget.loginResponse['authToken'],
+                                  searchString.text,
+                                  searchCriteria,
+                                  pageNo.text,
+                                  pageSize,
+                                );
+                                agencyLists = agencyResp["All Agencies"];
+                              });
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              "Submit",
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
           icon: Icon(
-            Icons.arrow_forward,
+            Icons.add,
             color: Theme.of(context).colorScheme.background,
           ),
         ),
@@ -126,11 +521,12 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                           suffix: IconButton(
                               onPressed: () async {
                                 var response = await AgencyService.getAllAgency(
-                                    authToken,
-                                    searchString.text,
-                                    searchCriteria,
-                                    pageNo.text,
-                                    pageSize.text);
+                                  authToken,
+                                  searchString.text,
+                                  searchCriteria,
+                                  pageNo.text,
+                                  pageSize,
+                                );
                                 setState(() {
                                   agencyLists = response['All Agencies'];
                                 });

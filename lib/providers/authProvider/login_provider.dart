@@ -16,6 +16,7 @@ class LoginNotifierProvider extends StateNotifier<dynamic> {
       if (response.statusCode == 200) {
         prefs = await SharedPreferences.getInstance();
         prefs?.setString('authToken', response.data['message']['authToken']);
+        prefs?.setInt('companyId', response.data['message']['companyId']);
         state = response.data['message']['authToken'];
         return response.data;
       } else {

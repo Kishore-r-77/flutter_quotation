@@ -105,9 +105,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      foregroundColor:
-                          Theme.of(context).colorScheme.onSecondary),
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                  ),
                   onPressed: () async {
                     final loginResponse = await ref
                         .read(loginProvider.notifier)

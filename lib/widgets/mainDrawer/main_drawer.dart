@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quotation_flutter/screens/address/address.dart';
 import 'package:quotation_flutter/screens/agency/agency.dart';
+import 'package:quotation_flutter/screens/bank/bank.dart';
 import 'package:quotation_flutter/screens/loginScreen/login_screen.dart';
 import 'package:quotation_flutter/screens/quotation/quotation.dart';
 import 'package:quotation_flutter/services/authService/auth_services.dart';
@@ -97,6 +98,30 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
                 MaterialPageRoute(
                   builder: (context) =>
                       ClientScreen(loginResponse: widget.loginResponse),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.person,
+              size: 26,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            title: Text(
+              'Bank',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 24,
+                  ),
+            ),
+            onTap: () async {
+              // ignore: use_build_context_synchronously
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      BankScreen(loginResponse: widget.loginResponse),
                 ),
               );
             },

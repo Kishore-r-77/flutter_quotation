@@ -24,11 +24,11 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
   TextEditingController searchString = TextEditingController();
   String searchCriteria = "id";
   TextEditingController pageNo = TextEditingController();
-  int pageSize = 5;
+  int pageSize = 0;
   @override
   void initState() {
     super.initState();
-    scrollController.addListener(_scrollListener);
+    // scrollController.addListener(_scrollListener);
     getAllClients(
       widget.loginResponse['authToken'],
       searchString.text,
@@ -38,18 +38,18 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
     );
   }
 
-  void _scrollListener() async {
-    if (isLoading) return;
-    if (scrollController.position.pixels ==
-        scrollController.position.maxScrollExtent) {
-      setState(() {
-        isLoading = true;
-      });
-      pageSize += 1;
-      await getAllClients(widget.loginResponse['authToken'], searchString.text,
-          searchCriteria, pageNo.text, pageSize);
-    }
-  }
+  // void _scrollListener() async {
+  //   if (isLoading) return;
+  //   if (scrollController.position.pixels ==
+  //       scrollController.position.maxScrollExtent) {
+  //     setState(() {
+  //       isLoading = true;
+  //     });
+  //     pageSize += 1;
+  //     await getAllClients(widget.loginResponse['authToken'], searchString.text,
+  //         searchCriteria, pageNo.text, pageSize);
+  //   }
+  // }
 
   Future<void> getAllClients(
       token, searchString, searchCriteria, pageNo, pageSize) async {
@@ -169,7 +169,7 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
               Flexible(
                 fit: FlexFit.loose,
                 child: ListView.builder(
-                  controller: scrollController,
+                  // controller: scrollController,
                   itemCount:
                       isLoading ? clientLists.length + 1 : clientLists.length,
                   itemBuilder: (context, index) => Card(
