@@ -45,7 +45,7 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
         searchCriteria, pageNo.text, pageSize);
   }
 
-  Future<void> getAllAgency(
+  Future<dynamic> getAllAgency(
       token, searchString, searchCriteria, pageNo, pageSize) async {
     final response = await AgencyService.getAllAgency(
       token,
@@ -426,14 +426,18 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                                       .prefs
                                       ?.getInt('companyId'),
                                   initialvalues);
-                              // getAllAgency(
-                              //     widget.loginResponse['authToken'],
-                              //     searchString.text,
-                              //     searchCriteria,
-                              //     pageNo.text,
-                              //     pageSize.text);
-                              // resetInitialValues();
-                              // Navigator.pop(context);
+                              resetInitialValues();
+                              setState(() async {
+                                final agencyResp = await getAllAgency(
+                                  widget.loginResponse['authToken'],
+                                  searchString.text,
+                                  searchCriteria,
+                                  pageNo.text,
+                                  pageSize,
+                                );
+                                agencyLists = agencyResp["All Agencies"];
+                              });
+                              Navigator.pop(context);
                             },
                             child: const Text(
                               "Submit",

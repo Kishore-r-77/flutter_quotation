@@ -1,52 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
-import 'package:quotation_flutter/screens/address/address_enquiry.dart';
-import 'package:quotation_flutter/services/address/address_service.dart';
+import 'package:quotation_flutter/screens/bank/bank_enquiry.dart';
+import 'package:quotation_flutter/services/bank/bank_service.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
 
-class AddressScreen extends ConsumerStatefulWidget {
-  const AddressScreen({super.key, required this.loginResponse});
+class BankScreen extends ConsumerStatefulWidget {
+  const BankScreen({super.key, required this.loginResponse});
   final dynamic loginResponse;
 
   @override
-  ConsumerState<AddressScreen> createState() => _AddressScreenState();
+  ConsumerState<BankScreen> createState() => _BankScreenState();
 }
 
-class _AddressScreenState extends ConsumerState<AddressScreen> {
-  List<dynamic> addressLists = [];
+class _BankScreenState extends ConsumerState<BankScreen> {
+  List<dynamic> bankLists = [];
   List<dynamic> fieldMap = [];
 
   Map<String, dynamic> initialvalues = {
-    "AddressType": "",
-    "AddressLine1": "",
-    "AddressLine2": "",
-    "AddressLine3": "",
-    "AddressLine4": "",
-    "AddressLine5": "",
-    "AddressPostCode": "",
-    "AddressState": "",
-    "AddressCountry": "",
-    "AddressStartDate": "",
-    "AddressEndDate": "",
+    "BankCode": "",
+    "BankAccountNo": "",
+    "StartDate": "",
+    "EndDate": "",
+    "BankType": "",
+    "BankAccountStatus": "",
     "ClientID": "",
   };
 
   TextEditingController searchString = TextEditingController();
-  String searchCriteria = "address_line1";
+  String searchCriteria = "client_id";
   TextEditingController pageNo = TextEditingController();
   int pageSize = 0;
   @override
   void initState() {
     super.initState();
-    getAllAddress(widget.loginResponse['authToken'], searchString.text,
+    getAllBank(widget.loginResponse['authToken'], searchString.text,
         searchCriteria, pageNo.text, pageSize);
   }
 
-  Future<dynamic> getAllAddress(
+  Future<dynamic> getAllBank(
       token, searchString, searchCriteria, pageNo, pageSize) async {
-    final response = await AddressService.getAllAddress(
+    final response = await BankService.getAllBank(
       token,
       searchString,
       searchCriteria,
@@ -54,23 +49,18 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
       pageSize,
     );
     setState(() {
-      addressLists = response["All Addresses"];
+      bankLists = response["All Banks"];
       fieldMap = response["Field Map"];
     });
   }
 
   void resetInitialValues() {
-    initialvalues.update("AddressType", (value) => "");
-    initialvalues.update("AddressLine1", (value) => "");
-    initialvalues.update("AddressLine2", (value) => "");
-    initialvalues.update("AddressLine3", (value) => "");
-    initialvalues.update("AddressLine4", (value) => "");
-    initialvalues.update("AddressLine5", (value) => "");
-    initialvalues.update("AddressPostCode", (value) => "");
-    initialvalues.update("AddressState", (value) => "");
-    initialvalues.update("AddressCountry", (value) => "");
-    initialvalues.update("AddressStartDate", (value) => "");
-    initialvalues.update("AddressEndDate", (value) => "");
+    initialvalues.update("BankCode", (value) => "");
+    initialvalues.update("BankAccountNo", (value) => "");
+    initialvalues.update("StartDate", (value) => "");
+    initialvalues.update("EndDate", (value) => "");
+    initialvalues.update("BankType", (value) => "");
+    initialvalues.update("BankAccountStatus", (value) => "");
     initialvalues.update("ClientID", (value) => "");
   }
 
@@ -79,21 +69,21 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
     final authToken =
         ref.read(loginProvider.notifier).prefs?.getString("authToken");
 
-    dynamic addressResponse;
+    dynamic bankResponse;
 
-    deleteAddress(id) async {
-      AddressService.softDeleteAddress(
+    deleteBank(id) async {
+      BankService.softDeleteBank(
         widget.loginResponse['authToken'],
         id,
       );
-      var getData = await AddressService.getAllAddress(
+      var getData = await BankService.getAllBank(
           widget.loginResponse['authToken'],
           searchString.text,
           searchCriteria,
           pageNo.text,
           pageSize);
       setState(() {
-        addressLists = getData["All Addresses"];
+        bankLists = getData["All Banks"];
       });
     }
 
@@ -116,10 +106,10 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                         children: [
                           Flexible(
                             child: TextFormField(
-                              initialValue: initialvalues["AddressLine1"],
+                              initialValue: initialvalues["BankCode"],
                               onChanged: (value) {
                                 initialvalues.update(
-                                    "AddressLine1", (val) => value);
+                                    "BankCode", (val) => value);
                               },
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(
@@ -127,7 +117,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                                     Radius.circular(8),
                                   ),
                                 ),
-                                label: Text("Address Line 1"),
+                                label: Text("Bank Code"),
                               ),
                             ),
                           ),
@@ -136,10 +126,10 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                           ),
                           Flexible(
                             child: TextFormField(
-                              initialValue: initialvalues["AddressLine2"],
+                              initialValue: initialvalues["BankAccountNo"],
                               onChanged: (value) {
                                 initialvalues.update(
-                                    "AddressLine2", (val) => value);
+                                    "BankAccountNo", (val) => value);
                               },
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(
@@ -147,7 +137,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                                     Radius.circular(8),
                                   ),
                                 ),
-                                label: Text("Address Line 2"),
+                                label: Text("Bank Account No"),
                               ),
                             ),
                           ),
@@ -160,10 +150,10 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                         children: [
                           Flexible(
                             child: TextFormField(
-                              initialValue: initialvalues["AddressLine3"],
+                              initialValue: initialvalues["BankType"],
                               onChanged: (value) {
                                 initialvalues.update(
-                                    "AddressLine3", (val) => value);
+                                    "BankType", (val) => value);
                               },
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(
@@ -171,7 +161,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                                     Radius.circular(8),
                                   ),
                                 ),
-                                label: Text("Address Line 3"),
+                                label: Text("Bank Type"),
                               ),
                             ),
                           ),
@@ -180,10 +170,10 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                           ),
                           Flexible(
                             child: TextFormField(
-                              initialValue: initialvalues["AddressLine4"],
+                              initialValue: initialvalues["BankAccountStatus"],
                               onChanged: (value) {
                                 initialvalues.update(
-                                    "AddressLine4", (val) => value);
+                                    "BankAccountStatus", (val) => value);
                               },
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(
@@ -191,7 +181,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                                     Radius.circular(8),
                                   ),
                                 ),
-                                label: Text("Address Line 4"),
+                                label: Text("Bank Account Status"),
                               ),
                             ),
                           ),
@@ -204,118 +194,10 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                         children: [
                           Flexible(
                             child: TextFormField(
-                              initialValue: initialvalues["AddressLine5"],
+                              initialValue: initialvalues["StartDate"],
                               onChanged: (value) {
                                 initialvalues.update(
-                                    "AddressLine5", (val) => value);
-                              },
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                label: Text("Address Line 4"),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Flexible(
-                            child: TextFormField(
-                              initialValue: initialvalues["AddressType"],
-                              onChanged: (value) {
-                                initialvalues.update(
-                                    "AddressType", (val) => value);
-                              },
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                label: Text("Address Type"),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Flexible(
-                            child: TextFormField(
-                              initialValue: initialvalues["AddressPostCode"],
-                              onChanged: (value) {
-                                initialvalues.update(
-                                    "AddressPostCode", (val) => value);
-                              },
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                label: Text("Address Post Code"),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Flexible(
-                            child: TextFormField(
-                              initialValue: initialvalues["AddressState"],
-                              onChanged: (value) {
-                                initialvalues.update(
-                                    "AddressState", (val) => value);
-                              },
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                label: Text("State"),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Flexible(
-                            child: TextFormField(
-                              initialValue: initialvalues["AddressCountry"],
-                              onChanged: (value) {
-                                initialvalues.update(
-                                    "AddressCountry", (val) => value);
-                              },
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                label: Text("Country"),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Flexible(
-                            child: TextFormField(
-                              initialValue: initialvalues["AddressStartDate"],
-                              onChanged: (value) {
-                                initialvalues.update(
-                                    "AddressStartDate", (val) => value);
+                                    "StartDate", (val) => value);
                               },
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(
@@ -327,27 +209,26 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Flexible(
-                        child: TextFormField(
-                          initialValue: initialvalues["AddressEndDate"],
-                          onChanged: (value) {
-                            initialvalues.update(
-                                "AddressEndDate", (val) => value);
-                          },
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: initialvalues["EndDate"],
+                              onChanged: (value) {
+                                initialvalues.update("EndDate", (val) => value);
+                              },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("End Date"),
                               ),
                             ),
-                            label: Text("End Date"),
                           ),
-                        ),
+                        ],
                       ),
                       const SizedBox(
                         height: 10,
@@ -404,7 +285,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                                   Theme.of(context).colorScheme.onSecondary,
                             ),
                             onPressed: () {
-                              AddressService.createAddress(
+                              BankService.createBank(
                                   widget.loginResponse['authToken'],
                                   ref
                                       .watch(loginProvider.notifier)
@@ -415,14 +296,14 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                               resetInitialValues();
 
                               setState(() async {
-                                final addressResp = await getAllAddress(
+                                final bankResp = await getAllBank(
                                   widget.loginResponse['authToken'],
                                   searchString.text,
                                   searchCriteria,
                                   pageNo.text,
                                   pageSize,
                                 );
-                                addressLists = addressResp["All Agencies"];
+                                bankLists = bankResp["All Banks"];
                               });
                               Navigator.pop(context);
                             },
@@ -458,7 +339,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
           child: Column(
             children: [
               Text(
-                "Address Enquiry",
+                "Bank Enquiry",
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -507,8 +388,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                           border: const OutlineInputBorder(),
                           suffix: IconButton(
                               onPressed: () async {
-                                var response =
-                                    await AddressService.getAllAddress(
+                                var response = await BankService.getAllBank(
                                   authToken,
                                   searchString.text,
                                   searchCriteria,
@@ -516,7 +396,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                                   pageSize,
                                 );
                                 setState(() {
-                                  addressLists = response['All Addresses'];
+                                  bankLists = response['All Addresses'];
                                 });
                               },
                               icon: const Icon(Icons.search))),
@@ -529,9 +409,9 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
               Flexible(
                 fit: FlexFit.loose,
                 child: ListView.builder(
-                  itemCount: addressLists.length,
+                  itemCount: bankLists.length,
                   itemBuilder: (context, index) => Dismissible(
-                    key: ValueKey(addressLists[index]['ID']),
+                    key: ValueKey(bankLists[index]['ID']),
                     background: Container(
                       color:
                           Theme.of(context).colorScheme.error.withOpacity(0.75),
@@ -540,7 +420,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                       //         Theme.of(context).cardTheme.margin!.horizontal),
                     ),
                     onDismissed: (direction) {
-                      deleteAddress(addressLists[index]['ID']);
+                      deleteBank(bankLists[index]['ID']);
                       ScaffoldMessenger.of(context).clearSnackBars();
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -571,7 +451,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                         title: Row(
                           children: [
                             Text(
-                              '${addressLists[index]['ID']}',
+                              '${bankLists[index]['ID']}',
                               style: TextStyle(
                                 color: Theme.of(context).colorScheme.primary,
                                 fontWeight: FontWeight.bold,
@@ -581,7 +461,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                               width: 10,
                             ),
                             Text(
-                              '${addressLists[index]['AddressType']}',
+                              '${bankLists[index]['BankCode']}',
                               style: TextStyle(
                                 color: Theme.of(context).colorScheme.primary,
                                 fontWeight: FontWeight.bold,
@@ -592,7 +472,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                         subtitle: Row(
                           children: [
                             Text(
-                              '${addressLists[index]['AddressLine1']}',
+                              '${bankLists[index]['BankType']}',
                               style: TextStyle(
                                 color: Theme.of(context).colorScheme.primary,
                               ),
@@ -601,7 +481,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                               width: 10,
                             ),
                             Text(
-                              '${addressLists[index]['AddressPostCode']}',
+                              '${bankLists[index]['BankAccountNo']}',
                               style: TextStyle(
                                 color: Theme.of(context).colorScheme.primary,
                               ),
@@ -610,15 +490,15 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                         ),
                         trailing: IconButton(
                             onPressed: () async {
-                              addressResponse = await AddressService.getAddress(
-                                  authToken, addressLists[index]['ID']);
+                              bankResponse = await BankService.getBank(
+                                  authToken, bankLists[index]['ID']);
 
                               // ignore: use_build_context_synchronously
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => AddressEnquiry(
-                                    addressResponse: addressResponse["Address"],
+                                  builder: (context) => BankEnquiry(
+                                    bankResponse: bankResponse["Bank"],
                                     authToken: authToken,
                                   ),
                                 ),

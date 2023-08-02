@@ -3,12 +3,12 @@ import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 
 Dio dio = Dio();
 
-class AddressService {
-  static dynamic getAllAddress(
+class BankService {
+  static dynamic getAllBank(
       token, searchString, searchCriteria, pageNo, pageSize) async {
     try {
       final response = await dio.get(
-        '${AppUtils.appUrl}/api/v1/basicservices/addresses',
+        '${AppUtils.appUrl}/api/v1/basicservices/banks',
         queryParameters: {
           "searchString": searchString,
           "searchCriteria": searchCriteria,
@@ -19,51 +19,46 @@ class AddressService {
       if (response.statusCode == 200) {
         return response.data;
       } else {
-        throw Exception('Failed to get Address data');
+        throw Exception('Failed to get Bank data');
       }
     } catch (err) {
       throw Exception('An error occurred: $err');
     }
   }
 
-  static dynamic getAddress(token, id) async {
+  static dynamic getBank(token, id) async {
     try {
       final response = await dio.get(
-        '${AppUtils.appUrl}/api/v1/basicservices/addressget/$id',
+        '${AppUtils.appUrl}/api/v1/basicservices/bankget/$id',
         options: Options(headers: {"Cookie": "Authorization=$token"}),
       );
       if (response.statusCode == 200) {
         return response.data;
       } else {
-        throw Exception('Failed to get Address data');
+        throw Exception('Failed to get Bank data');
       }
     } catch (err) {
       throw Exception('An error occurred: $err');
     }
   }
 
-  static dynamic createAddress(
+  static dynamic createBank(
     token,
     companyId,
-    addressData,
+    bankData,
   ) async {
     try {
       final response = await dio.post(
-        '${AppUtils.appUrl}/api/v1/basicservices/addresscreate',
+        'http://localhost:3000/api/v1/basicservices/bankcreate',
         data: {
           "CompanyID": companyId,
-          "AddressLine1": addressData["AddressLine1"],
-          "AddressLine2": addressData["AddressLine2"],
-          "AddressLine3": addressData["AddressLine3"],
-          "AddressLine4": addressData["AddressLine4"],
-          "AddressLine5": addressData["AddressLine5"],
-          "AddressType": addressData["AddressType"],
-          "AddressPostCode": addressData["AddressPostCode"],
-          "AddressState": addressData["AddressState"],
-          "AddressCountry": addressData["AddressCountry"],
-          "AddressStartDate": addressData["AddressStartDate"],
-          "AddressEndDate": addressData["AddressEndDate"],
-          "ClientID": int.tryParse(addressData["ClientID"])
+          "BankCode": bankData["BankCode"],
+          "BankAccountNo": bankData["BankAccountNo"],
+          "StartDate": bankData["StartDate"],
+          "EndDate": bankData["EndDate"],
+          "BankType": bankData["BankType"],
+          "BankAccountStatus": bankData["BankAccountStatus"],
+          "ClientID": int.tryParse(bankData["ClientID"])
         },
         options: Options(headers: {"Cookie": "Authorization=$token"}),
       );
@@ -75,10 +70,10 @@ class AddressService {
     }
   }
 
-  static void softDeleteAddress(token, id) async {
+  static void softDeleteBank(token, id) async {
     try {
       await dio.delete(
-        "${AppUtils.appUrl}/api/v1/basicservices/addressdelete/$id",
+        "${AppUtils.appUrl}/api/v1/basicservices/bankdelete/$id",
         options: Options(headers: {"Cookie": "Authorization=$token"}),
       );
     } catch (err) {

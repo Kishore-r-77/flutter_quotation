@@ -5,18 +5,18 @@ import '../../utils/appUtils/app_utils.dart';
 import '../../widgets/customAppbar/custom_appbar.dart';
 import '../../widgets/customWidgets/custom_field.dart';
 
-class AddressEnquiry extends StatefulWidget {
-  const AddressEnquiry(
-      {super.key, required this.addressResponse, required this.authToken});
+class BankEnquiry extends StatefulWidget {
+  const BankEnquiry(
+      {super.key, required this.bankResponse, required this.authToken});
 
-  final dynamic addressResponse;
+  final dynamic bankResponse;
   final String? authToken;
 
   @override
-  State<AddressEnquiry> createState() => _AddressEnquiryState();
+  State<BankEnquiry> createState() => _BankEnquiryState();
 }
 
-class _AddressEnquiryState extends State<AddressEnquiry> {
+class _BankEnquiryState extends State<BankEnquiry> {
   String formatDate(String dateString) {
     DateTime date = DateTime.parse(dateString);
     DateFormat formatter = DateFormat('dd-MM-yyyy');
@@ -34,7 +34,7 @@ class _AddressEnquiryState extends State<AddressEnquiry> {
           child: ListView(
             children: [
               Text(
-                "Address Enquiry",
+                "Bank Enquiry",
                 style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontSize:
@@ -45,68 +45,53 @@ class _AddressEnquiryState extends State<AddressEnquiry> {
                 height: 20,
               ),
               CustomField(
-                value: "${widget.addressResponse['ID']}",
-                label: "Address ID",
+                value: "${widget.bankResponse['ID']}",
+                label: "Bank ID",
               ),
               const SizedBox(
                 height: 20,
               ),
               CustomField(
-                value: "${widget.addressResponse['AddressType']}",
-                label: "Address Type",
+                value: "${widget.bankResponse['BankCode']}",
+                label: "Bank Code",
               ),
               const SizedBox(
                 height: 20,
               ),
               CustomField(
-                value: "${widget.addressResponse['AddressLine1']}",
-                label: "Address Line 1",
+                value: "${widget.bankResponse['BankAccountNo']}",
+                label: "Bank Account No",
               ),
               const SizedBox(
                 height: 20,
               ),
               CustomField(
-                value: "${widget.addressResponse['AddressLine2']}",
-                label: "Address Line 2",
+                value: formatDate(widget.bankResponse['StartDate']),
+                label: "Start Date",
               ),
               const SizedBox(
                 height: 20,
               ),
               CustomField(
-                value: "${widget.addressResponse['AddressPostCode']}",
-                label: "Post Code",
+                value: formatDate(widget.bankResponse['EndDate']),
+                label: "End Date",
               ),
               const SizedBox(
                 height: 20,
               ),
               CustomField(
-                value: "${widget.addressResponse['AddressState']}",
-                label: "State",
+                value: "${widget.bankResponse['BankType']}",
+                label: "Bank Type",
               ),
               const SizedBox(
                 height: 20,
               ),
               CustomField(
-                value: "${widget.addressResponse['AddressCountry']}",
-                label: "Country",
+                value: "${widget.bankResponse['BankAccountStatus']}",
+                label: "Bank Account Status",
               ),
               const SizedBox(
                 height: 20,
-              ),
-              CustomField(
-                value: widget.addressResponse['AddressStartDate'] == ""
-                    ? ""
-                    : formatDate(widget.addressResponse['AddressStartDate']),
-                label: "Address Start Date",
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              CustomField(
-                value: widget.addressResponse['AddressEndDate'] == ""
-                    ? ""
-                    : formatDate(widget.addressResponse['AddressEndDate']),
-                label: "Address End Date",
               ),
             ],
           ),
