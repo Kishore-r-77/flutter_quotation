@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
 import 'package:quotation_flutter/screens/address/address_enquiry.dart';
 import 'package:quotation_flutter/services/address/address_service.dart';
@@ -74,6 +75,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
     initialvalues.update("ClientID", (value) => "");
   }
 
+  TextEditingController _date = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final authToken =
@@ -312,42 +314,31 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                           ),
                           Flexible(
                             child: TextFormField(
-                              initialValue: initialvalues["AddressStartDate"],
-                              onChanged: (value) {
-                                initialvalues.update(
-                                    "AddressStartDate", (val) => value);
-                              },
+                              controller: _date,
                               decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                label: Text("Start Date"),
+                                icon: Icon(Icons.calendar_today_rounded),
+                                labelText: "Start Date",
                               ),
+                              onTap: () async {
+                                DateTime? pickeddate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime.now());
+                                if (pickeddate != null) {
+                                  setState(() {
+                                    _date.text = DateFormat('dd/MM/yyyy')
+                                        .format(pickeddate);
+                                    initialvalues.update(
+                                        "AddressStartDate",
+                                        (val) => DateFormat('yyyyMMdd')
+                                            .format(pickeddate));
+                                  });
+                                }
+                              },
                             ),
                           ),
                         ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Flexible(
-                        child: TextFormField(
-                          initialValue: initialvalues["AddressEndDate"],
-                          onChanged: (value) {
-                            initialvalues.update(
-                                "AddressEndDate", (val) => value);
-                          },
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8),
-                              ),
-                            ),
-                            label: Text("End Date"),
-                          ),
-                        ),
                       ),
                       const SizedBox(
                         height: 10,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
 import 'package:quotation_flutter/screens/bank/bank_enquiry.dart';
 import 'package:quotation_flutter/services/bank/bank_service.dart';
@@ -63,6 +64,9 @@ class _BankScreenState extends ConsumerState<BankScreen> {
     initialvalues.update("BankAccountStatus", (value) => "");
     initialvalues.update("ClientID", (value) => "");
   }
+
+  TextEditingController _sdate = TextEditingController();
+  TextEditingController _edate = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -194,19 +198,28 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                         children: [
                           Flexible(
                             child: TextFormField(
-                              initialValue: initialvalues["StartDate"],
-                              onChanged: (value) {
-                                initialvalues.update(
-                                    "StartDate", (val) => value);
-                              },
+                              controller: _sdate,
                               decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                label: Text("Start Date"),
+                                icon: Icon(Icons.calendar_today_rounded),
+                                labelText: "Start Date",
                               ),
+                              onTap: () async {
+                                DateTime? pickeddate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime.now());
+                                if (pickeddate != null) {
+                                  setState(() {
+                                    _sdate.text = DateFormat('dd/MM/yyyy')
+                                        .format(pickeddate);
+                                    initialvalues.update(
+                                        "StartDate",
+                                        (val) => DateFormat('yyyyMMdd')
+                                            .format(pickeddate));
+                                  });
+                                }
+                              },
                             ),
                           ),
                           const SizedBox(
@@ -214,18 +227,28 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                           ),
                           Flexible(
                             child: TextFormField(
-                              initialValue: initialvalues["EndDate"],
-                              onChanged: (value) {
-                                initialvalues.update("EndDate", (val) => value);
-                              },
+                              controller: _edate,
                               decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                label: Text("End Date"),
+                                icon: Icon(Icons.calendar_today_rounded),
+                                labelText: "End Date",
                               ),
+                              onTap: () async {
+                                DateTime? pickeddate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime(3000));
+                                if (pickeddate != null) {
+                                  setState(() {
+                                    _edate.text = DateFormat('dd/MM/yyyy')
+                                        .format(pickeddate);
+                                    initialvalues.update(
+                                        "EndDate",
+                                        (val) => DateFormat('yyyyMMdd')
+                                            .format(pickeddate));
+                                  });
+                                }
+                              },
                             ),
                           ),
                         ],
