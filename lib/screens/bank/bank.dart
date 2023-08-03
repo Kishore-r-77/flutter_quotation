@@ -284,28 +284,27 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                               foregroundColor:
                                   Theme.of(context).colorScheme.onSecondary,
                             ),
-                            onPressed: () {
-                              BankService.createBank(
+                            onPressed: () async {
+                              await BankService.createBank(
                                   widget.loginResponse['authToken'],
                                   ref
                                       .watch(loginProvider.notifier)
                                       .prefs
                                       ?.getInt('companyId'),
                                   initialvalues);
-
-                              resetInitialValues();
-
-                              setState(() async {
-                                final bankResp = await getAllBank(
-                                  widget.loginResponse['authToken'],
-                                  searchString.text,
-                                  searchCriteria,
-                                  pageNo.text,
-                                  pageSize,
-                                );
+                              final bankResp = await getAllBank(
+                                widget.loginResponse['authToken'],
+                                searchString.text,
+                                searchCriteria,
+                                pageNo.text,
+                                pageSize,
+                              );
+                              print(bankResp);
+                              setState(() {
+                                Navigator.pop(context);
                                 bankLists = bankResp["All Banks"];
+                                resetInitialValues();
                               });
-                              Navigator.pop(context);
                             },
                             child: const Text(
                               "Submit",
