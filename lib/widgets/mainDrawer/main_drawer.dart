@@ -104,7 +104,7 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
           ),
           ListTile(
             leading: Icon(
-              Icons.person,
+              Icons.account_balance,
               size: 26,
               color: Theme.of(context).colorScheme.primary,
             ),
