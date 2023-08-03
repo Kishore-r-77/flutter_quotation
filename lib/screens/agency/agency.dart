@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
 import 'package:quotation_flutter/screens/agency/agency_enquiry.dart';
+import 'package:quotation_flutter/services/address/address_service.dart';
 import 'package:quotation_flutter/services/agency/agency_service.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
@@ -418,26 +419,26 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                               foregroundColor:
                                   Theme.of(context).colorScheme.onSecondary,
                             ),
-                            onPressed: () {
-                              AgencyService.createAgency(
+                            onPressed: () async {
+                              await AddressService.createAddress(
                                   widget.loginResponse['authToken'],
                                   ref
                                       .watch(loginProvider.notifier)
                                       .prefs
                                       ?.getInt('companyId'),
                                   initialvalues);
-                              resetInitialValues();
-                              setState(() async {
-                                final agencyResp = await getAllAgency(
-                                  widget.loginResponse['authToken'],
-                                  searchString.text,
-                                  searchCriteria,
-                                  pageNo.text,
-                                  pageSize,
-                                );
-                                agencyLists = agencyResp["All Agencies"];
+                              final agencyResp = await getAllAgency(
+                                widget.loginResponse['authToken'],
+                                searchString.text,
+                                searchCriteria,
+                                pageNo.text,
+                                pageSize,
+                              );
+                              setState(() {
+                                Navigator.pop(context);
+                                agencyLists = agencyResp["All Banks"];
+                                resetInitialValues();
                               });
-                              Navigator.pop(context);
                             },
                             child: const Text(
                               "Submit",

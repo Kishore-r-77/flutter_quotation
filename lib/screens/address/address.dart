@@ -403,28 +403,26 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                               foregroundColor:
                                   Theme.of(context).colorScheme.onSecondary,
                             ),
-                            onPressed: () {
-                              AddressService.createAddress(
+                            onPressed: () async {
+                              await AddressService.createAddress(
                                   widget.loginResponse['authToken'],
                                   ref
                                       .watch(loginProvider.notifier)
                                       .prefs
                                       ?.getInt('companyId'),
                                   initialvalues);
-
-                              resetInitialValues();
-
-                              setState(() async {
-                                final addressResp = await getAllAddress(
-                                  widget.loginResponse['authToken'],
-                                  searchString.text,
-                                  searchCriteria,
-                                  pageNo.text,
-                                  pageSize,
-                                );
-                                addressLists = addressResp["All Agencies"];
+                              final addressResp = await getAllAddress(
+                                widget.loginResponse['authToken'],
+                                searchString.text,
+                                searchCriteria,
+                                pageNo.text,
+                                pageSize,
+                              );
+                              setState(() {
+                                Navigator.pop(context);
+                                addressLists = addressResp["All Addresses"];
+                                resetInitialValues();
                               });
-                              Navigator.pop(context);
                             },
                             child: const Text(
                               "Submit",
