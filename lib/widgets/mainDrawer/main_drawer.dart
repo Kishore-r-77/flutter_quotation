@@ -72,8 +72,10 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      AddressScreen(loginResponse: widget.loginResponse),
+                  builder: (context) => AddressScreen(
+                    isLookUp: false,
+                    loginResponse: widget.loginResponse,
+                  ),
                 ),
               );
             },
@@ -96,8 +98,8 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      ClientScreen(loginResponse: widget.loginResponse),
+                  builder: (context) => ClientScreen(
+                      isLookUp: false, loginResponse: widget.loginResponse),
                 ),
               );
             },
@@ -120,8 +122,10 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      BankScreen(loginResponse: widget.loginResponse),
+                  builder: (context) => BankScreen(
+                    isLookUp: false,
+                    loginResponse: widget.loginResponse,
+                  ),
                 ),
               );
             },

@@ -33,10 +33,11 @@ class _ClientEnquiryState extends State<ClientEnquiry> {
             Text(
               "Client Enquiry",
               style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize:
-                      Theme.of(context).textTheme.titleLarge?.fontSize ?? 0.0,
-                  fontWeight: FontWeight.bold),
+                color: Theme.of(context).colorScheme.primary,
+                fontSize:
+                    Theme.of(context).textTheme.titleLarge?.fontSize ?? 0.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(
               height: 20,

@@ -3,13 +3,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
 import 'package:quotation_flutter/screens/address/address_enquiry.dart';
+import 'package:quotation_flutter/screens/client/client.dart';
 import 'package:quotation_flutter/services/address/address_service.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
 
 class AddressScreen extends ConsumerStatefulWidget {
-  const AddressScreen({super.key, required this.loginResponse});
+  const AddressScreen({
+    super.key,
+    required this.loginResponse,
+    required this.isLookUp,
+  });
   final dynamic loginResponse;
+  final bool isLookUp;
 
   @override
   ConsumerState<AddressScreen> createState() => _AddressScreenState();
@@ -99,6 +105,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
       });
     }
 
+    final TextEditingController clientIdController = TextEditingController();
     return Scaffold(
       floatingActionButton: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -347,11 +354,31 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                         children: [
                           Flexible(
                             child: TextFormField(
-                              initialValue: initialvalues["ClientID"],
-                              onChanged: (value) {
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              controller:
+                                  clientIdController, // Use the TextEditingController
+                              onTap: () async {
+                                final clientId = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (ctx) => ClientScreen(
+                                      isLookUp: true,
+                                      loginResponse: widget.loginResponse,
+                                    ),
+                                  ),
+                                );
+
+                                clientIdController.text = clientId ?? 0;
                                 initialvalues.update(
-                                    "ClientID", (val) => value);
+                                  "ClientID",
+                                  (value) => clientIdController.text,
+                                );
                               },
+                              // onChanged: (value) {
+
+                              // },
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(
@@ -546,77 +573,91 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                         ),
                       );
                     },
-                    child: Card(
-                      color: Theme.of(context).colorScheme.surface,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15),
+                    child: InkWell(
+                      onTap: () {
+                        if (widget.isLookUp) {
+                          return Navigator.pop(
+                            context,
+                            addressLists[index]['ID'].toString(),
+                          );
+                        } else {
+                          return;
+                        }
+                      },
+                      child: Card(
+                        color: Theme.of(context).colorScheme.surface,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(15),
+                          ),
                         ),
-                      ),
-                      borderOnForeground: false,
-                      // shadowColor: Theme.of(context).colorScheme.primary,
-                      elevation: 12,
-                      child: ListTile(
-                        title: Row(
-                          children: [
-                            Text(
-                              '${addressLists[index]['ID']}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              '${addressLists[index]['AddressType']}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        subtitle: Row(
-                          children: [
-                            Text(
-                              '${addressLists[index]['AddressLine1']}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              '${addressLists[index]['AddressPostCode']}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                          ],
-                        ),
-                        trailing: IconButton(
-                            onPressed: () async {
-                              addressResponse = await AddressService.getAddress(
-                                  authToken, addressLists[index]['ID']);
-
-                              // ignore: use_build_context_synchronously
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AddressEnquiry(
-                                    addressResponse: addressResponse["Address"],
-                                    authToken: authToken,
-                                  ),
+                        borderOnForeground: false,
+                        // shadowColor: Theme.of(context).colorScheme.primary,
+                        elevation: 12,
+                        child: ListTile(
+                          title: Row(
+                            children: [
+                              Text(
+                                '${addressLists[index]['ID']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                              );
-                            },
-                            icon: Icon(
-                              Icons.info,
-                              color: Theme.of(context).colorScheme.primary,
-                            )),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                '${addressLists[index]['AddressType']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          subtitle: Row(
+                            children: [
+                              Text(
+                                '${addressLists[index]['AddressLine1']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                '${addressLists[index]['AddressPostCode']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ],
+                          ),
+                          trailing: IconButton(
+                              onPressed: () async {
+                                addressResponse =
+                                    await AddressService.getAddress(
+                                        authToken, addressLists[index]['ID']);
+
+                                // ignore: use_build_context_synchronously
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AddressEnquiry(
+                                      addressResponse:
+                                          addressResponse["Address"],
+                                      authToken: authToken,
+                                    ),
+                                  ),
+                                );
+                              },
+                              icon: Icon(
+                                Icons.info,
+                                color: Theme.of(context).colorScheme.primary,
+                              )),
+                        ),
                       ),
                     ),
                   ),

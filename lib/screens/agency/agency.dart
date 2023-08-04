@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
+import 'package:quotation_flutter/screens/address/address.dart';
 import 'package:quotation_flutter/screens/agency/agency_enquiry.dart';
+import 'package:quotation_flutter/screens/bank/bank.dart';
+import 'package:quotation_flutter/screens/client/client.dart';
 import 'package:quotation_flutter/services/address/address_service.dart';
 import 'package:quotation_flutter/services/agency/agency_service.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
@@ -91,6 +94,9 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
       initialvalues.update("BankID", (value) => "");
     }
 
+    final TextEditingController clientIdController = TextEditingController();
+    final TextEditingController addressIdController = TextEditingController();
+    final TextEditingController bankIdController = TextEditingController();
     return Scaffold(
       floatingActionButton: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -383,11 +389,31 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                         children: [
                           Flexible(
                             child: TextFormField(
-                              initialValue: initialvalues["ClientID"],
-                              onChanged: (value) {
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              controller:
+                                  clientIdController, // Use the TextEditingController
+                              onTap: () async {
+                                final clientId = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (ctx) => ClientScreen(
+                                      isLookUp: true,
+                                      loginResponse: widget.loginResponse,
+                                    ),
+                                  ),
+                                );
+
+                                clientIdController.text = clientId ?? 0;
                                 initialvalues.update(
-                                    "ClientID", (val) => value);
+                                  "ClientID",
+                                  (value) => clientIdController.text,
+                                );
                               },
+                              // onChanged: (value) {
+
+                              // },
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(
@@ -403,11 +429,31 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                           ),
                           Flexible(
                             child: TextFormField(
-                              initialValue: initialvalues["AddressID"],
-                              onChanged: (value) {
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              controller:
+                                  addressIdController, // Use the TextEditingController
+                              onTap: () async {
+                                final addressId = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (ctx) => AddressScreen(
+                                      isLookUp: true,
+                                      loginResponse: widget.loginResponse,
+                                    ),
+                                  ),
+                                );
+
+                                addressIdController.text = addressId ?? 0;
                                 initialvalues.update(
-                                    "AddressID", (val) => value);
+                                  "AddressID",
+                                  (value) => addressIdController.text,
+                                );
                               },
+                              // onChanged: (value) {
+
+                              // },
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(
@@ -423,6 +469,31 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                           ),
                           Flexible(
                             child: TextFormField(
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              controller:
+                                  bankIdController, // Use the TextEditingController
+                              onTap: () async {
+                                final bankId = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (ctx) => BankScreen(
+                                      isLookUp: true,
+                                      loginResponse: widget.loginResponse,
+                                    ),
+                                  ),
+                                );
+
+                                bankIdController.text = bankId ?? 0;
+                                initialvalues.update(
+                                  "BankID",
+                                  (value) => bankIdController.text,
+                                );
+                              },
+                              // onChanged: (value) {
+
+                              // },
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(
