@@ -56,7 +56,7 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
         child: IconButton(
           onPressed: () {},
           icon: Icon(
-            Icons.arrow_forward,
+            Icons.add,
             color: Theme.of(context).colorScheme.background,
           ),
         ),
