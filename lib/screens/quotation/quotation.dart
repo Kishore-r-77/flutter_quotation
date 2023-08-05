@@ -5,6 +5,7 @@ import 'package:quotation_flutter/screens/quotation/quotation_enquiry.dart';
 import 'package:quotation_flutter/services/quotation/quotation_services.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
+import 'package:quotation_flutter/widgets/quotation/quotation_modal.dart';
 
 class QuotationScreen extends ConsumerStatefulWidget {
   const QuotationScreen({super.key, required this.loginResponse});
@@ -54,7 +55,14 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
       floatingActionButton: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (ctx) => const QuotationModal(),
+              ),
+            );
+          },
           icon: Icon(
             Icons.add,
             color: Theme.of(context).colorScheme.background,

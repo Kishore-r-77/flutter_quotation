@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quotation_flutter/providers/darkProvider/dark_provider.dart';
 import 'package:quotation_flutter/screens/loginScreen/login_screen.dart';
+import 'package:quotation_flutter/utils/appUtils/app_scroll_behavior.dart';
 import 'package:quotation_flutter/utils/theme/theme_content.dart';
 
 Future<void> main() async {
@@ -28,6 +29,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     final isDark = ref.watch(darkProvider);
 
     return MaterialApp(
+      scrollBehavior: AppScrollBehavior(),
       debugShowCheckedModeBanner: false,
       theme: isDark ? ThemeContent.darkThemeData : ThemeContent.lightThemeData,
       home: const LoginScreen(),
