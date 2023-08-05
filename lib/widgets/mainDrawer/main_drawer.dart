@@ -72,8 +72,10 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      AddressScreen(loginResponse: widget.loginResponse),
+                  builder: (context) => AddressScreen(
+                    isLookUp: false,
+                    loginResponse: widget.loginResponse,
+                  ),
                 ),
               );
             },
@@ -96,15 +98,15 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      ClientScreen(loginResponse: widget.loginResponse),
+                  builder: (context) => ClientScreen(
+                      isLookUp: false, loginResponse: widget.loginResponse),
                 ),
               );
             },
           ),
           ListTile(
             leading: Icon(
-              Icons.person,
+              Icons.account_balance,
               size: 26,
               color: Theme.of(context).colorScheme.primary,
             ),
@@ -120,8 +122,10 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      BankScreen(loginResponse: widget.loginResponse),
+                  builder: (context) => BankScreen(
+                    isLookUp: false,
+                    loginResponse: widget.loginResponse,
+                  ),
                 ),
               );
             },

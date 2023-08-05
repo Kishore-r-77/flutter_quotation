@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
 import 'package:quotation_flutter/screens/client/client_enquiry.dart';
-import 'package:quotation_flutter/screens/quotation/quotation_enquiry.dart';
 import 'package:quotation_flutter/services/client/client_service.dart';
-import 'package:quotation_flutter/services/quotation/quotation_services.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
 
 class ClientScreen extends ConsumerStatefulWidget {
-  const ClientScreen({super.key, required this.loginResponse});
+  const ClientScreen(
+      {super.key, required this.loginResponse, required this.isLookUp});
+  final bool isLookUp;
   final dynamic loginResponse;
 
   @override
@@ -172,76 +172,86 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
                   // controller: scrollController,
                   itemCount:
                       isLoading ? clientLists.length + 1 : clientLists.length,
-                  itemBuilder: (context, index) => Card(
-                    color: Theme.of(context).colorScheme.surface,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(15),
+                  itemBuilder: (context, index) => InkWell(
+                    onTap: () {
+                      if (widget.isLookUp) {
+                        return Navigator.pop(
+                            context, clientLists[index]['ID'].toString());
+                      } else {
+                        return;
+                      }
+                    },
+                    child: Card(
+                      color: Theme.of(context).colorScheme.surface,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        ),
                       ),
-                    ),
-                    borderOnForeground: false,
-                    // shadowColor: Theme.of(context).colorScheme.primary,
-                    elevation: 12,
-                    child: ListTile(
-                      title: Row(
-                        children: [
-                          Text(
-                            '${clientLists[index]['ID']}',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.bold,
+                      borderOnForeground: false,
+                      // shadowColor: Theme.of(context).colorScheme.primary,
+                      elevation: 12,
+                      child: ListTile(
+                        title: Row(
+                          children: [
+                            Text(
+                              '${clientLists[index]['ID']}',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            '${clientLists[index]['ClientShortName']}',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.bold,
+                            const SizedBox(
+                              width: 10,
                             ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            '${clientLists[index]['Gender']}',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.bold,
+                            Text(
+                              '${clientLists[index]['ClientShortName']}',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      subtitle: Row(
-                        children: [
-                          Text(
-                            '${clientLists[index]['ClientEmail']}',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
+                            const SizedBox(
+                              width: 10,
                             ),
-                          ),
-                        ],
-                      ),
-                      trailing: IconButton(
-                        onPressed: () async {
-                          clientResponse = await ClientService.getClient(
-                              authToken, clientLists[index]['ID']);
+                            Text(
+                              '${clientLists[index]['Gender']}',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        subtitle: Row(
+                          children: [
+                            Text(
+                              '${clientLists[index]['ClientEmail']}',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                        trailing: IconButton(
+                          onPressed: () async {
+                            clientResponse = await ClientService.getClient(
+                                authToken, clientLists[index]['ID']);
 
-                          // ignore: use_build_context_synchronously
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ClientEnquiry(
-                                  clientResponse: clientResponse["Client"],
-                                  authToken: authToken),
-                            ),
-                          );
-                        },
-                        icon: Icon(
-                          Icons.info,
-                          color: Theme.of(context).colorScheme.primary,
+                            // ignore: use_build_context_synchronously
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ClientEnquiry(
+                                    clientResponse: clientResponse["Client"],
+                                    authToken: authToken),
+                              ),
+                            );
+                          },
+                          icon: Icon(
+                            Icons.info,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
                         ),
                       ),
                     ),

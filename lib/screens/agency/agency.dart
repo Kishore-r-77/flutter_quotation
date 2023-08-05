@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
+import 'package:quotation_flutter/screens/address/address.dart';
 import 'package:quotation_flutter/screens/agency/agency_enquiry.dart';
+import 'package:quotation_flutter/screens/bank/bank.dart';
+import 'package:quotation_flutter/screens/client/client.dart';
 import 'package:quotation_flutter/services/address/address_service.dart';
 import 'package:quotation_flutter/services/agency/agency_service.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
@@ -61,6 +65,11 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
     });
   }
 
+  TextEditingController _lsdate = TextEditingController();
+  TextEditingController _ledate = TextEditingController();
+  TextEditingController _sdate = TextEditingController();
+  TextEditingController _edate = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final authToken =
@@ -85,6 +94,9 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
       initialvalues.update("BankID", (value) => "");
     }
 
+    final TextEditingController clientIdController = TextEditingController();
+    final TextEditingController addressIdController = TextEditingController();
+    final TextEditingController bankIdController = TextEditingController();
     return Scaffold(
       floatingActionButton: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -233,19 +245,28 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                         children: [
                           Flexible(
                             child: TextFormField(
-                              initialValue: initialvalues["LicenseStartDate"],
-                              onChanged: (value) {
-                                initialvalues.update(
-                                    "LicenseStartDate", (val) => value);
-                              },
+                              controller: _lsdate,
                               decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                label: Text("License Start Date"),
+                                icon: Icon(Icons.calendar_today_rounded),
+                                labelText: "License Start Date",
                               ),
+                              onTap: () async {
+                                DateTime? pickeddate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime.now());
+                                if (pickeddate != null) {
+                                  setState(() {
+                                    _sdate.text = DateFormat('dd/MM/yyyy')
+                                        .format(pickeddate);
+                                    initialvalues.update(
+                                        "LicenseStartDate",
+                                        (val) => DateFormat('yyyyMMdd')
+                                            .format(pickeddate));
+                                  });
+                                }
+                              },
                             ),
                           ),
                           const SizedBox(
@@ -253,19 +274,28 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                           ),
                           Flexible(
                             child: TextFormField(
-                              initialValue: initialvalues["LicenseEndDate"],
-                              onChanged: (value) {
-                                initialvalues.update(
-                                    "LicenseEndDate", (val) => value);
-                              },
+                              controller: _ledate,
                               decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                label: Text("License End Date"),
+                                icon: Icon(Icons.calendar_today_rounded),
+                                labelText: "License End Date",
                               ),
+                              onTap: () async {
+                                DateTime? pickeddate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime(3000));
+                                if (pickeddate != null) {
+                                  setState(() {
+                                    _edate.text = DateFormat('dd/MM/yyyy')
+                                        .format(pickeddate);
+                                    initialvalues.update(
+                                        "LicenseEndDate",
+                                        (val) => DateFormat('yyyyMMdd')
+                                            .format(pickeddate));
+                                  });
+                                }
+                              },
                             ),
                           ),
                         ],
@@ -277,19 +307,28 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                         children: [
                           Flexible(
                             child: TextFormField(
-                              initialValue: initialvalues["Startdate"],
-                              onChanged: (value) {
-                                initialvalues.update(
-                                    "Startdate", (val) => value);
-                              },
+                              controller: _sdate,
                               decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                label: Text("Start Date"),
+                                icon: Icon(Icons.calendar_today_rounded),
+                                labelText: "Start Date",
                               ),
+                              onTap: () async {
+                                DateTime? pickeddate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime.now());
+                                if (pickeddate != null) {
+                                  setState(() {
+                                    _sdate.text = DateFormat('dd/MM/yyyy')
+                                        .format(pickeddate);
+                                    initialvalues.update(
+                                        "Startdate",
+                                        (val) => DateFormat('yyyyMMdd')
+                                            .format(pickeddate));
+                                  });
+                                }
+                              },
                             ),
                           ),
                           const SizedBox(
@@ -297,18 +336,28 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                           ),
                           Flexible(
                             child: TextFormField(
-                              initialValue: initialvalues["EndDate"],
-                              onChanged: (value) {
-                                initialvalues.update("EndDate", (val) => value);
-                              },
+                              controller: _edate,
                               decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                label: Text("End Date"),
+                                icon: Icon(Icons.calendar_today_rounded),
+                                labelText: "End Date",
                               ),
+                              onTap: () async {
+                                DateTime? pickeddate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime(3000));
+                                if (pickeddate != null) {
+                                  setState(() {
+                                    _edate.text = DateFormat('dd/MM/yyyy')
+                                        .format(pickeddate);
+                                    initialvalues.update(
+                                        "EndDate",
+                                        (val) => DateFormat('yyyyMMdd')
+                                            .format(pickeddate));
+                                  });
+                                }
+                              },
                             ),
                           ),
                         ],
@@ -340,11 +389,31 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                         children: [
                           Flexible(
                             child: TextFormField(
-                              initialValue: initialvalues["ClientID"],
-                              onChanged: (value) {
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              controller:
+                                  clientIdController, // Use the TextEditingController
+                              onTap: () async {
+                                final clientId = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (ctx) => ClientScreen(
+                                      isLookUp: true,
+                                      loginResponse: widget.loginResponse,
+                                    ),
+                                  ),
+                                );
+
+                                clientIdController.text = clientId ?? 0;
                                 initialvalues.update(
-                                    "ClientID", (val) => value);
+                                  "ClientID",
+                                  (value) => clientIdController.text,
+                                );
                               },
+                              // onChanged: (value) {
+
+                              // },
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(
@@ -360,11 +429,31 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                           ),
                           Flexible(
                             child: TextFormField(
-                              initialValue: initialvalues["AddressID"],
-                              onChanged: (value) {
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              controller:
+                                  addressIdController, // Use the TextEditingController
+                              onTap: () async {
+                                final addressId = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (ctx) => AddressScreen(
+                                      isLookUp: true,
+                                      loginResponse: widget.loginResponse,
+                                    ),
+                                  ),
+                                );
+
+                                addressIdController.text = addressId ?? 0;
                                 initialvalues.update(
-                                    "AddressID", (val) => value);
+                                  "AddressID",
+                                  (value) => addressIdController.text,
+                                );
                               },
+                              // onChanged: (value) {
+
+                              // },
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(
@@ -380,6 +469,31 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                           ),
                           Flexible(
                             child: TextFormField(
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              controller:
+                                  bankIdController, // Use the TextEditingController
+                              onTap: () async {
+                                final bankId = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (ctx) => BankScreen(
+                                      isLookUp: true,
+                                      loginResponse: widget.loginResponse,
+                                    ),
+                                  ),
+                                );
+
+                                bankIdController.text = bankId ?? 0;
+                                initialvalues.update(
+                                  "BankID",
+                                  (value) => bankIdController.text,
+                                );
+                              },
+                              // onChanged: (value) {
+
+                              // },
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(
