@@ -299,8 +299,15 @@ class QDetailsModal4 extends ConsumerWidget {
                 );
                 print("Clicked");
                 print(qHeaderQDetails);
-                if (quotationStatusCode == 200) {
+                if (quotationStatusCode.statusCode == 200) {
                   Navigator.pop(context);
+                  qDetailModal4.update("QCoverage", (value) => "");
+                  qDetailModal4.update("QRiskCessTerm", (value) => "");
+                  qDetailModal4.update("QPremCessTerm", (value) => "");
+                  qDetailModal4.update("QBeneCessTerm", (value) => "");
+                  qDetailModal4.update("QSumAssured", (value) => "");
+                  qDetailModal4.update("QEmrRating", (value) => "");
+                  qDetailModal4.update("QAgeAdmitted", (value) => "");
                 }
               },
               style: ElevatedButton.styleFrom(

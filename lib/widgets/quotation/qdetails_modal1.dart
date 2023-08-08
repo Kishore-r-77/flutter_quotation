@@ -21,8 +21,6 @@ class QDetailsModal1 extends ConsumerWidget {
         ref.watch(loginProvider.notifier).prefs?.getString("authToken");
     final companyId =
         ref.watch(loginProvider.notifier).prefs?.getInt("companyId");
-    print(isAdd);
-    print(isRemove);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -295,7 +293,7 @@ class QDetailsModal1 extends ConsumerWidget {
                 final quotationStatusCode =
                     await QuotationServices.createQheaderWithQDetails(
                   authToken,
-                  ref.watch(loginProvider.notifier).prefs?.getInt('companyId'),
+                  companyId,
                   qHeaderQDetails,
                 );
                 print("Clicked");
@@ -303,6 +301,13 @@ class QDetailsModal1 extends ConsumerWidget {
                 print(quotationStatusCode);
                 if (quotationStatusCode.statusCode == 200) {
                   Navigator.pop(context);
+                  qDetailModal1.update("QCoverage", (value) => "");
+                  qDetailModal1.update("QRiskCessTerm", (value) => "");
+                  qDetailModal1.update("QPremCessTerm", (value) => "");
+                  qDetailModal1.update("QBeneCessTerm", (value) => "");
+                  qDetailModal1.update("QSumAssured", (value) => "");
+                  qDetailModal1.update("QEmrRating", (value) => "");
+                  qDetailModal1.update("QAgeAdmitted", (value) => "");
                 }
               },
               style: ElevatedButton.styleFrom(
