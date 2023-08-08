@@ -31,7 +31,7 @@ class QDetailsModal5 extends ConsumerWidget {
           children: [
             Center(
               child: Text(
-                "QDetails 1/2",
+                "QDetails 5/5",
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                   fontSize: 25,
