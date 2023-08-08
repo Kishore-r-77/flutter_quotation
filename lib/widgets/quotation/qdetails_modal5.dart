@@ -12,8 +12,8 @@ class QDetailsModal5 extends ConsumerWidget {
     final Map<String, dynamic> qDetailModal5 =
         ref.watch(quotationProvider.notifier).modal5;
 
-    List<dynamic> qlists = ref.watch(quotationProvider)["QDetails"];
-    //qlists.add(qDetailModal5);
+    List<dynamic> qDetails = ref.watch(quotationProvider)["QDetails"];
+    //qDetails.add(qDetailModal5);
     bool isAdd = ref.watch(quotationProvider.notifier).isAdd;
     bool isRemove = ref.watch(quotationProvider.notifier).isRemove;
     final Map<String, dynamic> qHeaderQDetails = ref.watch(quotationProvider);
@@ -222,22 +222,7 @@ class QDetailsModal5 extends ConsumerWidget {
                     onPressed: isAdd == true
                         ? null
                         : () {
-                            qlists.add({
-                              ...qDetailModal5,
-                              "QRiskCessTerm": int.tryParse(
-                                qDetailModal5["QRiskCessTerm"],
-                              ),
-                              "QPremCessTerm": int.tryParse(
-                                qDetailModal5["QPremCessTerm"],
-                              ),
-                              "QBeneCessTerm": int.tryParse(
-                                qDetailModal5["QBeneCessTerm"],
-                              ),
-                              "QEmrRating": int.tryParse(
-                                qDetailModal5["QEmrRating"],
-                              ),
-                            });
-                            print(isAdd);
+                            qDetails.add(qDetailModal5);
                           },
                     child: const Text("Add"),
                   ),
@@ -255,7 +240,7 @@ class QDetailsModal5 extends ConsumerWidget {
                     onPressed: isRemove == true
                         ? null
                         : () {
-                            qlists.removeLast();
+                            qDetails.removeLast();
                             setState(() {
                               isAdd = false;
                               isRemove = true;
@@ -290,7 +275,12 @@ class QDetailsModal5 extends ConsumerWidget {
               onPressed: () async {
                 final quotationStatusCode =
                     await QuotationServices.createQheaderWithQDetails(
-                        authToken, companyId, qHeaderQDetails);
+                  authToken,
+                  companyId,
+                  qHeaderQDetails,
+                );
+                print("Clicked");
+                print(qHeaderQDetails);
                 if (quotationStatusCode == 200) {
                   Navigator.pop(context);
                 }

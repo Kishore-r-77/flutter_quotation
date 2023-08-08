@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class QuotationNotifier extends StateNotifier<Map<String, dynamic>> {
@@ -64,6 +65,10 @@ class QuotationNotifier extends StateNotifier<Map<String, dynamic>> {
     "QEmrRating": "",
     "QAgeAdmitted": ""
   };
+  TextEditingController addressIdController = TextEditingController();
+  TextEditingController agencyIdController = TextEditingController();
+  TextEditingController clientIdController = TextEditingController();
+  TextEditingController quoteDate = TextEditingController();
 }
 
 final quotationProvider =

@@ -18,13 +18,18 @@ class QHeaderModal extends ConsumerStatefulWidget {
 }
 
 class _QHeaderModalState extends ConsumerState<QHeaderModal> {
-  TextEditingController quoteDate = TextEditingController();
-  final TextEditingController addressIdController = TextEditingController();
-  final TextEditingController agencyIdController = TextEditingController();
-  final TextEditingController clientIdController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
+    TextEditingController quoteDate =
+        ref.watch(quotationProvider.notifier).quoteDate;
+    final TextEditingController addressIdController =
+        ref.watch(quotationProvider.notifier).addressIdController;
+    final TextEditingController agencyIdController =
+        ref.watch(quotationProvider.notifier).agencyIdController;
+
+    final TextEditingController clientIdController =
+        ref.watch(quotationProvider.notifier).clientIdController;
+
     final Map<String, dynamic> qHeaderQDetails = ref.watch(quotationProvider);
     final authToken =
         ref.watch(loginProvider.notifier).prefs?.getString("authToken");
