@@ -51,8 +51,8 @@ class QuotationServices {
         '${AppUtils.appUrl}/api/v1/quotationservices/qheaderandbenefitcreate',
         data: {
           "CompanyID": companyId,
-          // "QuoteDate": quotationData["QuoteDate"],
-          "QuoteDate": "20230101",
+          "QuoteDate": quotationData["QuoteDate"],
+          //"QuoteDate": "20230101",
           "QProduct": quotationData["QProduct"],
           "QOccGroup": quotationData["QOccGroup"],
           "QOccSect": quotationData["QOccSect"],
