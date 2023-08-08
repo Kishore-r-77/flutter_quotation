@@ -148,8 +148,10 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      AgencyScreen(loginResponse: widget.loginResponse),
+                  builder: (context) => AgencyScreen(
+                    loginResponse: widget.loginResponse,
+                    isLookUp: false,
+                  ),
                 ),
               );
             },

@@ -12,8 +12,13 @@ import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
 
 class AgencyScreen extends ConsumerStatefulWidget {
-  const AgencyScreen({super.key, required this.loginResponse});
+  const AgencyScreen({
+    super.key,
+    required this.loginResponse,
+    required this.isLookUp,
+  });
   final dynamic loginResponse;
+  final bool isLookUp;
 
   @override
   ConsumerState<AgencyScreen> createState() => _AgencyScreenState();
@@ -657,76 +662,88 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                 fit: FlexFit.loose,
                 child: ListView.builder(
                   itemCount: agencyLists.length,
-                  itemBuilder: (context, index) => Card(
-                    color: Theme.of(context).colorScheme.surface,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(15),
+                  itemBuilder: (context, index) => InkWell(
+                    onTap: () {
+                      if (widget.isLookUp) {
+                        return Navigator.pop(
+                          context,
+                          agencyLists[index]['ID'].toString(),
+                        );
+                      } else {
+                        return;
+                      }
+                    },
+                    child: Card(
+                      color: Theme.of(context).colorScheme.surface,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        ),
                       ),
-                    ),
-                    borderOnForeground: false,
-                    // shadowColor: Theme.of(context).colorScheme.primary,
-                    elevation: 12,
-                    child: ListTile(
-                      title: Row(
-                        children: [
-                          Text(
-                            '${agencyLists[index]['ID']}',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            '${agencyLists[index]['AgencyChannelSt']}',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      subtitle: Row(
-                        children: [
-                          Text(
-                            '${agencyLists[index]['Office']}',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            '${agencyLists[index]['AgencySt']}',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                        ],
-                      ),
-                      trailing: IconButton(
-                          onPressed: () async {
-                            agencyResponse = await AgencyService.getAgency(
-                                authToken, agencyLists[index]['ID']);
-
-                            // ignore: use_build_context_synchronously
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AgencyEnquiry(
-                                    agencyResponse: agencyResponse["Agency"],
-                                    authToken: authToken),
+                      borderOnForeground: false,
+                      // shadowColor: Theme.of(context).colorScheme.primary,
+                      elevation: 12,
+                      child: ListTile(
+                        title: Row(
+                          children: [
+                            Text(
+                              '${agencyLists[index]['ID']}',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold,
                               ),
-                            );
-                          },
-                          icon: Icon(
-                            Icons.info,
-                            color: Theme.of(context).colorScheme.primary,
-                          )),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              '${agencyLists[index]['AgencyChannelSt']}',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        subtitle: Row(
+                          children: [
+                            Text(
+                              '${agencyLists[index]['Office']}',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              '${agencyLists[index]['AgencySt']}',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                        trailing: IconButton(
+                            onPressed: () async {
+                              agencyResponse = await AgencyService.getAgency(
+                                  authToken, agencyLists[index]['ID']);
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AgencyEnquiry(
+                                      agencyResponse: agencyResponse["Agency"],
+                                      authToken: authToken),
+                                ),
+                              );
+                            },
+                            icon: Icon(
+                              Icons.info,
+                              color: Theme.of(context).colorScheme.primary,
+                            )),
+                      ),
                     ),
                   ),
                 ),

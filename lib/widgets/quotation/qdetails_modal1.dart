@@ -1,14 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
+import 'package:quotation_flutter/providers/quotationProvider/quotation_provider.dart';
+import 'package:quotation_flutter/services/quotation/quotation_services.dart';
 
-class QDetailsModal1 extends StatelessWidget {
-  const QDetailsModal1({
-    super.key,
-    required this.qDetails,
-  });
-  final List<Map<String, dynamic>> qDetails;
+class QDetailsModal1 extends ConsumerWidget {
+  const QDetailsModal1({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final Map<String, dynamic> qDetailModal1 =
+        ref.watch(quotationProvider.notifier).modal1;
+
+    List<dynamic> qlists = ref.watch(quotationProvider)["QDetails"];
+    //qlists.add(qDetailModal1);
+    bool isAdd = ref.watch(quotationProvider.notifier).isAdd;
+    bool isRemove = ref.watch(quotationProvider.notifier).isRemove;
+    final Map<String, dynamic> qHeaderQDetails = ref.watch(quotationProvider);
+    final authToken =
+        ref.watch(loginProvider.notifier).prefs?.getString("authToken");
+    final companyId =
+        ref.watch(loginProvider.notifier).prefs?.getInt("companyId");
+    print(isAdd);
+    print(isRemove);
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Form(
@@ -16,7 +31,7 @@ class QDetailsModal1 extends StatelessWidget {
           children: [
             Center(
               child: Text(
-                "QDetails 1/2",
+                "QDetails 1/5",
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                   fontSize: 25,
@@ -31,6 +46,13 @@ class QDetailsModal1 extends StatelessWidget {
               children: [
                 Flexible(
                   child: TextFormField(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    initialValue: qDetailModal1["QCoverage"],
+                    onChanged: (value) {
+                      qDetailModal1.update("QCoverage", (val) => value);
+                    },
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         label: Text(
@@ -46,6 +68,13 @@ class QDetailsModal1 extends StatelessWidget {
                 ),
                 Flexible(
                   child: TextFormField(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    initialValue: qDetailModal1["QRiskCessTerm"],
+                    onChanged: (value) {
+                      qDetailModal1.update("QRiskCessTerm", (val) => value);
+                    },
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         label: Text(
@@ -65,6 +94,13 @@ class QDetailsModal1 extends StatelessWidget {
               children: [
                 Flexible(
                   child: TextFormField(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    initialValue: qDetailModal1["QPremCessTerm"],
+                    onChanged: (value) {
+                      qDetailModal1.update("QPremCessTerm", (val) => value);
+                    },
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         label: Text(
@@ -80,6 +116,13 @@ class QDetailsModal1 extends StatelessWidget {
                 ),
                 Flexible(
                   child: TextFormField(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    initialValue: qDetailModal1["QBeneCessTerm"],
+                    onChanged: (value) {
+                      qDetailModal1.update("QBeneCessTerm", (val) => value);
+                    },
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         label: Text(
@@ -99,6 +142,13 @@ class QDetailsModal1 extends StatelessWidget {
               children: [
                 Flexible(
                   child: TextFormField(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    initialValue: qDetailModal1["QSumAssured"],
+                    onChanged: (value) {
+                      qDetailModal1.update("QSumAssured", (val) => value);
+                    },
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         label: Text(
@@ -114,6 +164,13 @@ class QDetailsModal1 extends StatelessWidget {
                 ),
                 Flexible(
                   child: TextFormField(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    initialValue: qDetailModal1["QEmrRating"],
+                    onChanged: (value) {
+                      qDetailModal1.update("QEmrRating", (val) => value);
+                    },
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         label: Text(
@@ -131,6 +188,13 @@ class QDetailsModal1 extends StatelessWidget {
             ),
             Flexible(
               child: TextFormField(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                initialValue: qDetailModal1["QAgeAdmitted"],
+                onChanged: (value) {
+                  qDetailModal1.update("QAgeAdmitted", (val) => value);
+                },
                 decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     label: Text(
@@ -144,13 +208,71 @@ class QDetailsModal1 extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            Icon(
-              Icons.swipe,
-              color: Theme.of(context).colorScheme.primary,
+            StatefulBuilder(
+              builder: (context, setState) => Row(
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: isAdd == false && isRemove == true
+                          ? Theme.of(context).colorScheme.primary
+                          : Colors.grey,
+                      foregroundColor:
+                          Theme.of(context).colorScheme.onSecondary,
+                    ),
+                    onPressed: isAdd == true
+                        ? null
+                        : () {
+                            qlists.add({
+                              ...qDetailModal1,
+                              "QRiskCessTerm": int.tryParse(
+                                qDetailModal1["QRiskCessTerm"],
+                              ),
+                              "QPremCessTerm": int.tryParse(
+                                qDetailModal1["QPremCessTerm"],
+                              ),
+                              "QBeneCessTerm": int.tryParse(
+                                qDetailModal1["QBeneCessTerm"],
+                              ),
+                              "QEmrRating": int.tryParse(
+                                qDetailModal1["QEmrRating"],
+                              ),
+                            });
+                            print(qlists);
+                          },
+                    child: const Text("Add"),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: isAdd == true && isRemove == false
+                          ? Theme.of(context).colorScheme.error
+                          : Colors.grey,
+                      foregroundColor:
+                          Theme.of(context).colorScheme.onSecondary,
+                    ),
+                    onPressed: isRemove == true
+                        ? null
+                        : () {
+                            qlists.removeLast();
+                            setState(() {
+                              isAdd = false;
+                              isRemove = true;
+                            });
+                            print(isRemove);
+                          },
+                    child: const Text("Remove"),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 10,
             ),
             Center(
               child: Text(
-                "Swipe Left to Add More QDetails",
+                "Swipe Left to Add QDetails",
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                 ),
@@ -165,7 +287,17 @@ class QDetailsModal1 extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                () async {
+                  final quotationStatusCode =
+                      await QuotationServices.createQheaderWithQDetails(
+                          authToken, companyId, qHeaderQDetails);
+
+                  if (quotationStatusCode == 200) {
+                    Navigator.pop(context);
+                  }
+                };
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primary,
                 foregroundColor: Theme.of(context).colorScheme.onSecondary,

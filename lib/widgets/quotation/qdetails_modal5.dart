@@ -4,16 +4,16 @@ import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
 import 'package:quotation_flutter/providers/quotationProvider/quotation_provider.dart';
 import 'package:quotation_flutter/services/quotation/quotation_services.dart';
 
-class QDetailsModal2 extends ConsumerWidget {
-  const QDetailsModal2({super.key});
+class QDetailsModal5 extends ConsumerWidget {
+  const QDetailsModal5({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Map<String, dynamic> qDetailModal2 =
-        ref.watch(quotationProvider.notifier).modal2;
+    final Map<String, dynamic> qDetailModal5 =
+        ref.watch(quotationProvider.notifier).modal5;
 
     List<dynamic> qlists = ref.watch(quotationProvider)["QDetails"];
-    //qlists.add(qDetailModal2);
+    //qlists.add(qDetailModal5);
     bool isAdd = ref.watch(quotationProvider.notifier).isAdd;
     bool isRemove = ref.watch(quotationProvider.notifier).isRemove;
     final Map<String, dynamic> qHeaderQDetails = ref.watch(quotationProvider);
@@ -21,8 +21,6 @@ class QDetailsModal2 extends ConsumerWidget {
         ref.watch(loginProvider.notifier).prefs?.getString("authToken");
     final companyId =
         ref.watch(loginProvider.notifier).prefs?.getInt("companyId");
-    print(isAdd);
-    print(isRemove);
     print(isAdd);
     print(isRemove);
 
@@ -33,7 +31,7 @@ class QDetailsModal2 extends ConsumerWidget {
           children: [
             Center(
               child: Text(
-                "QDetails 2/5",
+                "QDetails 1/2",
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                   fontSize: 25,
@@ -51,9 +49,9 @@ class QDetailsModal2 extends ConsumerWidget {
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    initialValue: qDetailModal2["QCoverage"],
+                    initialValue: qDetailModal5["QCoverage"],
                     onChanged: (value) {
-                      qDetailModal2.update("QCoverage", (val) => value);
+                      qDetailModal5.update("QCoverage", (val) => value);
                     },
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
@@ -73,9 +71,9 @@ class QDetailsModal2 extends ConsumerWidget {
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    initialValue: qDetailModal2["QRiskCessTerm"],
+                    initialValue: qDetailModal5["QRiskCessTerm"],
                     onChanged: (value) {
-                      qDetailModal2.update("QRiskCessTerm", (val) => value);
+                      qDetailModal5.update("QRiskCessTerm", (val) => value);
                     },
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
@@ -99,9 +97,9 @@ class QDetailsModal2 extends ConsumerWidget {
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    initialValue: qDetailModal2["QPremCessTerm"],
+                    initialValue: qDetailModal5["QPremCessTerm"],
                     onChanged: (value) {
-                      qDetailModal2.update("QPremCessTerm", (val) => value);
+                      qDetailModal5.update("QPremCessTerm", (val) => value);
                     },
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
@@ -121,9 +119,9 @@ class QDetailsModal2 extends ConsumerWidget {
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    initialValue: qDetailModal2["QBeneCessTerm"],
+                    initialValue: qDetailModal5["QBeneCessTerm"],
                     onChanged: (value) {
-                      qDetailModal2.update("QBeneCessTerm", (val) => value);
+                      qDetailModal5.update("QBeneCessTerm", (val) => value);
                     },
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
@@ -147,9 +145,9 @@ class QDetailsModal2 extends ConsumerWidget {
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    initialValue: qDetailModal2["QSumAssured"],
+                    initialValue: qDetailModal5["QSumAssured"],
                     onChanged: (value) {
-                      qDetailModal2.update("QSumAssured", (val) => value);
+                      qDetailModal5.update("QSumAssured", (val) => value);
                     },
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
@@ -169,9 +167,9 @@ class QDetailsModal2 extends ConsumerWidget {
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    initialValue: qDetailModal2["QEmrRating"],
+                    initialValue: qDetailModal5["QEmrRating"],
                     onChanged: (value) {
-                      qDetailModal2.update("QEmrRating", (val) => value);
+                      qDetailModal5.update("QEmrRating", (val) => value);
                     },
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
@@ -193,9 +191,9 @@ class QDetailsModal2 extends ConsumerWidget {
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                initialValue: qDetailModal2["QAgeAdmitted"],
+                initialValue: qDetailModal5["QAgeAdmitted"],
                 onChanged: (value) {
-                  qDetailModal2.update("QAgeAdmitted", (val) => value);
+                  qDetailModal5.update("QAgeAdmitted", (val) => value);
                 },
                 decoration: InputDecoration(
                     border: const OutlineInputBorder(),
@@ -225,18 +223,18 @@ class QDetailsModal2 extends ConsumerWidget {
                         ? null
                         : () {
                             qlists.add({
-                              ...qDetailModal2,
+                              ...qDetailModal5,
                               "QRiskCessTerm": int.tryParse(
-                                qDetailModal2["QRiskCessTerm"],
+                                qDetailModal5["QRiskCessTerm"],
                               ),
                               "QPremCessTerm": int.tryParse(
-                                qDetailModal2["QPremCessTerm"],
+                                qDetailModal5["QPremCessTerm"],
                               ),
                               "QBeneCessTerm": int.tryParse(
-                                qDetailModal2["QBeneCessTerm"],
+                                qDetailModal5["QBeneCessTerm"],
                               ),
                               "QEmrRating": int.tryParse(
-                                qDetailModal2["QEmrRating"],
+                                qDetailModal5["QEmrRating"],
                               ),
                             });
                             print(isAdd);
@@ -289,15 +287,13 @@ class QDetailsModal2 extends ConsumerWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: () {
-                () async {
-                  final quotationStatusCode =
-                      await QuotationServices.createQheaderWithQDetails(
-                          authToken, companyId, qHeaderQDetails);
-                  if (quotationStatusCode == 200) {
-                    Navigator.pop(context);
-                  }
-                };
+              onPressed: () async {
+                final quotationStatusCode =
+                    await QuotationServices.createQheaderWithQDetails(
+                        authToken, companyId, qHeaderQDetails);
+                if (quotationStatusCode == 200) {
+                  Navigator.pop(context);
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primary,

@@ -40,4 +40,35 @@ class QuotationServices {
       throw Exception('An error occurred: $err');
     }
   }
+
+  static dynamic createQheaderWithQDetails(
+    token,
+    companyId,
+    quotationData,
+  ) async {
+    try {
+      final response = await dio.post(
+        '${AppUtils.appUrl}/api/v1/quotationservices/qheaderandbenefitcreate',
+        data: {
+          "CompanyID": companyId,
+          ...quotationData,
+          "ClientID": int.tryParse(
+            quotationData["ClientID"],
+          ),
+          "QAnnualIncome": int.tryParse(
+            quotationData["QAnnualIncome"],
+          ),
+          "AgencyID": int.tryParse(
+            quotationData["AgencyID"],
+          ),
+        },
+        options: Options(headers: {"Cookie": "Authorization=$token"}),
+      );
+      print(response);
+      return response;
+    } catch (err) {
+      print(err);
+      throw Exception(err);
+    }
+  }
 }
