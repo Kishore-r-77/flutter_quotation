@@ -21,12 +21,17 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
   TextEditingController searchString = TextEditingController();
   String searchCriteria = "id";
   TextEditingController pageNo = TextEditingController();
-  TextEditingController pageSize = TextEditingController();
+  int pageSize = 0;
   @override
   void initState() {
     super.initState();
-    getAllQuotation(widget.loginResponse['authToken'], searchString.text,
-        searchCriteria, pageNo.text, pageSize.text);
+    getAllQuotation(
+      widget.loginResponse['authToken'],
+      searchString.text,
+      searchCriteria,
+      pageNo.text,
+      pageSize,
+    );
   }
 
   Future<void> getAllQuotation(
@@ -138,7 +143,7 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
                                         searchString.text,
                                         searchCriteria,
                                         pageNo.text,
-                                        pageSize.text);
+                                        pageSize);
                                 setState(() {
                                   quotationLists = response['All QHeaders'];
                                 });
