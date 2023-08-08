@@ -81,7 +81,7 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         label: Text(
-                          "QuoteDate",
+                          "Quote Date",
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                           ),
@@ -169,7 +169,7 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         label: Text(
-                          "QNri",
+                          "Nri",
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                           ),
@@ -195,7 +195,7 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         label: Text(
-                          "QOccGroup",
+                          "Occ Group",
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                           ),
@@ -217,7 +217,7 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         label: Text(
-                          "QOccSect",
+                          "Occ Sect",
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                           ),
@@ -243,7 +243,7 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         label: Text(
-                          "QOccupation",
+                          "Occupation",
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                           ),
@@ -265,7 +265,7 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         label: Text(
-                          "QAnnualIncome",
+                          "Annual Income",
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                           ),
@@ -289,7 +289,7 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                 decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     label: Text(
-                      "QDeclaration",
+                      "Declaration",
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
                       ),

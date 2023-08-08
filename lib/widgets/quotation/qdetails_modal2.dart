@@ -58,7 +58,7 @@ class QDetailsModal2 extends ConsumerWidget {
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         label: Text(
-                          "QCoverage",
+                          "Coverage",
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                           ),
@@ -80,7 +80,7 @@ class QDetailsModal2 extends ConsumerWidget {
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         label: Text(
-                          "QRiskCessTerm",
+                          "RiskCessTerm",
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                           ),
@@ -106,7 +106,7 @@ class QDetailsModal2 extends ConsumerWidget {
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         label: Text(
-                          "QPremCessTerm",
+                          "PremCessTerm",
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                           ),
@@ -128,7 +128,7 @@ class QDetailsModal2 extends ConsumerWidget {
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         label: Text(
-                          "QBeneCessTerm",
+                          "BeneCessTerm",
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                           ),
@@ -154,7 +154,7 @@ class QDetailsModal2 extends ConsumerWidget {
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         label: Text(
-                          "QSumAssured",
+                          "SumAssured",
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                           ),
@@ -176,7 +176,7 @@ class QDetailsModal2 extends ConsumerWidget {
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         label: Text(
-                          "QEmrRating",
+                          "EmrRating",
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                           ),
@@ -200,7 +200,7 @@ class QDetailsModal2 extends ConsumerWidget {
                 decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     label: Text(
-                      "QAgeAdmitted",
+                      "AgeAdmitted",
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
                       ),
