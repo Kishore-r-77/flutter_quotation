@@ -50,7 +50,7 @@ class QuotationServices {
       final response = await dio.post(
         '${AppUtils.appUrl}/api/v1/quotationservices/qheaderandbenefitcreate',
         data: {
-          "CompanyID": int.tryParse(companyId),
+          "CompanyID": companyId,
           // "QuoteDate": quotationData["QuoteDate"],
           "QuoteDate": "20230101",
           "QProduct": quotationData["QProduct"],
@@ -71,25 +71,7 @@ class QuotationServices {
           "AgencyID": int.tryParse(
             quotationData["AgencyID"],
           ),
-          "QDetails": quotationData["QDetails"].map((qdetails) => ({
-                "QCoverage": qdetails["QCoverage"],
-                "QAgeAdmitted": qdetails["QAgeAdmitted"],
-                "QRiskCessTerm": int.tryParse(
-                  qdetails["QRiskCessTerm"],
-                ),
-                "QPremCessTerm": int.tryParse(
-                  qdetails["QPremCessTerm"],
-                ),
-                "QBeneCessTerm": int.tryParse(
-                  qdetails["QBeneCessTerm"],
-                ),
-                "QEmrRating": int.tryParse(
-                  qdetails["QEmrRating"],
-                ),
-                "QSumAssured": int.tryParse(
-                  qdetails["QSumAssured"],
-                ),
-              }))
+          "QDetails": quotationData["QDetails"]
           //"QDetails": quotationData["QDetails"]
         },
         options: Options(headers: {"Cookie": "Authorization=$token"}),

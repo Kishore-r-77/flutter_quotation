@@ -222,7 +222,25 @@ class QDetailsModal1 extends ConsumerWidget {
                     onPressed: isAdd == true
                         ? null
                         : () {
-                            qDetails.add(qDetailModal1);
+                            qDetails.add({
+                              "QCoverage": qDetailModal1["QCoverage"],
+                              "QAgeAdmitted": qDetailModal1["QAgeAdmitted"],
+                              "QRiskCessTerm": int.tryParse(
+                                qDetailModal1["QRiskCessTerm"],
+                              ),
+                              "QPremCessTerm": int.tryParse(
+                                qDetailModal1["QPremCessTerm"],
+                              ),
+                              "QBeneCessTerm": int.tryParse(
+                                qDetailModal1["QBeneCessTerm"],
+                              ),
+                              "QEmrRating": int.tryParse(
+                                qDetailModal1["QEmrRating"],
+                              ),
+                              "QSumAssured": int.tryParse(
+                                qDetailModal1["QSumAssured"],
+                              ),
+                            });
                             print(qDetails);
                           },
                     child: const Text("Add"),
@@ -277,12 +295,13 @@ class QDetailsModal1 extends ConsumerWidget {
                 final quotationStatusCode =
                     await QuotationServices.createQheaderWithQDetails(
                   authToken,
-                  companyId,
+                  ref.watch(loginProvider.notifier).prefs?.getInt('companyId'),
                   qHeaderQDetails,
                 );
                 print("Clicked");
                 print(qHeaderQDetails);
-                if (quotationStatusCode == 200) {
+                print(quotationStatusCode);
+                if (quotationStatusCode.statusCode == 200) {
                   Navigator.pop(context);
                 }
               },

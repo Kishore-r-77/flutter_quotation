@@ -222,7 +222,25 @@ class QDetailsModal4 extends ConsumerWidget {
                     onPressed: isAdd == true
                         ? null
                         : () {
-                            qDetails.add(qDetailModal4);
+                            qDetails.add({
+                              "QCoverage": qDetailModal4["QCoverage"],
+                              "QAgeAdmitted": qDetailModal4["QAgeAdmitted"],
+                              "QRiskCessTerm": int.tryParse(
+                                qDetailModal4["QRiskCessTerm"],
+                              ),
+                              "QPremCessTerm": int.tryParse(
+                                qDetailModal4["QPremCessTerm"],
+                              ),
+                              "QBeneCessTerm": int.tryParse(
+                                qDetailModal4["QBeneCessTerm"],
+                              ),
+                              "QEmrRating": int.tryParse(
+                                qDetailModal4["QEmrRating"],
+                              ),
+                              "QSumAssured": int.tryParse(
+                                qDetailModal4["QSumAssured"],
+                              ),
+                            });
                           },
                     child: const Text("Add"),
                   ),
