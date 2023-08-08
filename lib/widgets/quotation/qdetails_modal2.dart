@@ -215,7 +215,7 @@ class QDetailsModal2 extends ConsumerWidget {
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: isAdd == false && isRemove == true
+                      backgroundColor: isAdd == false
                           ? Theme.of(context).colorScheme.primary
                           : Colors.grey,
                       foregroundColor:
@@ -243,6 +243,10 @@ class QDetailsModal2 extends ConsumerWidget {
                                 qDetailModal2["QSumAssured"],
                               ),
                             });
+                            setState(() {
+                              isAdd = true;
+                              isRemove = false;
+                            });
                           },
                     child: const Text("Add"),
                   ),
@@ -251,7 +255,7 @@ class QDetailsModal2 extends ConsumerWidget {
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: isAdd == true && isRemove == false
+                      backgroundColor: isRemove == false
                           ? Theme.of(context).colorScheme.error
                           : Colors.grey,
                       foregroundColor:
@@ -265,7 +269,6 @@ class QDetailsModal2 extends ConsumerWidget {
                               isAdd = false;
                               isRemove = true;
                             });
-                            print(isRemove);
                           },
                     child: const Text("Remove"),
                   ),
