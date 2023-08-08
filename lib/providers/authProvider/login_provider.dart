@@ -13,11 +13,12 @@ class LoginNotifierProvider extends StateNotifier<dynamic> {
     try {
       final response = await dio.post("${AppUtils.appUrl}/api/v1/auth/login",
           data: {"phone": phone, "password": password, "channel": "app"});
+
       if (response.statusCode == 200) {
         prefs = await SharedPreferences.getInstance();
         prefs?.setString('authToken', response.data['message']['authToken']);
         prefs?.setInt('companyId', response.data['message']['companyId']);
-        state = response.data['message']['authToken'];
+        state = response.data['message'];
         return response.data;
       } else {
         throw Exception("Something went wrong");

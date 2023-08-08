@@ -4,16 +4,16 @@ import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
 import 'package:quotation_flutter/providers/quotationProvider/quotation_provider.dart';
 import 'package:quotation_flutter/services/quotation/quotation_services.dart';
 
-class QDetailsModal1 extends ConsumerWidget {
-  const QDetailsModal1({super.key});
+class QDetailsModal4 extends ConsumerWidget {
+  const QDetailsModal4({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Map<String, dynamic> qDetailModal1 =
-        ref.watch(quotationProvider.notifier).modal1;
+    final Map<String, dynamic> qDetailModal4 =
+        ref.watch(quotationProvider.notifier).modal4;
 
     List<dynamic> qDetails = ref.watch(quotationProvider)["QDetails"];
-    //qDetails.add(qDetailModal1);
+    //qDetails.add(qDetailModal4);
     bool isAdd = ref.watch(quotationProvider.notifier).isAdd;
     bool isRemove = ref.watch(quotationProvider.notifier).isRemove;
     final Map<String, dynamic> qHeaderQDetails = ref.watch(quotationProvider);
@@ -21,6 +21,8 @@ class QDetailsModal1 extends ConsumerWidget {
         ref.watch(loginProvider.notifier).prefs?.getString("authToken");
     final companyId =
         ref.watch(loginProvider.notifier).prefs?.getInt("companyId");
+    print(isAdd);
+    print(isRemove);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -29,7 +31,7 @@ class QDetailsModal1 extends ConsumerWidget {
           children: [
             Center(
               child: Text(
-                "QDetails 1/5",
+                "QDetails 4/5",
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                   fontSize: 25,
@@ -47,9 +49,9 @@ class QDetailsModal1 extends ConsumerWidget {
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    initialValue: qDetailModal1["QCoverage"],
+                    initialValue: qDetailModal4["QCoverage"],
                     onChanged: (value) {
-                      qDetailModal1.update("QCoverage", (val) => value);
+                      qDetailModal4.update("QCoverage", (val) => value);
                     },
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
@@ -69,9 +71,9 @@ class QDetailsModal1 extends ConsumerWidget {
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    initialValue: qDetailModal1["QRiskCessTerm"],
+                    initialValue: qDetailModal4["QRiskCessTerm"],
                     onChanged: (value) {
-                      qDetailModal1.update("QRiskCessTerm", (val) => value);
+                      qDetailModal4.update("QRiskCessTerm", (val) => value);
                     },
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
@@ -95,9 +97,9 @@ class QDetailsModal1 extends ConsumerWidget {
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    initialValue: qDetailModal1["QPremCessTerm"],
+                    initialValue: qDetailModal4["QPremCessTerm"],
                     onChanged: (value) {
-                      qDetailModal1.update("QPremCessTerm", (val) => value);
+                      qDetailModal4.update("QPremCessTerm", (val) => value);
                     },
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
@@ -117,9 +119,9 @@ class QDetailsModal1 extends ConsumerWidget {
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    initialValue: qDetailModal1["QBeneCessTerm"],
+                    initialValue: qDetailModal4["QBeneCessTerm"],
                     onChanged: (value) {
-                      qDetailModal1.update("QBeneCessTerm", (val) => value);
+                      qDetailModal4.update("QBeneCessTerm", (val) => value);
                     },
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
@@ -143,9 +145,9 @@ class QDetailsModal1 extends ConsumerWidget {
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    initialValue: qDetailModal1["QSumAssured"],
+                    initialValue: qDetailModal4["QSumAssured"],
                     onChanged: (value) {
-                      qDetailModal1.update("QSumAssured", (val) => value);
+                      qDetailModal4.update("QSumAssured", (val) => value);
                     },
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
@@ -165,9 +167,9 @@ class QDetailsModal1 extends ConsumerWidget {
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    initialValue: qDetailModal1["QEmrRating"],
+                    initialValue: qDetailModal4["QEmrRating"],
                     onChanged: (value) {
-                      qDetailModal1.update("QEmrRating", (val) => value);
+                      qDetailModal4.update("QEmrRating", (val) => value);
                     },
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
@@ -189,9 +191,9 @@ class QDetailsModal1 extends ConsumerWidget {
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                initialValue: qDetailModal1["QAgeAdmitted"],
+                initialValue: qDetailModal4["QAgeAdmitted"],
                 onChanged: (value) {
-                  qDetailModal1.update("QAgeAdmitted", (val) => value);
+                  qDetailModal4.update("QAgeAdmitted", (val) => value);
                 },
                 decoration: InputDecoration(
                     border: const OutlineInputBorder(),
@@ -221,25 +223,24 @@ class QDetailsModal1 extends ConsumerWidget {
                         ? null
                         : () {
                             qDetails.add({
-                              "QCoverage": qDetailModal1["QCoverage"],
-                              "QAgeAdmitted": qDetailModal1["QAgeAdmitted"],
+                              "QCoverage": qDetailModal4["QCoverage"],
+                              "QAgeAdmitted": qDetailModal4["QAgeAdmitted"],
                               "QRiskCessTerm": int.tryParse(
-                                qDetailModal1["QRiskCessTerm"],
+                                qDetailModal4["QRiskCessTerm"],
                               ),
                               "QPremCessTerm": int.tryParse(
-                                qDetailModal1["QPremCessTerm"],
+                                qDetailModal4["QPremCessTerm"],
                               ),
                               "QBeneCessTerm": int.tryParse(
-                                qDetailModal1["QBeneCessTerm"],
+                                qDetailModal4["QBeneCessTerm"],
                               ),
                               "QEmrRating": int.tryParse(
-                                qDetailModal1["QEmrRating"],
+                                qDetailModal4["QEmrRating"],
                               ),
                               "QSumAssured": int.tryParse(
-                                qDetailModal1["QSumAssured"],
+                                qDetailModal4["QSumAssured"],
                               ),
                             });
-                            print(qDetails);
                           },
                     child: const Text("Add"),
                   ),
@@ -298,16 +299,15 @@ class QDetailsModal1 extends ConsumerWidget {
                 );
                 print("Clicked");
                 print(qHeaderQDetails);
-                print(quotationStatusCode);
                 if (quotationStatusCode.statusCode == 200) {
                   Navigator.pop(context);
-                  qDetailModal1.update("QCoverage", (value) => "");
-                  qDetailModal1.update("QRiskCessTerm", (value) => "");
-                  qDetailModal1.update("QPremCessTerm", (value) => "");
-                  qDetailModal1.update("QBeneCessTerm", (value) => "");
-                  qDetailModal1.update("QSumAssured", (value) => "");
-                  qDetailModal1.update("QEmrRating", (value) => "");
-                  qDetailModal1.update("QAgeAdmitted", (value) => "");
+                  qDetailModal4.update("QCoverage", (value) => "");
+                  qDetailModal4.update("QRiskCessTerm", (value) => "");
+                  qDetailModal4.update("QPremCessTerm", (value) => "");
+                  qDetailModal4.update("QBeneCessTerm", (value) => "");
+                  qDetailModal4.update("QSumAssured", (value) => "");
+                  qDetailModal4.update("QEmrRating", (value) => "");
+                  qDetailModal4.update("QAgeAdmitted", (value) => "");
                 }
               },
               style: ElevatedButton.styleFrom(
