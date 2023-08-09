@@ -4,6 +4,7 @@ import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
 import 'package:quotation_flutter/screens/client/client_enquiry.dart';
 import 'package:quotation_flutter/services/client/client_service.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
+import 'package:quotation_flutter/widgets/client/client_address_modal.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
 
 class ClientScreen extends ConsumerStatefulWidget {
@@ -77,9 +78,16 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
       floatingActionButton: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (ctx) => const ClientAddressModal(),
+              ),
+            );
+          },
           icon: Icon(
-            Icons.arrow_forward,
+            Icons.add,
             color: Theme.of(context).colorScheme.background,
           ),
         ),

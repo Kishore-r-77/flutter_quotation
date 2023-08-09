@@ -40,4 +40,41 @@ class ClientService {
       throw Exception('An error occurred: $err');
     }
   }
+
+// Create Client With Address
+
+  static dynamic createClientWithAddresses(
+    token,
+    companyId,
+    clientData,
+  ) async {
+    try {
+      final response = await dio.post(
+        '${AppUtils.appUrl}/api/v1/basicservices/clientcreatewithaddress',
+        data: {
+          "CompanyID": companyId,
+          "ClientShortName": clientData["ClientShortName"],
+          //"QuoteDate": "20230101",
+          "ClientLongName": clientData["ClientLongName"],
+          "ClientSurName": clientData["ClientSurName"],
+          "Gender": clientData["Gender"],
+          "Salutation": clientData["Salutation"],
+          "Language": clientData["Language"],
+          "ClientDob": clientData["ClientDob"],
+          "ClientEmail": clientData["ClientEmail"],
+          "ClientMobile": clientData["ClientMobile"],
+          "ClientStatus": clientData["ClientStatus"],
+          "ClientType": clientData["ClientType"],
+          "Addresses": clientData["Addresses"]
+          //"QDetails": quotationData["QDetails"]
+        },
+        options: Options(headers: {"Cookie": "Authorization=$token"}),
+      );
+      print(response);
+      return response;
+    } catch (err) {
+      print(err);
+      throw Exception(err);
+    }
+  }
 }
