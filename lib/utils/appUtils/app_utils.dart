@@ -12,4 +12,9 @@ class AppUtils {
     DateFormat formatter = DateFormat('dd-MM-yyyy');
     return formatter.format(date);
   }
+
+  static formatCurrency() {
+    return NumberFormat.currency(
+        symbol: '₹', decimalDigits: 2, locale: "en_IN");
+  }
 }

@@ -7,6 +7,7 @@ import 'package:quotation_flutter/screens/address/address.dart';
 import 'package:quotation_flutter/screens/agency/agency.dart';
 import 'package:quotation_flutter/screens/client/client.dart';
 import 'package:quotation_flutter/services/quotation/quotation_services.dart';
+import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 
 class QHeaderModal extends ConsumerStatefulWidget {
   const QHeaderModal({
@@ -20,6 +21,8 @@ class QHeaderModal extends ConsumerStatefulWidget {
 class _QHeaderModalState extends ConsumerState<QHeaderModal> {
   @override
   Widget build(BuildContext context) {
+    double annualIncome = 300000;
+
     TextEditingController quoteDate =
         ref.watch(quotationProvider.notifier).quoteDate;
     final TextEditingController addressIdController =
@@ -278,7 +281,6 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                 ),
               ],
             ),
-
             const SizedBox(
               height: 10,
             ),
@@ -330,48 +332,38 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
             const SizedBox(
               height: 10,
             ),
-            Flexible(
-              child: TextFormField(
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                initialValue: qHeaderQDetails["QAnnualIncome"],
-                onChanged: (value) {
-                  qHeaderQDetails.update("QAnnualIncome", (val) => value);
-                },
-                decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    label: Text(
-                      "Annual Income",
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
+            StatefulBuilder(
+              builder: (context, setSliderState) => Row(
+                children: [
+                  Text(
+                    "Annual Income: ${AppUtils.formatCurrency().format(
+                      annualIncome,
+                    )}",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  Flexible(
+                    child: Slider.adaptive(
+                      value: annualIncome,
+                      min: 300000,
+                      max: 1000000,
+                      divisions: 700000, // Adjust divisions to match the range
+                      label: AppUtils.formatCurrency().format(
+                        annualIncome,
+                      ), // Removed the toStringAsFixed(2) method here
+                      onChanged: (newValue) => setSliderState(
+                        () {
+                          annualIncome = newValue;
+                          qHeaderQDetails.update(
+                              "QAnnualIncome", (val) => newValue);
+                        },
                       ),
-                    )),
+                    ),
+                  ),
+                ],
               ),
             ),
-            // Flexible(
-            //   child: TextFormField(
-            //     style: TextStyle(
-            //       color: Theme.of(context).colorScheme.primary,
-            //     ),
-            //     initialValue: qHeaderQDetails["QDeclaration"],
-            //     onChanged: (value) {
-            //       qHeaderQDetails.update("QDeclaration", (val) => value);
-            //     },
-            //     decoration: InputDecoration(
-            //         border: const OutlineInputBorder(),
-            //         label: Text(
-            //           "Declaration",
-            //           style: TextStyle(
-            //             color: Theme.of(context).colorScheme.primary,
-            //           ),
-            //         )),
-            //   ),
-            // ),
-            // const SizedBox(
-            //   height: 10,
-            // ),
-
             const SizedBox(
               height: 10,
             ),
