@@ -12,7 +12,8 @@ class QuotationServices {
         "${AppUtils.appUrl}/api/v1/quotationservices/qheaders",
         queryParameters: {
           "searchString": searchString,
-          "searchCriteria": searchCriteria
+          "searchCriteria": searchCriteria,
+          "pageSize": pageSize
         },
         options: Options(headers: {"Cookie": "Authorization=$token"}),
       );

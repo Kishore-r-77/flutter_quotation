@@ -60,68 +60,6 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    controller: quoteDate,
-                    onTap: () async {
-                      DateTime? pickeddate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime.now());
-                      if (pickeddate != null) {
-                        setState(() {
-                          quoteDate.text =
-                              DateFormat('dd/MM/yyyy').format(pickeddate);
-                          qHeaderQDetails.update(
-                              "QuoteDate",
-                              (val) =>
-                                  DateFormat('yyyyMMdd').format(pickeddate));
-                        });
-                      }
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "Quote Date",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    initialValue: qHeaderQDetails["QProduct"],
-                    onChanged: (value) {
-                      qHeaderQDetails.update("QProduct", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "Product",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
                     controller:
                         clientIdController, // Use the TextEditingController
                     onTap: () async {
@@ -141,9 +79,6 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                         (value) => clientIdController.text,
                       );
                     },
-                    // onChanged: (value) {
-
-                    // },
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(
@@ -157,150 +92,6 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                 const SizedBox(
                   width: 10,
                 ),
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    initialValue: qHeaderQDetails["QNri"],
-                    onChanged: (value) {
-                      qHeaderQDetails.update("QNri", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "Nri",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    initialValue: qHeaderQDetails["QOccGroup"],
-                    onChanged: (value) {
-                      qHeaderQDetails.update("QOccGroup", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "Occ Group",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    initialValue: qHeaderQDetails["QOccSect"],
-                    onChanged: (value) {
-                      qHeaderQDetails.update("QOccSect", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "Occ Sect",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    initialValue: qHeaderQDetails["QOccupation"],
-                    onChanged: (value) {
-                      qHeaderQDetails.update("QOccupation", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "Occupation",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    initialValue: qHeaderQDetails["QAnnualIncome"],
-                    onChanged: (value) {
-                      qHeaderQDetails.update("QAnnualIncome", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "Annual Income",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Flexible(
-              child: TextFormField(
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                initialValue: qHeaderQDetails["QDeclaration"],
-                onChanged: (value) {
-                  qHeaderQDetails.update("QDeclaration", (val) => value);
-                },
-                decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    label: Text(
-                      "Declaration",
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    )),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(
@@ -365,9 +156,6 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                         (value) => addressIdController.text,
                       );
                     },
-                    // onChanged: (value) {
-
-                    // },
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(
@@ -380,6 +168,210 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                 ),
               ],
             ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Flexible(
+                  child: TextFormField(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    initialValue: qHeaderQDetails["QNri"],
+                    onChanged: (value) {
+                      qHeaderQDetails.update("QNri", (val) => value);
+                    },
+                    decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        label: Text(
+                          "Nri",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        )),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Flexible(
+                  child: TextFormField(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    initialValue: qHeaderQDetails["QOccGroup"],
+                    onChanged: (value) {
+                      qHeaderQDetails.update("QOccGroup", (val) => value);
+                    },
+                    decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        label: Text(
+                          "Occ Group",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        )),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Flexible(
+                  child: TextFormField(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    controller: quoteDate,
+                    onTap: () async {
+                      DateTime? pickeddate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime.now());
+                      if (pickeddate != null) {
+                        setState(() {
+                          quoteDate.text =
+                              DateFormat('dd/MM/yyyy').format(pickeddate);
+                          qHeaderQDetails.update(
+                              "QuoteDate",
+                              (val) =>
+                                  DateFormat('yyyyMMdd').format(pickeddate));
+                        });
+                      }
+                    },
+                    decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        label: Text(
+                          "Quote Date",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        )),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Flexible(
+                  child: TextFormField(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    initialValue: qHeaderQDetails["QProduct"],
+                    onChanged: (value) {
+                      qHeaderQDetails.update("QProduct", (val) => value);
+                    },
+                    decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        label: Text(
+                          "Product",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        )),
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Flexible(
+                  child: TextFormField(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    initialValue: qHeaderQDetails["QOccupation"],
+                    onChanged: (value) {
+                      qHeaderQDetails.update("QOccupation", (val) => value);
+                    },
+                    decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        label: Text(
+                          "Occupation",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        )),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Flexible(
+                  child: TextFormField(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    initialValue: qHeaderQDetails["QOccSect"],
+                    onChanged: (value) {
+                      qHeaderQDetails.update("QOccSect", (val) => value);
+                    },
+                    decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        label: Text(
+                          "Occ Sect",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        )),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Flexible(
+              child: TextFormField(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                initialValue: qHeaderQDetails["QAnnualIncome"],
+                onChanged: (value) {
+                  qHeaderQDetails.update("QAnnualIncome", (val) => value);
+                },
+                decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    label: Text(
+                      "Annual Income",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    )),
+              ),
+            ),
+            // Flexible(
+            //   child: TextFormField(
+            //     style: TextStyle(
+            //       color: Theme.of(context).colorScheme.primary,
+            //     ),
+            //     initialValue: qHeaderQDetails["QDeclaration"],
+            //     onChanged: (value) {
+            //       qHeaderQDetails.update("QDeclaration", (val) => value);
+            //     },
+            //     decoration: InputDecoration(
+            //         border: const OutlineInputBorder(),
+            //         label: Text(
+            //           "Declaration",
+            //           style: TextStyle(
+            //             color: Theme.of(context).colorScheme.primary,
+            //           ),
+            //         )),
+            //   ),
+            // ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
+
             const SizedBox(
               height: 10,
             ),
