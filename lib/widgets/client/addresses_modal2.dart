@@ -38,7 +38,7 @@ class _AddressesModal2State extends ConsumerState<AddressesModal2> {
           children: [
             Center(
               child: Text(
-                "Addresses 1/5",
+                "Addresses 2/5",
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                   fontSize: 25,

@@ -13,8 +13,12 @@ class ClientAddModal extends ConsumerStatefulWidget {
 }
 
 class _ClientAddModalState extends ConsumerState<ClientAddModal> {
+  String selectedValue = 'I';
+
   @override
   Widget build(BuildContext context) {
+    // print(selectedValue);
+
     TextEditingController clientDob =
         ref.watch(clientProvider.notifier).clientDob;
     final Map<String, dynamic> clientAddressDetails = ref.watch(clientProvider);
@@ -23,6 +27,16 @@ class _ClientAddModalState extends ConsumerState<ClientAddModal> {
     final companyId =
         ref.watch(loginProvider.notifier).prefs?.getInt("companyId");
 
+    void handleRadioValueChanged(String? value) {
+      setState(() {
+        selectedValue = value!;
+        clientAddressDetails.update("ClientType", (val) => selectedValue);
+      });
+    }
+
+    // print("client type");
+    // clientAddressDetails.update("ClientType", (val) => selectedValue);
+    // print(clientAddressDetails["ClientType"]);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Form(
@@ -40,6 +54,26 @@ class _ClientAddModalState extends ConsumerState<ClientAddModal> {
             ),
             const SizedBox(
               height: 10,
+            ),
+            Row(
+              children: [
+                Flexible(
+                  child: RadioListTile<String>(
+                    title: const Text('Individual'),
+                    value: 'I',
+                    groupValue: selectedValue,
+                    onChanged: handleRadioValueChanged,
+                  ),
+                ),
+                Flexible(
+                  child: RadioListTile<String>(
+                    title: const Text('Corporate'),
+                    value: 'C',
+                    groupValue: selectedValue,
+                    onChanged: handleRadioValueChanged,
+                  ),
+                ),
+              ],
             ),
             Row(
               children: [
@@ -240,28 +274,28 @@ class _ClientAddModalState extends ConsumerState<ClientAddModal> {
             ),
             Row(
               children: [
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    initialValue: clientAddressDetails["ClientType"],
-                    onChanged: (value) {
-                      clientAddressDetails.update("ClientType", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "Client Type",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
+                // Flexible(
+                //   child: TextFormField(
+                //     style: TextStyle(
+                //       color: Theme.of(context).colorScheme.primary,
+                //     ),
+                //     initialValue: clientAddressDetails["ClientType"],
+                //     onChanged: (value) {
+                //       clientAddressDetails.update("ClientType", (val) => value);
+                //     },
+                //     decoration: InputDecoration(
+                //         border: const OutlineInputBorder(),
+                //         label: Text(
+                //           "Client Type",
+                //           style: TextStyle(
+                //             color: Theme.of(context).colorScheme.primary,
+                //           ),
+                //         )),
+                //   ),
+                // ),
+                // const SizedBox(
+                //   width: 10,
+                // ),
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(
@@ -282,13 +316,10 @@ class _ClientAddModalState extends ConsumerState<ClientAddModal> {
                         )),
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
+                const SizedBox(
+                  width: 10,
+                ),
+
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(
