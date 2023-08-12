@@ -38,6 +38,8 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
         ref.watch(loginProvider.notifier).prefs?.getString("authToken");
     final companyId =
         ref.watch(loginProvider.notifier).prefs?.getInt("companyId");
+
+    print(qHeaderQDetails["QAnnualIncome"]);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Form(
@@ -356,7 +358,9 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                         () {
                           annualIncome = newValue;
                           qHeaderQDetails.update(
-                              "QAnnualIncome", (val) => newValue);
+                            "QAnnualIncome",
+                            (val) => newValue.toString(),
+                          );
                         },
                       ),
                     ),
