@@ -42,7 +42,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               radius: 40,
               backgroundColor: Theme.of(context).colorScheme.tertiary,
               child: Icon(
-                Icons.person,
+                Icons.assignment,
                 color: Theme.of(context).colorScheme.onSecondary,
                 size: 40,
               ),

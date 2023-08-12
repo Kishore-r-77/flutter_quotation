@@ -5,9 +5,10 @@ class ThemeContent {
   static final ThemeData lightThemeData = ThemeData(
     useMaterial3: true,
     colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.teal,
+      seedColor: Colors.black,
       brightness: Brightness.light,
-      background: const Color.fromARGB(255, 223, 253, 250),
+      background: Colors.white,
+      // fromARGB(255, 223, 253, 250)
     ),
     textTheme: GoogleFonts.latoTextTheme(),
   );
@@ -15,8 +16,10 @@ class ThemeContent {
   static final ThemeData darkThemeData = ThemeData(
     useMaterial3: true,
     colorScheme: ColorScheme.fromSeed(
-      seedColor: const Color.fromARGB(255, 131, 57, 0),
-      onBackground: const Color.fromARGB(90, 131, 57, 0),
+      seedColor: Colors.white,
+      onBackground: Colors.black,
+      // seedColor: const Color.fromARGB(255, 131, 57, 0),
+      // onBackground: const Color.fromARGB(90, 131, 57, 0),
       brightness: Brightness.dark,
     ),
     textTheme: GoogleFonts.latoTextTheme(),

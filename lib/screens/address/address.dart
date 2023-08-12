@@ -21,9 +21,12 @@ class AddressScreen extends ConsumerStatefulWidget {
   ConsumerState<AddressScreen> createState() => _AddressScreenState();
 }
 
+// enum SingingCharacter { lafayette, jefferson }
+
 class _AddressScreenState extends ConsumerState<AddressScreen> {
   List<dynamic> addressLists = [];
   List<dynamic> fieldMap = [];
+  List<dynamic> addresstypes = [];
 
   Map<String, dynamic> initialvalues = {
     "AddressType": "",
@@ -42,6 +45,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
 
   TextEditingController searchString = TextEditingController();
   String searchCriteria = "address_line1";
+  String dropdownValue = "BU";
   TextEditingController pageNo = TextEditingController();
   int pageSize = 0;
   @override
@@ -49,6 +53,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
     super.initState();
     getAllAddress(widget.loginResponse['authToken'], searchString.text,
         searchCriteria, pageNo.text, pageSize);
+    getAddressTypes();
   }
 
   Future<dynamic> getAllAddress(
@@ -63,6 +68,18 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
     setState(() {
       addressLists = response["All Addresses"];
       fieldMap = response["Field Map"];
+    });
+  }
+
+  Future<dynamic> getAddressTypes() async {
+    final response = await AddressService.getAddressTypes(
+        widget.loginResponse['authToken'],
+        widget.loginResponse['companyId'],
+        widget.loginResponse['languageId'],
+        "P0022");
+    setState(() {
+      addresstypes = response["data"];
+      print(addresstypes);
     });
   }
 
@@ -85,7 +102,11 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
   @override
   Widget build(BuildContext context) {
     final authToken =
-        ref.read(loginProvider.notifier).prefs?.getString("authToken");
+        ref.watch(loginProvider.notifier).prefs?.getString("authToken");
+    final companyId =
+        ref.watch(loginProvider.notifier).prefs?.getInt("companyId");
+    final languageId =
+        ref.watch(loginProvider.notifier).prefs?.getInt("languageId");
 
     dynamic addressResponse;
 
@@ -105,6 +126,19 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
       });
     }
 
+    // SingingCharacter? _character = SingingCharacter.lafayette;
+    String? gender;
+    String selectedValue = 'BU';
+
+    void handleRadioValueChanged(String? value) {
+      setState(() {
+        selectedValue = value!;
+        initialvalues.update("AddressType", (val) => selectedValue);
+      });
+    }
+
+    print(initialvalues["AddressType"]);
+
     final TextEditingController clientIdController = TextEditingController();
     return Scaffold(
       floatingActionButton: CircleAvatar(
@@ -121,6 +155,34 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                   child: ListView(
                     padding: const EdgeInsets.all(8.0),
                     children: [
+                      Row(
+                        children: [
+                          StatefulBuilder(
+                            builder: (context, setRadioState) => Flexible(
+                              child: Row(
+                                children: [
+                                  ...addresstypes.map((address) => Flexible(
+                                        child: RadioListTile<String>(
+                                          // title: const Text('Business'),
+                                          title: Text(address['longdesc']),
+                                          value: address['item'],
+                                          groupValue: selectedValue,
+                                          onChanged: (value) {
+                                            setRadioState(() {
+                                              selectedValue = value!;
+                                              initialvalues.update(
+                                                  "AddressType",
+                                                  (val) => selectedValue);
+                                            });
+                                          },
+                                        ),
+                                      ))
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                       Row(
                         children: [
                           Flexible(
@@ -231,23 +293,43 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                           const SizedBox(
                             width: 10,
                           ),
-                          Flexible(
-                            child: TextFormField(
-                              initialValue: initialvalues["AddressType"],
-                              onChanged: (value) {
-                                initialvalues.update(
-                                    "AddressType", (val) => value);
-                              },
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                label: Text("Address Type"),
-                              ),
-                            ),
-                          ),
+                          // StatefulBuilder(
+                          //   builder: (context, setDropdownState) => Flexible(
+                          //     child: DropdownButton<String>(
+                          //       value: dropdownValue,
+                          //       icon: const Icon(Icons.arrow_downward),
+                          //       elevation: 16,
+                          //       style:
+                          //           const TextStyle(color: Colors.deepPurple),
+                          //       underline: Container(
+                          //         height: 2,
+                          //         color: Colors.deepPurpleAccent,
+                          //       ),
+                          //       onChanged: (selectedvalue) {
+                          //         setDropdownState(() {
+                          //           dropdownValue = selectedvalue!;
+                          //           initialvalues.update(
+                          //               "AddressType", (val) => dropdownValue);
+                          //         });
+                          //       },
+                          //       items: addresstypes
+                          //           .map(
+                          //             (values) => DropdownMenuItem(
+                          //               value: "${values['item']}",
+                          //               child: Text(
+                          //                 "${values['longdesc']}",
+                          //                 style: TextStyle(
+                          //                   color: Theme.of(context)
+                          //                       .colorScheme
+                          //                       .primary,
+                          //                 ),
+                          //               ),
+                          //             ),
+                          //           )
+                          //           .toList(),
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                       const SizedBox(
