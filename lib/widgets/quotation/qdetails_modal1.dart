@@ -298,9 +298,6 @@ class QDetailsModal1 extends ConsumerWidget {
                   companyId,
                   qHeaderQDetails,
                 );
-                print("Clicked");
-                print(qHeaderQDetails);
-                print(quotationStatusCode);
                 if (quotationStatusCode.statusCode == 200) {
                   Navigator.pop(context);
                   qDetailModal1.update("QCoverage", (value) => "");

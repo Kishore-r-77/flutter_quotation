@@ -39,7 +39,6 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
     final companyId =
         ref.watch(loginProvider.notifier).prefs?.getInt("companyId");
 
-    print(qHeaderQDetails["QAnnualIncome"]);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Form(
@@ -359,7 +358,7 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                           annualIncome = newValue;
                           qHeaderQDetails.update(
                             "QAnnualIncome",
-                            (val) => newValue.toString(),
+                            (val) => newValue.toInt().toString(),
                           );
                         },
                       ),
@@ -396,7 +395,8 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                 final quotationStatusCode =
                     await QuotationServices.createQheaderWithQDetails(
                         authToken, companyId, qHeaderQDetails);
-                if (quotationStatusCode == 200) {
+
+                if (quotationStatusCode.statusCode == 200) {
                   Navigator.pop(context);
                 }
               },
