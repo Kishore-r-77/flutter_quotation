@@ -259,6 +259,88 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
                         ),
                       ],
                     ),
+                    endActionPane: ActionPane(
+                      motion: const BehindMotion(),
+                      children: [
+                        SlidableAction(
+                          icon: Icons.delete,
+                          label: "Delete",
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                          onPressed: (context) {
+                            showDialog(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                content: const Text(
+                                    "Are you sure you want to delete this Record"),
+                                actions: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(ctx);
+                                    },
+                                    child: const Text("No"),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      deleteQuotation(
+                                          quotationLists[index]['ID']);
+                                      Navigator.pop(ctx);
+
+                                      ScaffoldMessenger.of(ctx)
+                                          .clearSnackBars();
+                                      ScaffoldMessenger.of(ctx).showSnackBar(
+                                        const SnackBar(
+                                          content: Text("Quotation Deleted"),
+                                          duration: Duration(seconds: 2),
+                                          // action: SnackBarAction(
+                                          //   label: "Undo",
+                                          //   onPressed: () {
+                                          //     // setState(() {
+                                          //     //   _registeredExpenses.insert(expenseIndex, expense);
+                                          //     // });
+                                          //   },
+                                          //),
+                                        ),
+                                      );
+                                    },
+                                    child: const Text("Delete"),
+                                  ),
+                                ],
+                              ),
+                              barrierDismissible: true,
+                            );
+                          },
+                        ),
+                        SlidableAction(
+                          icon: Icons.edit,
+                          label: "Edit",
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
+                          onPressed: (context) {},
+                        ),
+                        SlidableAction(
+                          icon: Icons.info,
+                          label: "Info",
+                          backgroundColor:
+                              Theme.of(context).colorScheme.inversePrimary,
+                          onPressed: (context) async {
+                            quotationResponse =
+                                await QuotationServices.getQuotation(
+                                    authToken, quotationLists[index]['ID']);
+
+                            // ignore: use_build_context_synchronously
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => QuotationEnquiry(
+                                    quotationResponse:
+                                        quotationResponse["QHeader"],
+                                    authToken: authToken),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                     child: Card(
                       color: Theme.of(context).colorScheme.surface,
                       shape: const RoundedRectangleBorder(
