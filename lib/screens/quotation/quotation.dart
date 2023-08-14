@@ -273,47 +273,50 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
                       // shadowColor: Theme.of(context).colorScheme.primary,
                       elevation: 12,
                       child: ListTile(
-                        title: Row(
-                          children: [
-                            Text(
-                              '${quotationLists[index]['ID']}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
+                          title: Row(
+                            children: [
+                              Text(
+                                '${quotationLists[index]['ID']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              '${quotationLists[index]['QProduct']}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
+                              const SizedBox(
+                                width: 10,
                               ),
-                            ),
-                          ],
-                        ),
-                        subtitle: Row(
-                          children: [
-                            Text(
-                              '${quotationLists[index]['QFirstName']}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
+                              Text(
+                                '${quotationLists[index]['QProduct']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              '${quotationLists[index]['QOccupation']}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
+                            ],
+                          ),
+                          subtitle: Row(
+                            children: [
+                              Text(
+                                '${quotationLists[index]['QFirstName']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                '${quotationLists[index]['QOccupation']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ],
+                          ),
+                          trailing: Icon(
+                            Icons.swipe,
+                            color: Theme.of(context).colorScheme.primary,
+                          )),
                     ),
                   ),
                 ),
