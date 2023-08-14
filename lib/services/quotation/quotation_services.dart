@@ -85,4 +85,15 @@ class QuotationServices {
       throw Exception(err);
     }
   }
+
+  static void softDeleteQuotation(token, id) async {
+    try {
+      await dio.delete(
+        "${AppUtils.appUrl}/api/v1/quotationservices/qheaderdelete/$id",
+        options: Options(headers: {"Cookie": "Authorization=$token"}),
+      );
+    } catch (err) {
+      throw Exception(err);
+    }
+  }
 }
