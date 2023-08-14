@@ -21,7 +21,7 @@ class QHeaderModal extends ConsumerStatefulWidget {
 class _QHeaderModalState extends ConsumerState<QHeaderModal> {
   @override
   Widget build(BuildContext context) {
-    double annualIncome = 300000;
+    double annualIncome = 100000;
 
     TextEditingController quoteDate =
         ref.watch(quotationProvider.notifier).quoteDate;
@@ -347,7 +347,7 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                   Flexible(
                     child: Slider.adaptive(
                       value: annualIncome,
-                      min: 300000,
+                      min: 100000,
                       max: 1000000,
                       divisions: 700000, // Adjust divisions to match the range
                       label: AppUtils.formatCurrency().format(

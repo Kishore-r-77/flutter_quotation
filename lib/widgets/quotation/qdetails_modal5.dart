@@ -3,12 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
 import 'package:quotation_flutter/providers/quotationProvider/quotation_provider.dart';
 import 'package:quotation_flutter/services/quotation/quotation_services.dart';
+import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 
 class QDetailsModal5 extends ConsumerWidget {
   const QDetailsModal5({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    double sumAssured = 100000;
+
     final Map<String, dynamic> qDetailModal5 =
         ref.watch(quotationProvider.notifier).modal5;
 
@@ -138,30 +141,45 @@ class QDetailsModal5 extends ConsumerWidget {
             const SizedBox(
               height: 10,
             ),
-            Row(
-              children: [
-                Flexible(
-                  child: TextFormField(
+            StatefulBuilder(
+              builder: (context, setSliderState) => Row(
+                children: [
+                  Text(
+                    "Sum Assured: ${AppUtils.formatCurrency().format(
+                      sumAssured,
+                    )}",
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    initialValue: qDetailModal5["QSumAssured"],
-                    onChanged: (value) {
-                      qDetailModal5.update("QSumAssured", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "SumAssured",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
                   ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
+                  Flexible(
+                    child: Slider.adaptive(
+                      value: sumAssured,
+                      min: 100000,
+                      max: 1000000,
+                      divisions: 700000, // Adjust divisions to match the range
+                      label: AppUtils.formatCurrency().format(
+                        sumAssured,
+                      ), // Removed the toStringAsFixed(2) method here
+                      onChanged: (newValue) => setSliderState(
+                        () {
+                          sumAssured = newValue;
+                          qDetailModal5.update(
+                            "QSumAssured",
+                            (val) => newValue.toInt().toString(),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(
@@ -181,29 +199,29 @@ class QDetailsModal5 extends ConsumerWidget {
                         )),
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Flexible(
-              child: TextFormField(
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
+                const SizedBox(
+                  width: 10,
                 ),
-                initialValue: qDetailModal5["QAgeAdmitted"],
-                onChanged: (value) {
-                  qDetailModal5.update("QAgeAdmitted", (val) => value);
-                },
-                decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    label: Text(
-                      "AgeAdmitted",
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    )),
-              ),
+                Flexible(
+                  child: TextFormField(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    initialValue: qDetailModal5["QAgeAdmitted"],
+                    onChanged: (value) {
+                      qDetailModal5.update("QAgeAdmitted", (val) => value);
+                    },
+                    decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        label: Text(
+                          "AgeAdmitted",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        )),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(
               height: 10,
