@@ -203,9 +203,6 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
                                           quotationLists[index]['ID']);
                                       Navigator.pop(ctx);
 
-                                      setState(() {
-                                        quotationLists.removeAt(index);
-                                      });
                                       ScaffoldMessenger.of(ctx)
                                           .clearSnackBars();
                                       ScaffoldMessenger.of(ctx).showSnackBar(
