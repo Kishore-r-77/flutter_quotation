@@ -103,10 +103,6 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
   Widget build(BuildContext context) {
     final authToken =
         ref.watch(loginProvider.notifier).prefs?.getString("authToken");
-    final companyId =
-        ref.watch(loginProvider.notifier).prefs?.getInt("companyId");
-    final languageId =
-        ref.watch(loginProvider.notifier).prefs?.getInt("languageId");
 
     dynamic addressResponse;
 
@@ -127,7 +123,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
     }
 
     // SingingCharacter? _character = SingingCharacter.lafayette;
-    String? gender;
+
     String selectedValue = 'BU';
 
     void handleRadioValueChanged(String? value) {
