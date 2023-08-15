@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
-import 'package:quotation_flutter/utils/authUtils/auth_utils.dart';
 
 Dio dio = Dio();
 

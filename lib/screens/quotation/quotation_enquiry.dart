@@ -8,7 +8,6 @@ import 'package:quotation_flutter/widgets/agency/agency_modal.dart';
 import 'package:quotation_flutter/widgets/client/client_modal.dart';
 import 'package:quotation_flutter/widgets/customWidgets/custom_lookup_field.dart';
 
-import '../../utils/appUtils/app_utils.dart';
 import '../../widgets/customAppbar/custom_appbar.dart';
 import '../../widgets/customWidgets/custom_field.dart';
 
