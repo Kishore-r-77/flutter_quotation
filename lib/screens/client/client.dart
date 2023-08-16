@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
 import 'package:quotation_flutter/screens/client/client_enquiry.dart';
 import 'package:quotation_flutter/services/client/client_service.dart';
@@ -64,6 +65,22 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
     setState(() {
       clientLists = clientLists + response["All Clients"];
       fieldMap = response["Field Map"];
+    });
+  }
+
+  deleteService(id) async {
+    ClientService.softDeleteClient(
+      widget.loginResponse['authToken'],
+      id,
+    );
+    var getData = await ClientService.getAllClients(
+        widget.loginResponse['authToken'],
+        searchString.text,
+        searchCriteria,
+        pageNo.text,
+        pageSize);
+    setState(() {
+      clientLists = getData["All Clients"];
     });
   }
 
@@ -189,76 +206,225 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
                         return;
                       }
                     },
-                    child: Card(
-                      color: Theme.of(context).colorScheme.surface,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15),
-                        ),
-                      ),
-                      borderOnForeground: false,
-                      // shadowColor: Theme.of(context).colorScheme.primary,
-                      elevation: 12,
-                      child: ListTile(
-                        title: Row(
-                          children: [
-                            Text(
-                              '${clientLists[index]['ID']}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              '${clientLists[index]['ClientShortName']}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              '${clientLists[index]['Gender']}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        subtitle: Row(
-                          children: [
-                            Text(
-                              '${clientLists[index]['ClientEmail']}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                          ],
-                        ),
-                        trailing: IconButton(
-                          onPressed: () async {
-                            clientResponse = await ClientService.getClient(
-                                authToken, clientLists[index]['ID']);
+                    child: Slidable(
+                      startActionPane: ActionPane(
+                        motion: const BehindMotion(),
+                        children: [
+                          SlidableAction(
+                            icon: Icons.delete,
+                            label: "Delete",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error,
+                            onPressed: (context) {
+                              showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  content: const Text(
+                                      "Are you sure you want to delete this Record"),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(ctx);
+                                      },
+                                      child: const Text("No"),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        deleteService(clientLists[index]['ID']);
+                                        Navigator.pop(ctx);
 
-                            // ignore: use_build_context_synchronously
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ClientEnquiry(
-                                    clientResponse: clientResponse["Client"],
-                                    authToken: authToken),
+                                        ScaffoldMessenger.of(ctx)
+                                            .clearSnackBars();
+                                        ScaffoldMessenger.of(ctx).showSnackBar(
+                                          const SnackBar(
+                                            content: Text("Client Deleted"),
+                                            duration: Duration(seconds: 2),
+                                            // action: SnackBarAction(
+                                            //   label: "Undo",
+                                            //   onPressed: () {
+                                            //     // setState(() {
+                                            //     //   _registeredExpenses.insert(expenseIndex, expense);
+                                            //     // });
+                                            //   },
+                                            //),
+                                          ),
+                                        );
+                                      },
+                                      child: const Text("Delete"),
+                                    ),
+                                  ],
+                                ),
+                                barrierDismissible: true,
+                              );
+                            },
+                          ),
+                          SlidableAction(
+                            icon: Icons.edit,
+                            label: "Edit",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            onPressed: (context) {},
+                          ),
+                          SlidableAction(
+                            icon: Icons.info,
+                            label: "Info",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.inversePrimary,
+                            onPressed: (context) async {
+                              clientResponse = await ClientService.getClient(
+                                  authToken, clientLists[index]['ID']);
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ClientEnquiry(
+                                      clientResponse: clientResponse["Client"],
+                                      authToken: authToken),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      endActionPane: ActionPane(
+                        motion: const BehindMotion(),
+                        children: [
+                          SlidableAction(
+                            icon: Icons.delete,
+                            label: "Delete",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error,
+                            onPressed: (context) {
+                              showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  content: const Text(
+                                      "Are you sure you want to delete this Record"),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(ctx);
+                                      },
+                                      child: const Text("No"),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        deleteService(clientLists[index]['ID']);
+                                        Navigator.pop(ctx);
+
+                                        ScaffoldMessenger.of(ctx)
+                                            .clearSnackBars();
+                                        ScaffoldMessenger.of(ctx).showSnackBar(
+                                          const SnackBar(
+                                            content: Text("Client Deleted"),
+                                            duration: Duration(seconds: 2),
+                                            // action: SnackBarAction(
+                                            //   label: "Undo",
+                                            //   onPressed: () {
+                                            //     // setState(() {
+                                            //     //   _registeredExpenses.insert(expenseIndex, expense);
+                                            //     // });
+                                            //   },
+                                            //),
+                                          ),
+                                        );
+                                      },
+                                      child: const Text("Delete"),
+                                    ),
+                                  ],
+                                ),
+                                barrierDismissible: true,
+                              );
+                            },
+                          ),
+                          SlidableAction(
+                            icon: Icons.edit,
+                            label: "Edit",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            onPressed: (context) {},
+                          ),
+                          SlidableAction(
+                            icon: Icons.info,
+                            label: "Info",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.inversePrimary,
+                            onPressed: (context) async {
+                              clientResponse = await ClientService.getClient(
+                                  authToken, clientLists[index]['ID']);
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ClientEnquiry(
+                                      clientResponse: clientResponse["Client"],
+                                      authToken: authToken),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      child: Card(
+                        color: Theme.of(context).colorScheme.surface,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(15),
+                          ),
+                        ),
+                        borderOnForeground: false,
+                        // shadowColor: Theme.of(context).colorScheme.primary,
+                        elevation: 12,
+                        child: ListTile(
+                          title: Row(
+                            children: [
+                              Text(
+                                '${clientLists[index]['ID']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            );
-                          },
-                          icon: Icon(
-                            Icons.info,
-                            color: Theme.of(context).colorScheme.primary,
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                '${clientLists[index]['ClientShortName']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                '${clientLists[index]['Gender']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          subtitle: Row(
+                            children: [
+                              Text(
+                                '${clientLists[index]['ClientEmail']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ],
+                          ),
+                          trailing: IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.swipe,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                           ),
                         ),
                       ),

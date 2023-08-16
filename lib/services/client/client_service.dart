@@ -77,4 +77,15 @@ class ClientService {
       throw Exception(err);
     }
   }
+
+  static void softDeleteClient(token, id) async {
+    try {
+      await dio.delete(
+        "${AppUtils.appUrl}/api/v1/basicservices/clientdelete/$id",
+        options: Options(headers: {"Cookie": "Authorization=$token"}),
+      );
+    } catch (err) {
+      throw Exception(err);
+    }
+  }
 }

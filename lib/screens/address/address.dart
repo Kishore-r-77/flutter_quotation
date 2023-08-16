@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
 import 'package:quotation_flutter/screens/address/address_enquiry.dart';
@@ -96,6 +97,22 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
     initialvalues.update("AddressStartDate", (value) => "");
     initialvalues.update("AddressEndDate", (value) => "");
     initialvalues.update("ClientID", (value) => "");
+  }
+
+  deleteAddress(id) async {
+    AddressService.softDeleteAddress(
+      widget.loginResponse['authToken'],
+      id,
+    );
+    var getData = await AddressService.getAllAddress(
+        widget.loginResponse['authToken'],
+        searchString.text,
+        searchCriteria,
+        pageNo.text,
+        pageSize);
+    setState(() {
+      addressLists = getData["All Addresses"];
+    });
   }
 
   TextEditingController _date = TextEditingController();
@@ -610,59 +627,72 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                         return;
                       }
                     },
-                    child: Card(
-                      color: Theme.of(context).colorScheme.surface,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15),
-                        ),
-                      ),
-                      borderOnForeground: false,
-                      // shadowColor: Theme.of(context).colorScheme.primary,
-                      elevation: 12,
-                      child: ListTile(
-                        title: Row(
-                          children: [
-                            Text(
-                              '${addressLists[index]['ID']}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              '${addressLists[index]['AddressType']}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        subtitle: Row(
-                          children: [
-                            Text(
-                              '${addressLists[index]['AddressLine1']}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              '${addressLists[index]['AddressPostCode']}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                          ],
-                        ),
-                        trailing: IconButton(
-                            onPressed: () async {
+                    child: Slidable(
+                      startActionPane: ActionPane(
+                        motion: const BehindMotion(),
+                        children: [
+                          SlidableAction(
+                            icon: Icons.delete,
+                            label: "Delete",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error,
+                            onPressed: (context) {
+                              showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  content: const Text(
+                                      "Are you sure you want to delete this Record"),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(ctx);
+                                      },
+                                      child: const Text("No"),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        deleteAddress(
+                                            addressLists[index]['ID']);
+                                        Navigator.pop(ctx);
+
+                                        ScaffoldMessenger.of(ctx)
+                                            .clearSnackBars();
+                                        ScaffoldMessenger.of(ctx).showSnackBar(
+                                          const SnackBar(
+                                            content: Text("Address Deleted"),
+                                            duration: Duration(seconds: 2),
+                                            // action: SnackBarAction(
+                                            //   label: "Undo",
+                                            //   onPressed: () {
+                                            //     // setState(() {
+                                            //     //   _registeredExpenses.insert(expenseIndex, expense);
+                                            //     // });
+                                            //   },
+                                            //),
+                                          ),
+                                        );
+                                      },
+                                      child: const Text("Delete"),
+                                    ),
+                                  ],
+                                ),
+                                barrierDismissible: true,
+                              );
+                            },
+                          ),
+                          SlidableAction(
+                            icon: Icons.edit,
+                            label: "Edit",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            onPressed: (context) {},
+                          ),
+                          SlidableAction(
+                            icon: Icons.info,
+                            label: "Info",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.inversePrimary,
+                            onPressed: (context) async {
                               addressResponse = await AddressService.getAddress(
                                   authToken, addressLists[index]['ID']);
 
@@ -671,16 +701,155 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => AddressEnquiry(
-                                    addressResponse: addressResponse["Address"],
-                                    authToken: authToken,
-                                  ),
+                                      addressResponse:
+                                          addressResponse["Address"],
+                                      authToken: authToken),
                                 ),
                               );
                             },
-                            icon: Icon(
-                              Icons.info,
-                              color: Theme.of(context).colorScheme.primary,
-                            )),
+                          ),
+                        ],
+                      ),
+                      endActionPane: ActionPane(
+                        motion: const BehindMotion(),
+                        children: [
+                          SlidableAction(
+                            icon: Icons.delete,
+                            label: "Delete",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error,
+                            onPressed: (context) {
+                              showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  content: const Text(
+                                      "Are you sure you want to delete this Record"),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(ctx);
+                                      },
+                                      child: const Text("No"),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        deleteAddress(
+                                            addressLists[index]['ID']);
+                                        Navigator.pop(ctx);
+
+                                        ScaffoldMessenger.of(ctx)
+                                            .clearSnackBars();
+                                        ScaffoldMessenger.of(ctx).showSnackBar(
+                                          const SnackBar(
+                                            content: Text("Address Deleted"),
+                                            duration: Duration(seconds: 2),
+                                            // action: SnackBarAction(
+                                            //   label: "Undo",
+                                            //   onPressed: () {
+                                            //     // setState(() {
+                                            //     //   _registeredExpenses.insert(expenseIndex, expense);
+                                            //     // });
+                                            //   },
+                                            //),
+                                          ),
+                                        );
+                                      },
+                                      child: const Text("Delete"),
+                                    ),
+                                  ],
+                                ),
+                                barrierDismissible: true,
+                              );
+                            },
+                          ),
+                          SlidableAction(
+                            icon: Icons.edit,
+                            label: "Edit",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            onPressed: (context) {},
+                          ),
+                          SlidableAction(
+                            icon: Icons.info,
+                            label: "Info",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.inversePrimary,
+                            onPressed: (context) async {
+                              addressResponse = await AddressService.getAddress(
+                                  authToken, addressLists[index]['ID']);
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddressEnquiry(
+                                      addressResponse:
+                                          addressResponse["Address"],
+                                      authToken: authToken),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      child: Card(
+                        color: Theme.of(context).colorScheme.surface,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(15),
+                          ),
+                        ),
+                        borderOnForeground: false,
+                        // shadowColor: Theme.of(context).colorScheme.primary,
+                        elevation: 12,
+                        child: ListTile(
+                          title: Row(
+                            children: [
+                              Text(
+                                '${addressLists[index]['ID']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                '${addressLists[index]['AddressType']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          subtitle: Row(
+                            children: [
+                              Text(
+                                '${addressLists[index]['AddressLine1']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                '${addressLists[index]['AddressPostCode']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ],
+                          ),
+                          trailing: IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.swipe,
+                                color: Theme.of(context).colorScheme.primary,
+                              )),
+                        ),
                       ),
                     ),
                   ),
