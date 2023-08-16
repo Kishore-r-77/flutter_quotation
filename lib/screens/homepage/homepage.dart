@@ -196,13 +196,6 @@ class HomePage extends ConsumerWidget {
                               fit: BoxFit.cover,
                             ),
                           ),
-                          child: const Text(
-                            "Agency",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
                         ),
                       ),
                     ],
