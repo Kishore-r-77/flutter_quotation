@@ -13,7 +13,7 @@ class ClientModal extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
         width: double.infinity,
-        child: Column(
+        child: ListView(
           children: [
             Text(
               "Client Enquiry",
@@ -26,76 +26,53 @@ class ClientModal extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                CustomField(
-                    value: clientResponse['ClientShortName'],
-                    label: "Client Short Name"),
-                const SizedBox(
-                  width: 20,
-                ),
-                CustomField(
-                    value: clientResponse['ClientLongName'],
-                    label: "Client Long Name"),
-              ],
-            ),
+            CustomField(
+                value: clientResponse['ClientShortName'],
+                label: "Client Short Name"),
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                CustomField(
-                    value: clientResponse['ClientLongName'],
-                    label: "Client Long Name"),
-                const SizedBox(
-                  width: 20,
-                ),
-                CustomField(
-                    value: AppUtils.formatDate(clientResponse['ClientDob']),
-                    label: "Client Dob"),
-              ],
-            ),
+            CustomField(
+                value: clientResponse['ClientLongName'],
+                label: "Client Long Name"),
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                CustomField(
-                    value: clientResponse['ClientSurName'],
-                    label: "Client SurName"),
-                const SizedBox(
-                  width: 20,
-                ),
-                CustomField(value: clientResponse['Gender'], label: "Gender"),
-              ],
-            ),
+            CustomField(
+                value: clientResponse['ClientLongName'],
+                label: "Client Long Name"),
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                CustomField(
-                    value: clientResponse['ClientEmail'], label: "Email"),
-                const SizedBox(
-                  width: 20,
-                ),
-                CustomField(
-                    value: clientResponse['ClientMobile'], label: "Mobile"),
-              ],
-            ),
+            CustomField(
+                value: AppUtils.formatDate(clientResponse['ClientDob']),
+                label: "Client Dob"),
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                CustomField(
-                    value: clientResponse['ClientStatus'], label: "Status"),
-                const SizedBox(
-                  width: 20,
-                ),
-                CustomField(value: clientResponse['ClientType'], label: "Type"),
-              ],
+            CustomField(
+                value: clientResponse['ClientSurName'],
+                label: "Client SurName"),
+            const SizedBox(
+              height: 20,
             ),
+            CustomField(value: clientResponse['Gender'], label: "Gender"),
+            const SizedBox(
+              height: 20,
+            ),
+            CustomField(value: clientResponse['ClientEmail'], label: "Email"),
+            const SizedBox(
+              height: 20,
+            ),
+            CustomField(value: clientResponse['ClientMobile'], label: "Mobile"),
+            const SizedBox(
+              height: 20,
+            ),
+            CustomField(value: clientResponse['ClientStatus'], label: "Status"),
+            const SizedBox(
+              height: 20,
+            ),
+            CustomField(value: clientResponse['ClientType'], label: "Type"),
             const SizedBox(
               height: 20,
             ),
