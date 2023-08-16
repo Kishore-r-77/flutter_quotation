@@ -106,34 +106,9 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
 
     dynamic addressResponse;
 
-    deleteAddress(id) async {
-      AddressService.softDeleteAddress(
-        widget.loginResponse['authToken'],
-        id,
-      );
-      var getData = await AddressService.getAllAddress(
-          widget.loginResponse['authToken'],
-          searchString.text,
-          searchCriteria,
-          pageNo.text,
-          pageSize);
-      setState(() {
-        addressLists = getData["All Addresses"];
-      });
-    }
-
     // SingingCharacter? _character = SingingCharacter.lafayette;
 
     String selectedValue = 'BU';
-
-    void handleRadioValueChanged(String? value) {
-      setState(() {
-        selectedValue = value!;
-        initialvalues.update("AddressType", (val) => selectedValue);
-      });
-    }
-
-    print(initialvalues["AddressType"]);
 
     final TextEditingController clientIdController = TextEditingController();
     return Scaffold(
@@ -624,118 +599,88 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                 fit: FlexFit.loose,
                 child: ListView.builder(
                   itemCount: addressLists.length,
-                  itemBuilder: (context, index) => Dismissible(
-                    key: ValueKey(addressLists[index]['ID']),
-                    background: Container(
-                      color:
-                          Theme.of(context).colorScheme.error.withOpacity(0.75),
-                      // margin: EdgeInsets.symmetric(
-                      //     horizontal:
-                      //         Theme.of(context).cardTheme.margin!.horizontal),
-                    ),
-                    onDismissed: (direction) {
-                      deleteAddress(addressLists[index]['ID']);
-                      ScaffoldMessenger.of(context).clearSnackBars();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text("Address Deleted"),
-                          duration: const Duration(seconds: 3),
-                          action: SnackBarAction(
-                            label: "Undo",
-                            onPressed: () {
-                              // setState(() {
-                              //   _registeredExpenses.insert(expenseIndex, expense);
-                              // });
-                            },
-                          ),
-                        ),
-                      );
+                  itemBuilder: (context, index) => InkWell(
+                    onTap: () {
+                      if (widget.isLookUp) {
+                        return Navigator.pop(
+                          context,
+                          addressLists[index]['ID'].toString(),
+                        );
+                      } else {
+                        return;
+                      }
                     },
-                    child: InkWell(
-                      onTap: () {
-                        if (widget.isLookUp) {
-                          return Navigator.pop(
-                            context,
-                            addressLists[index]['ID'].toString(),
-                          );
-                        } else {
-                          return;
-                        }
-                      },
-                      child: Card(
-                        color: Theme.of(context).colorScheme.surface,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15),
-                          ),
+                    child: Card(
+                      color: Theme.of(context).colorScheme.surface,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
                         ),
-                        borderOnForeground: false,
-                        // shadowColor: Theme.of(context).colorScheme.primary,
-                        elevation: 12,
-                        child: ListTile(
-                          title: Row(
-                            children: [
-                              Text(
-                                '${addressLists[index]['ID']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                '${addressLists[index]['AddressType']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          subtitle: Row(
-                            children: [
-                              Text(
-                                '${addressLists[index]['AddressLine1']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                '${addressLists[index]['AddressPostCode']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                            ],
-                          ),
-                          trailing: IconButton(
-                              onPressed: () async {
-                                addressResponse =
-                                    await AddressService.getAddress(
-                                        authToken, addressLists[index]['ID']);
-
-                                // ignore: use_build_context_synchronously
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => AddressEnquiry(
-                                      addressResponse:
-                                          addressResponse["Address"],
-                                      authToken: authToken,
-                                    ),
-                                  ),
-                                );
-                              },
-                              icon: Icon(
-                                Icons.info,
+                      ),
+                      borderOnForeground: false,
+                      // shadowColor: Theme.of(context).colorScheme.primary,
+                      elevation: 12,
+                      child: ListTile(
+                        title: Row(
+                          children: [
+                            Text(
+                              '${addressLists[index]['ID']}',
+                              style: TextStyle(
                                 color: Theme.of(context).colorScheme.primary,
-                              )),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              '${addressLists[index]['AddressType']}',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
+                        subtitle: Row(
+                          children: [
+                            Text(
+                              '${addressLists[index]['AddressLine1']}',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              '${addressLists[index]['AddressPostCode']}',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                        trailing: IconButton(
+                            onPressed: () async {
+                              addressResponse = await AddressService.getAddress(
+                                  authToken, addressLists[index]['ID']);
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddressEnquiry(
+                                    addressResponse: addressResponse["Address"],
+                                    authToken: authToken,
+                                  ),
+                                ),
+                              );
+                            },
+                            icon: Icon(
+                              Icons.info,
+                              color: Theme.of(context).colorScheme.primary,
+                            )),
                       ),
                     ),
                   ),

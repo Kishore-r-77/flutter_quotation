@@ -81,22 +81,6 @@ class _BankScreenState extends ConsumerState<BankScreen> {
 
     dynamic bankResponse;
 
-    deleteBank(id) async {
-      BankService.softDeleteBank(
-        widget.loginResponse['authToken'],
-        id,
-      );
-      var getData = await BankService.getAllBank(
-          widget.loginResponse['authToken'],
-          searchString.text,
-          searchCriteria,
-          pageNo.text,
-          pageSize);
-      setState(() {
-        bankLists = getData["All Banks"];
-      });
-    }
-
     final TextEditingController clientIdController = TextEditingController();
     return Scaffold(
       floatingActionButton: CircleAvatar(
@@ -469,116 +453,88 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                 fit: FlexFit.loose,
                 child: ListView.builder(
                   itemCount: bankLists.length,
-                  itemBuilder: (context, index) => Dismissible(
-                    key: ValueKey(bankLists[index]['ID']),
-                    background: Container(
-                      color:
-                          Theme.of(context).colorScheme.error.withOpacity(0.75),
-                      // margin: EdgeInsets.symmetric(
-                      //     horizontal:
-                      //         Theme.of(context).cardTheme.margin!.horizontal),
-                    ),
-                    onDismissed: (direction) {
-                      deleteBank(bankLists[index]['ID']);
-                      ScaffoldMessenger.of(context).clearSnackBars();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text("Address Deleted"),
-                          duration: const Duration(seconds: 3),
-                          action: SnackBarAction(
-                            label: "Undo",
-                            onPressed: () {
-                              // setState(() {
-                              //   _registeredExpenses.insert(expenseIndex, expense);
-                              // });
-                            },
-                          ),
-                        ),
-                      );
+                  itemBuilder: (context, index) => InkWell(
+                    onTap: () {
+                      if (widget.isLookUp) {
+                        return Navigator.pop(
+                          context,
+                          bankLists[index]['ID'].toString(),
+                        );
+                      } else {
+                        return;
+                      }
                     },
-                    child: InkWell(
-                      onTap: () {
-                        if (widget.isLookUp) {
-                          return Navigator.pop(
-                            context,
-                            bankLists[index]['ID'].toString(),
-                          );
-                        } else {
-                          return;
-                        }
-                      },
-                      child: Card(
-                        color: Theme.of(context).colorScheme.surface,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15),
-                          ),
+                    child: Card(
+                      color: Theme.of(context).colorScheme.surface,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
                         ),
-                        borderOnForeground: false,
-                        // shadowColor: Theme.of(context).colorScheme.primary,
-                        elevation: 12,
-                        child: ListTile(
-                          title: Row(
-                            children: [
-                              Text(
-                                '${bankLists[index]['ID']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                '${bankLists[index]['BankCode']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          subtitle: Row(
-                            children: [
-                              Text(
-                                '${bankLists[index]['BankType']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                '${bankLists[index]['BankAccountNo']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                            ],
-                          ),
-                          trailing: IconButton(
-                              onPressed: () async {
-                                bankResponse = await BankService.getBank(
-                                    authToken, bankLists[index]['ID']);
-
-                                // ignore: use_build_context_synchronously
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => BankEnquiry(
-                                      bankResponse: bankResponse["Bank"],
-                                      authToken: authToken,
-                                    ),
-                                  ),
-                                );
-                              },
-                              icon: Icon(
-                                Icons.info,
+                      ),
+                      borderOnForeground: false,
+                      // shadowColor: Theme.of(context).colorScheme.primary,
+                      elevation: 12,
+                      child: ListTile(
+                        title: Row(
+                          children: [
+                            Text(
+                              '${bankLists[index]['ID']}',
+                              style: TextStyle(
                                 color: Theme.of(context).colorScheme.primary,
-                              )),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              '${bankLists[index]['BankCode']}',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
+                        subtitle: Row(
+                          children: [
+                            Text(
+                              '${bankLists[index]['BankType']}',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              '${bankLists[index]['BankAccountNo']}',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                        trailing: IconButton(
+                            onPressed: () async {
+                              bankResponse = await BankService.getBank(
+                                  authToken, bankLists[index]['ID']);
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BankEnquiry(
+                                    bankResponse: bankResponse["Bank"],
+                                    authToken: authToken,
+                                  ),
+                                ),
+                              );
+                            },
+                            icon: Icon(
+                              Icons.info,
+                              color: Theme.of(context).colorScheme.primary,
+                            )),
                       ),
                     ),
                   ),
