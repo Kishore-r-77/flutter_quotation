@@ -13,7 +13,7 @@ class AgencyModal extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
         width: double.infinity,
-        child: Column(
+        child: ListView(
           children: [
             Text(
               "Agency Enquiry",
@@ -26,75 +26,52 @@ class AgencyModal extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                CustomField(
-                    value: clientResponse['AgencyChannelSt'],
-                    label: "Channel list"),
-                const SizedBox(
-                  width: 20,
-                ),
-                CustomField(value: clientResponse['Office'], label: "Office"),
-              ],
-            ),
+            CustomField(
+                value: clientResponse['AgencyChannelSt'],
+                label: "Channel list"),
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                CustomField(
-                    value: clientResponse['AgencySt'], label: "AgencySt"),
-                const SizedBox(
-                  width: 20,
-                ),
-                CustomField(
-                    value: clientResponse['LicenseNo'], label: "License No"),
-              ],
-            ),
+            CustomField(value: clientResponse['Office'], label: "Office"),
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                CustomField(
-                    value:
-                        AppUtils.formatDate(clientResponse['LicenseStartDate']),
-                    label: "License StartDate"),
-                const SizedBox(
-                  width: 20,
-                ),
-                CustomField(
-                    value:
-                        AppUtils.formatDate(clientResponse['LicenseEndDate']),
-                    label: "License EndDate"),
-              ],
-            ),
+            CustomField(value: clientResponse['AgencySt'], label: "AgencySt"),
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                CustomField(
-                    value: AppUtils.formatDate(clientResponse['Startdate']),
-                    label: "Start Date"),
-                const SizedBox(
-                  width: 20,
-                ),
-                CustomField(
-                    value: AppUtils.formatDate(clientResponse['EndDate']),
-                    label: "End Date"),
-              ],
-            ),
+            CustomField(
+                value: clientResponse['LicenseNo'], label: "License No"),
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                CustomField(
-                    value: clientResponse['TerminationReason'],
-                    label: "Termination Reason"),
-              ],
+            CustomField(
+                value: AppUtils.formatDate(clientResponse['LicenseStartDate']),
+                label: "License StartDate"),
+            const SizedBox(
+              height: 20,
             ),
+            CustomField(
+                value: AppUtils.formatDate(clientResponse['LicenseEndDate']),
+                label: "License EndDate"),
+            const SizedBox(
+              height: 20,
+            ),
+            CustomField(
+                value: AppUtils.formatDate(clientResponse['Startdate']),
+                label: "Start Date"),
+            const SizedBox(
+              height: 20,
+            ),
+            CustomField(
+                value: AppUtils.formatDate(clientResponse['EndDate']),
+                label: "End Date"),
+            const SizedBox(
+              height: 20,
+            ),
+            CustomField(
+                value: clientResponse['TerminationReason'],
+                label: "Termination Reason"),
             const SizedBox(
               height: 20,
             ),
