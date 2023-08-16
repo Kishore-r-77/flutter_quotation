@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
 import 'package:quotation_flutter/screens/bank/bank_enquiry.dart';
@@ -69,6 +70,22 @@ class _BankScreenState extends ConsumerState<BankScreen> {
     initialvalues.update("BankType", (value) => "");
     initialvalues.update("BankAccountStatus", (value) => "");
     initialvalues.update("ClientID", (value) => "");
+  }
+
+  deleteBank(id) async {
+    BankService.softDeleteBank(
+      widget.loginResponse['authToken'],
+      id,
+    );
+    var getData = await BankService.getAllBank(
+        widget.loginResponse['authToken'],
+        searchString.text,
+        searchCriteria,
+        pageNo.text,
+        pageSize);
+    setState(() {
+      bankLists = getData["All Banks"];
+    });
   }
 
   final TextEditingController _sdate = TextEditingController();
@@ -464,59 +481,71 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                         return;
                       }
                     },
-                    child: Card(
-                      color: Theme.of(context).colorScheme.surface,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15),
-                        ),
-                      ),
-                      borderOnForeground: false,
-                      // shadowColor: Theme.of(context).colorScheme.primary,
-                      elevation: 12,
-                      child: ListTile(
-                        title: Row(
-                          children: [
-                            Text(
-                              '${bankLists[index]['ID']}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              '${bankLists[index]['BankCode']}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        subtitle: Row(
-                          children: [
-                            Text(
-                              '${bankLists[index]['BankType']}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              '${bankLists[index]['BankAccountNo']}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                          ],
-                        ),
-                        trailing: IconButton(
-                            onPressed: () async {
+                    child: Slidable(
+                      startActionPane: ActionPane(
+                        motion: const BehindMotion(),
+                        children: [
+                          SlidableAction(
+                            icon: Icons.delete,
+                            label: "Delete",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error,
+                            onPressed: (context) {
+                              showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  content: const Text(
+                                      "Are you sure you want to delete this Record"),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(ctx);
+                                      },
+                                      child: const Text("No"),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        deleteBank(bankLists[index]['ID']);
+                                        Navigator.pop(ctx);
+
+                                        ScaffoldMessenger.of(ctx)
+                                            .clearSnackBars();
+                                        ScaffoldMessenger.of(ctx).showSnackBar(
+                                          const SnackBar(
+                                            content: Text("Bank Deleted"),
+                                            duration: Duration(seconds: 2),
+                                            // action: SnackBarAction(
+                                            //   label: "Undo",
+                                            //   onPressed: () {
+                                            //     // setState(() {
+                                            //     //   _registeredExpenses.insert(expenseIndex, expense);
+                                            //     // });
+                                            //   },
+                                            //),
+                                          ),
+                                        );
+                                      },
+                                      child: const Text("Delete"),
+                                    ),
+                                  ],
+                                ),
+                                barrierDismissible: true,
+                              );
+                            },
+                          ),
+                          SlidableAction(
+                            icon: Icons.edit,
+                            label: "Edit",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            onPressed: (context) {},
+                          ),
+                          SlidableAction(
+                            icon: Icons.info,
+                            label: "Info",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.inversePrimary,
+                            onPressed: (context) async {
                               bankResponse = await BankService.getBank(
                                   authToken, bankLists[index]['ID']);
 
@@ -525,16 +554,152 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => BankEnquiry(
-                                    bankResponse: bankResponse["Bank"],
-                                    authToken: authToken,
-                                  ),
+                                      bankResponse: bankResponse["Bank"],
+                                      authToken: authToken),
                                 ),
                               );
                             },
-                            icon: Icon(
-                              Icons.info,
-                              color: Theme.of(context).colorScheme.primary,
-                            )),
+                          ),
+                        ],
+                      ),
+                      endActionPane: ActionPane(
+                        motion: const BehindMotion(),
+                        children: [
+                          SlidableAction(
+                            icon: Icons.delete,
+                            label: "Delete",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error,
+                            onPressed: (context) {
+                              showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  content: const Text(
+                                      "Are you sure you want to delete this Record"),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(ctx);
+                                      },
+                                      child: const Text("No"),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        deleteBank(bankLists[index]['ID']);
+                                        Navigator.pop(ctx);
+
+                                        ScaffoldMessenger.of(ctx)
+                                            .clearSnackBars();
+                                        ScaffoldMessenger.of(ctx).showSnackBar(
+                                          const SnackBar(
+                                            content: Text("Bank Deleted"),
+                                            duration: Duration(seconds: 2),
+                                            // action: SnackBarAction(
+                                            //   label: "Undo",
+                                            //   onPressed: () {
+                                            //     // setState(() {
+                                            //     //   _registeredExpenses.insert(expenseIndex, expense);
+                                            //     // });
+                                            //   },
+                                            //),
+                                          ),
+                                        );
+                                      },
+                                      child: const Text("Delete"),
+                                    ),
+                                  ],
+                                ),
+                                barrierDismissible: true,
+                              );
+                            },
+                          ),
+                          SlidableAction(
+                            icon: Icons.edit,
+                            label: "Edit",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            onPressed: (context) {},
+                          ),
+                          SlidableAction(
+                            icon: Icons.info,
+                            label: "Info",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.inversePrimary,
+                            onPressed: (context) async {
+                              bankResponse = await BankService.getBank(
+                                  authToken, bankLists[index]['ID']);
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BankEnquiry(
+                                      bankResponse: bankResponse["Bank"],
+                                      authToken: authToken),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      child: Card(
+                        color: Theme.of(context).colorScheme.surface,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(15),
+                          ),
+                        ),
+                        borderOnForeground: false,
+                        // shadowColor: Theme.of(context).colorScheme.primary,
+                        elevation: 12,
+                        child: ListTile(
+                          title: Row(
+                            children: [
+                              Text(
+                                '${bankLists[index]['ID']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                '${bankLists[index]['BankCode']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          subtitle: Row(
+                            children: [
+                              Text(
+                                '${bankLists[index]['BankType']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                '${bankLists[index]['BankAccountNo']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ],
+                          ),
+                          trailing: IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.swipe,
+                                color: Theme.of(context).colorScheme.primary,
+                              )),
+                        ),
                       ),
                     ),
                   ),
