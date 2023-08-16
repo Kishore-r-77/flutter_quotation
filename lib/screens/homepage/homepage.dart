@@ -80,8 +80,8 @@ class HomePage extends ConsumerWidget {
                               border: Border.all(color: Colors.black),
                               borderRadius: BorderRadius.circular(16),
                               image: const DecorationImage(
-                                image: NetworkImage(
-                                  "https://www.nicepng.com/png/detail/89-898495_house-logo-png-home-address-logo-png.png",
+                                image: AssetImage(
+                                  "assets/images/address-icon-check-sign-approved-260nw-1051293593.webp",
                                 ),
                                 fit: BoxFit.cover,
                               )
@@ -117,8 +117,8 @@ class HomePage extends ConsumerWidget {
                             border: Border.all(color: Colors.black),
                             borderRadius: BorderRadius.circular(16),
                             image: const DecorationImage(
-                                image: NetworkImage(
-                                  "https://www.shutterstock.com/image-vector/clients-sign-icon-group-people-260nw-404234248.jpg",
+                                image: AssetImage(
+                                  "assets/images/clients-sign-icon-group-people-260nw-404234248.webp",
                                 ),
                                 fit: BoxFit.cover),
                             // borderRadius: BorderRadius.circular(16),
@@ -153,8 +153,8 @@ class HomePage extends ConsumerWidget {
                             border: Border.all(color: Colors.black),
                             borderRadius: BorderRadius.circular(16),
                             image: const DecorationImage(
-                              image: NetworkImage(
-                                "https://w7.pngwing.com/pngs/223/204/png-transparent-bank-logo-bank-saving-bank-pic-building-structure-bank.png",
+                              image: AssetImage(
+                                "assets/images/png-transparent-bank-logo-bank-saving-bank-pic-building-structure-bank.png",
                               ),
                               fit: BoxFit.cover,
                             ),
@@ -190,8 +190,8 @@ class HomePage extends ConsumerWidget {
                             border: Border.all(color: Colors.black),
                             borderRadius: BorderRadius.circular(16),
                             image: const DecorationImage(
-                              image: NetworkImage(
-                                "https://saneandable.co.uk/wp-content/uploads/2015/08/the-agency-logo.gif",
+                              image: AssetImage(
+                                "assets/images/the-agency-logo.gif",
                               ),
                               fit: BoxFit.cover,
                             ),

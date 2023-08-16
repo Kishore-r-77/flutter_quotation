@@ -66,6 +66,10 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - .env
+    - assets/images/the-agency-logo.gif
+    - assets/images/png-transparent-bank-logo-bank-saving-bank-pic-building-structure-bank.png
+    - assets/images/clients-sign-icon-group-people-260nw-404234248.webp
+    - assets/images/address-icon-check-sign-approved-260nw-1051293593.webp
     # - images/a_dot_burr.jpeg
     # - images/a_dot_ham.jpeg
 
