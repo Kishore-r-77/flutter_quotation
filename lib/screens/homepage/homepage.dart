@@ -78,22 +78,24 @@ class HomePage extends ConsumerWidget {
                         child: Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black),
                               borderRadius: BorderRadius.circular(16),
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.green.withOpacity(0.55),
-                                  Colors.green.withOpacity(0.9),
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              )),
-                          child: const Text(
-                            "Address",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
+                              image: const DecorationImage(
+                                image: NetworkImage(
+                                  "https://www.nicepng.com/png/detail/89-898495_house-logo-png-home-address-logo-png.png",
+                                ),
+                                fit: BoxFit.cover,
+                              )
+                              // borderRadius: BorderRadius.circular(16),
+                              // gradient: LinearGradient(
+                              //   colors: [
+                              //     Colors.green.withOpacity(0.55),
+                              //     Colors.green.withOpacity(0.9),
+                              //   ],
+                              //   begin: Alignment.topLeft,
+                              //   end: Alignment.bottomRight,
+                              // ),
+                              ),
                         ),
                       ),
                       InkWell(
@@ -113,21 +115,22 @@ class HomePage extends ConsumerWidget {
                         child: Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.pink.withOpacity(0.55),
-                                  Colors.pink.withOpacity(0.9),
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              )),
-                          child: const Text(
-                            "Client",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
+                            border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.circular(16),
+                            image: const DecorationImage(
+                                image: NetworkImage(
+                                  "https://www.shutterstock.com/image-vector/clients-sign-icon-group-people-260nw-404234248.jpg",
+                                ),
+                                fit: BoxFit.cover),
+                            // borderRadius: BorderRadius.circular(16),
+                            // gradient: LinearGradient(
+                            //   colors: [
+                            //     Colors.pink.withOpacity(0.55),
+                            //     Colors.pink.withOpacity(0.9),
+                            //   ],
+                            //   begin: Alignment.topLeft,
+                            //   end: Alignment.bottomRight,
+                            // ),
                           ),
                         ),
                       ),
@@ -148,22 +151,23 @@ class HomePage extends ConsumerWidget {
                         child: Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
                             borderRadius: BorderRadius.circular(16),
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.purple.withOpacity(0.55),
-                                Colors.purple.withOpacity(0.9),
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
+                            image: const DecorationImage(
+                              image: NetworkImage(
+                                "https://w7.pngwing.com/pngs/223/204/png-transparent-bank-logo-bank-saving-bank-pic-building-structure-bank.png",
+                              ),
+                              fit: BoxFit.cover,
                             ),
-                          ),
-                          child: const Text(
-                            "Bank",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
+                            // borderRadius: BorderRadius.circular(16),
+                            // gradient: LinearGradient(
+                            //   colors: [
+                            //     Colors.purple.withOpacity(0.55),
+                            //     Colors.purple.withOpacity(0.9),
+                            //   ],
+                            //   begin: Alignment.topLeft,
+                            //   end: Alignment.bottomRight,
+                            // ),
                           ),
                         ),
                       ),
@@ -184,15 +188,15 @@ class HomePage extends ConsumerWidget {
                         child: Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.brown.withOpacity(0.55),
-                                  Colors.brown.withOpacity(0.9),
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              )),
+                            border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.circular(16),
+                            image: const DecorationImage(
+                              image: NetworkImage(
+                                "https://saneandable.co.uk/wp-content/uploads/2015/08/the-agency-logo.gif",
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                           child: const Text(
                             "Agency",
                             style: TextStyle(
