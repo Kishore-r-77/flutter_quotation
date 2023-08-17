@@ -7,6 +7,7 @@ import 'package:quotation_flutter/services/client/client_service.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 import 'package:quotation_flutter/widgets/client/client_address_modal.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
+import 'package:quotation_flutter/widgets/mainDrawer/main_drawer.dart';
 
 class ClientScreen extends ConsumerStatefulWidget {
   const ClientScreen(
@@ -92,6 +93,9 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
     dynamic clientResponse;
 
     return Scaffold(
+      drawer: MainDrawer(
+        loginResponse: widget.loginResponse,
+      ),
       floatingActionButton: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: IconButton(

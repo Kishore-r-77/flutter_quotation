@@ -8,6 +8,7 @@ import 'package:quotation_flutter/screens/client/client.dart';
 import 'package:quotation_flutter/services/bank/bank_service.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
+import 'package:quotation_flutter/widgets/mainDrawer/main_drawer.dart';
 
 class BankScreen extends ConsumerStatefulWidget {
   const BankScreen({
@@ -100,6 +101,9 @@ class _BankScreenState extends ConsumerState<BankScreen> {
 
     final TextEditingController clientIdController = TextEditingController();
     return Scaffold(
+      drawer: MainDrawer(
+        loginResponse: widget.loginResponse,
+      ),
       floatingActionButton: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: IconButton(

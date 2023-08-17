@@ -6,6 +6,7 @@ import 'package:quotation_flutter/screens/quotation/quotation_enquiry.dart';
 import 'package:quotation_flutter/services/quotation/quotation_services.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
+import 'package:quotation_flutter/widgets/mainDrawer/main_drawer.dart';
 import 'package:quotation_flutter/widgets/quotation/quotation_modal.dart';
 
 class QuotationScreen extends ConsumerStatefulWidget {
@@ -74,6 +75,9 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
     dynamic quotationResponse;
 
     return Scaffold(
+      drawer: MainDrawer(
+        loginResponse: widget.loginResponse,
+      ),
       floatingActionButton: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: IconButton(

@@ -8,6 +8,7 @@ import 'package:quotation_flutter/screens/client/client.dart';
 import 'package:quotation_flutter/services/address/address_service.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
+import 'package:quotation_flutter/widgets/mainDrawer/main_drawer.dart';
 
 class AddressScreen extends ConsumerStatefulWidget {
   const AddressScreen({
@@ -129,6 +130,9 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
 
     final TextEditingController clientIdController = TextEditingController();
     return Scaffold(
+      drawer: MainDrawer(
+        loginResponse: widget.loginResponse,
+      ),
       floatingActionButton: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: IconButton(

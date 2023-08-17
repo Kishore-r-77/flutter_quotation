@@ -11,6 +11,7 @@ import 'package:quotation_flutter/services/address/address_service.dart';
 import 'package:quotation_flutter/services/agency/agency_service.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
+import 'package:quotation_flutter/widgets/mainDrawer/main_drawer.dart';
 
 class AgencyScreen extends ConsumerStatefulWidget {
   const AgencyScreen({
@@ -120,6 +121,9 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
     final TextEditingController addressIdController = TextEditingController();
     final TextEditingController bankIdController = TextEditingController();
     return Scaffold(
+      drawer: MainDrawer(
+        loginResponse: widget.loginResponse,
+      ),
       floatingActionButton: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: IconButton(
@@ -556,7 +560,7 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                                   Theme.of(context).colorScheme.onSecondary,
                             ),
                             onPressed: () async {
-                              await AddressService.createAddress(
+                              await AgencyService.createAgency(
                                   widget.loginResponse['authToken'],
                                   ref
                                       .watch(loginProvider.notifier)
