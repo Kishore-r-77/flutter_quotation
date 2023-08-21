@@ -46,6 +46,8 @@ dependencies:
 flutter_native_splash:
   color: "#04120c"
   image: assets/images/futura_logo.png
+  android: true
+  ios: true
 
 dev_dependencies:
   flutter_test:
