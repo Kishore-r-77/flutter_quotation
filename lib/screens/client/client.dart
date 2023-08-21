@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
+import 'package:quotation_flutter/providers/darkProvider/dark_provider.dart';
 import 'package:quotation_flutter/screens/client/client_enquiry.dart';
 import 'package:quotation_flutter/services/client/client_service.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
@@ -89,6 +90,7 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
   Widget build(BuildContext context) {
     final authToken =
         ref.read(loginProvider.notifier).prefs?.getString("authToken");
+    final isDark = ref.watch(darkProvider);
 
     dynamic clientResponse;
 
@@ -384,11 +386,16 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
                         child: ListTile(
                           title: Row(
                             children: [
-                              Text(
-                                '${clientLists[index]['ID']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
+                              CircleAvatar(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.primary,
+                                foregroundColor:
+                                    isDark ? Colors.black : Colors.white,
+                                child: Text(
+                                  '${clientLists[index]['ID']}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                               const SizedBox(

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
+import 'package:quotation_flutter/providers/darkProvider/dark_provider.dart';
 import 'package:quotation_flutter/screens/address/address.dart';
 import 'package:quotation_flutter/screens/agency/agency_enquiry.dart';
 import 'package:quotation_flutter/screens/bank/bank.dart';
@@ -119,6 +120,7 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
     final TextEditingController clientIdController = TextEditingController();
     final TextEditingController addressIdController = TextEditingController();
     final TextEditingController bankIdController = TextEditingController();
+    final isDark = ref.watch(darkProvider);
     return Scaffold(
       drawer: MainDrawer(
         loginResponse: widget.loginResponse,
@@ -867,11 +869,16 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                         child: ListTile(
                           title: Row(
                             children: [
-                              Text(
-                                '${agencyLists[index]['ID']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
+                              CircleAvatar(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.primary,
+                                foregroundColor:
+                                    isDark ? Colors.black : Colors.white,
+                                child: Text(
+                                  '${agencyLists[index]['ID']}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                               const SizedBox(

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
+import 'package:quotation_flutter/providers/darkProvider/dark_provider.dart';
 import 'package:quotation_flutter/screens/address/address_enquiry.dart';
 import 'package:quotation_flutter/screens/client/client.dart';
 import 'package:quotation_flutter/services/address/address_service.dart';
@@ -116,11 +117,13 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
     });
   }
 
-  TextEditingController _date = TextEditingController();
+  TextEditingController startDate = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final authToken =
         ref.watch(loginProvider.notifier).prefs?.getString("authToken");
+
+    final isDark = ref.watch(darkProvider);
 
     dynamic addressResponse;
 
@@ -395,7 +398,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                           ),
                           Flexible(
                             child: TextFormField(
-                              controller: _date,
+                              controller: startDate,
                               decoration: const InputDecoration(
                                 icon: Icon(Icons.calendar_today_rounded),
                                 labelText: "Start Date",
@@ -408,7 +411,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                                     lastDate: DateTime.now());
                                 if (pickeddate != null) {
                                   setState(() {
-                                    _date.text = DateFormat('dd/MM/yyyy')
+                                    startDate.text = DateFormat('dd/MM/yyyy')
                                         .format(pickeddate);
                                     initialvalues.update(
                                         "AddressStartDate",
@@ -809,11 +812,16 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                         child: ListTile(
                           title: Row(
                             children: [
-                              Text(
-                                '${addressLists[index]['ID']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
+                              CircleAvatar(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.primary,
+                                foregroundColor:
+                                    isDark ? Colors.black : Colors.white,
+                                child: Text(
+                                  '${addressLists[index]['ID']}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                               const SizedBox(
