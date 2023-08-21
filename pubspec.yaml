@@ -41,6 +41,13 @@ dependencies:
   flutter_riverpod: ^2.3.6
   flutter_dotenv: ^5.1.0
   flutter_slidable: ^3.0.0
+  flutter_native_splash: ^2.3.2
+
+flutter_native_splash:
+  color: "#04120c"
+  image: assets/images/futura_logo.png
+  android: true
+  ios: true
 
 dev_dependencies:
   flutter_test:
@@ -66,11 +73,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - .env
-    - assets/images/the-agency-logo.gif
-    - assets/images/peakpx.gif
-    - assets/images/png-transparent-bank-logo-bank-saving-bank-pic-building-structure-bank.png
-    - assets/images/clients-sign-icon-group-people-260nw-404234248.webp
-    - assets/images/address-icon-check-sign-approved-260nw-1051293593.webp
+    - assets/images/futura_logo.png
     # - images/a_dot_burr.jpeg
     # - images/a_dot_ham.jpeg
 
