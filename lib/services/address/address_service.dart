@@ -75,6 +75,40 @@ class AddressService {
     }
   }
 
+  static dynamic editAddress(
+    token,
+    companyId,
+    addressRecord,
+  ) async {
+    try {
+      final response = await dio.put(
+        '${AppUtils.appUrl}/api/v1/basicservices/addressupdate',
+        data: {
+          "ID": addressRecord["ID"],
+          "CompanyID": companyId,
+          "AddressLine1": addressRecord["AddressLine1"],
+          "AddressLine2": addressRecord["AddressLine2"],
+          "AddressLine3": addressRecord["AddressLine3"],
+          "AddressLine4": addressRecord["AddressLine4"],
+          "AddressLine5": addressRecord["AddressLine5"],
+          "AddressType": addressRecord["AddressType"],
+          "AddressPostCode": addressRecord["AddressPostCode"],
+          "AddressState": addressRecord["AddressState"],
+          "AddressCountry": addressRecord["AddressCountry"],
+          "AddressStartDate": addressRecord["AddressStartDate"],
+          "AddressEndDate": addressRecord["AddressEndDate"],
+          "ClientID": addressRecord["ClientID"]
+        },
+        options: Options(headers: {"Cookie": "Authorization=$token"}),
+      );
+
+      return response.data;
+    } catch (err) {
+      print(err);
+      throw Exception(err);
+    }
+  }
+
   static void softDeleteAddress(token, id) async {
     try {
       await dio.delete(

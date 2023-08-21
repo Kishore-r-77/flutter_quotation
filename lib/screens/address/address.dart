@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
+import 'package:quotation_flutter/screens/address/address_edit.dart';
 import 'package:quotation_flutter/screens/address/address_enquiry.dart';
 import 'package:quotation_flutter/screens/client/client.dart';
 import 'package:quotation_flutter/services/address/address_service.dart';
@@ -689,7 +690,26 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                             label: "Edit",
                             backgroundColor:
                                 Theme.of(context).colorScheme.primary,
-                            onPressed: (context) {},
+                            onPressed: (context) async {
+                              addressResponse = await AddressService.getAddress(
+                                  authToken, addressLists[index]['ID']);
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddressEdit(
+                                    addressRecord: addressResponse["Address"],
+                                    authToken: authToken,
+                                    companyId:
+                                        widget.loginResponse['companyId'],
+                                    languageId:
+                                        widget.loginResponse['languageId'],
+                                    loginResponse: widget.loginResponse,
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                           SlidableAction(
                             icon: Icons.info,
@@ -771,7 +791,25 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                             label: "Edit",
                             backgroundColor:
                                 Theme.of(context).colorScheme.primary,
-                            onPressed: (context) {},
+                            onPressed: (context) async {
+                              addressResponse = await AddressService.getAddress(
+                                  authToken, addressLists[index]['ID']);
+                              // ignore: use_build_context_synchronously
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddressEdit(
+                                    addressRecord: addressResponse["Address"],
+                                    authToken: authToken,
+                                    companyId:
+                                        widget.loginResponse['companyId'],
+                                    languageId:
+                                        widget.loginResponse['languageId'],
+                                    loginResponse: widget.loginResponse,
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                           SlidableAction(
                             icon: Icons.info,

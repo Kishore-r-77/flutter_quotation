@@ -47,7 +47,7 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
                 ),
                 const SizedBox(width: 18),
                 Text(
-                  'Sidebar Menu',
+                  'Quotation Menu',
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                       ),

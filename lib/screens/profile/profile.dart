@@ -4,6 +4,7 @@ import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
 class Profile extends StatelessWidget {
   const Profile({super.key, required this.loginResponse});
   final dynamic loginResponse;
+  final String logo = "assets/images/peakpx.gif";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,6 +15,13 @@ class Profile extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(8.0),
         children: <Widget>[
+          SizedBox(
+            width: 120,
+            height: 120,
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Image(image: AssetImage(logo))),
+          ),
           Card(
             child: Padding(
               padding: const EdgeInsets.all(8.0),

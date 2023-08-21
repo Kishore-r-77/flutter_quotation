@@ -1,4 +1,4 @@
-# quotation_flutter
+# quotation
 
 A new Flutter project.
 

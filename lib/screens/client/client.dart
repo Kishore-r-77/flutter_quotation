@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
+import 'package:quotation_flutter/screens/client/client_edit.dart';
 import 'package:quotation_flutter/screens/client/client_enquiry.dart';
 import 'package:quotation_flutter/services/client/client_service.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
@@ -267,7 +268,20 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
                             label: "Edit",
                             backgroundColor:
                                 Theme.of(context).colorScheme.primary,
-                            onPressed: (context) {},
+                            onPressed: (context) async {
+                              clientResponse = await ClientService.getClient(
+                                  authToken, clientLists[index]['ID']);
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ClientEdit(
+                                      clientRecord: clientResponse["Client"],
+                                      authToken: authToken),
+                                ),
+                              );
+                            },
                           ),
                           SlidableAction(
                             icon: Icons.info,
