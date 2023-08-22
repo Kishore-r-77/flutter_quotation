@@ -12,13 +12,78 @@ import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 class QHeaderModal extends ConsumerStatefulWidget {
   const QHeaderModal({
     super.key,
+    required this.loginResponse,
   });
+  final dynamic loginResponse;
 
   @override
   ConsumerState<QHeaderModal> createState() => _QHeaderModalState();
 }
 
 class _QHeaderModalState extends ConsumerState<QHeaderModal> {
+  @override
+  void initState() {
+    super.initState();
+    getQNri();
+    getQccg();
+    getQProduct();
+    getQccs();
+  }
+
+  List<dynamic> qNri = [];
+  List<dynamic> qCcg = [];
+  List<dynamic> qProduct = [];
+  List<dynamic> qCcs = [];
+
+  String dropdownValue1 = 'N';
+  String dropdownValue2 = 'ACC';
+  String dropdownValue3 = 'AEN';
+  String dropdownValue4 = 'CHEM';
+
+  Future<dynamic> getQNri() async {
+    final response = await QuotationServices.Params(
+        widget.loginResponse['authToken'],
+        widget.loginResponse['companyId'],
+        widget.loginResponse['languageId'],
+        "P0046");
+    setState(() {
+      qNri = response["data"];
+    });
+  }
+
+  Future<dynamic> getQccg() async {
+    final response = await QuotationServices.Params(
+        widget.loginResponse['authToken'],
+        widget.loginResponse['companyId'],
+        widget.loginResponse['languageId'],
+        "Q0007");
+    setState(() {
+      qCcg = response["data"];
+    });
+  }
+
+  Future<dynamic> getQProduct() async {
+    final response = await QuotationServices.Params(
+        widget.loginResponse['authToken'],
+        widget.loginResponse['companyId'],
+        widget.loginResponse['languageId'],
+        "Q0005");
+    setState(() {
+      qProduct = response["data"];
+    });
+  }
+
+  Future<dynamic> getQccs() async {
+    final response = await QuotationServices.Params(
+        widget.loginResponse['authToken'],
+        widget.loginResponse['companyId'],
+        widget.loginResponse['languageId'],
+        "Q0008");
+    setState(() {
+      qCcs = response["data"];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double annualIncome = 300000;
@@ -178,45 +243,71 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
             ),
             Row(
               children: [
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
+                StatefulBuilder(
+                  builder: (context, setDropdownState) => Flexible(
+                    child: DropdownButtonFormField<String>(
+                      value: dropdownValue1,
+                      icon: const Icon(Icons.arrow_downward),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      decoration:
+                          const InputDecoration(labelText: "NRI status"),
+                      onChanged: (selectedvalue) {
+                        setDropdownState(() {
+                          dropdownValue1 = selectedvalue!;
+                          qHeaderQDetails.update(
+                              "QNri", (val) => dropdownValue1);
+                        });
+                      },
+                      items: qNri
+                          .map(
+                            (values) => DropdownMenuItem(
+                              value: "${values['item']}",
+                              child: Text(
+                                "${values['longdesc']}",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
                     ),
-                    initialValue: qHeaderQDetails["QNri"],
-                    onChanged: (value) {
-                      qHeaderQDetails.update("QNri", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "Nri",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
                   ),
                 ),
                 const SizedBox(
                   width: 10,
                 ),
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
+                StatefulBuilder(
+                  builder: (context, setDropdownState) => Flexible(
+                    child: DropdownButtonFormField<String>(
+                      value: dropdownValue2,
+                      icon: const Icon(Icons.arrow_downward),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      decoration:
+                          const InputDecoration(labelText: "Occupation Group"),
+                      onChanged: (selectedvalue) {
+                        setDropdownState(() {
+                          dropdownValue2 = selectedvalue!;
+                          qHeaderQDetails.update(
+                              "QOccGroup", (val) => dropdownValue2);
+                        });
+                      },
+                      items: qCcg
+                          .map(
+                            (values) => DropdownMenuItem(
+                              value: "${values['item']}",
+                              child: Text(
+                                "${values['longdesc']}",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
                     ),
-                    initialValue: qHeaderQDetails["QOccGroup"],
-                    onChanged: (value) {
-                      qHeaderQDetails.update("QOccGroup", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "Occ Group",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
                   ),
                 ),
               ],
@@ -262,23 +353,35 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                 const SizedBox(
                   width: 10,
                 ),
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
+                StatefulBuilder(
+                  builder: (context, setDropdownState) => Flexible(
+                    child: DropdownButtonFormField<String>(
+                      value: dropdownValue3,
+                      icon: const Icon(Icons.arrow_downward),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      decoration: const InputDecoration(labelText: "Product"),
+                      onChanged: (selectedvalue) {
+                        setDropdownState(() {
+                          dropdownValue3 = selectedvalue!;
+                          qHeaderQDetails.update(
+                              "QProduct", (val) => dropdownValue3);
+                        });
+                      },
+                      items: qProduct
+                          .map(
+                            (values) => DropdownMenuItem(
+                              value: "${values['item']}",
+                              child: Text(
+                                "${values['shortdesc']}",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
                     ),
-                    initialValue: qHeaderQDetails["QProduct"],
-                    onChanged: (value) {
-                      qHeaderQDetails.update("QProduct", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "Product",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
                   ),
                 ),
               ],
@@ -310,23 +413,36 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                 const SizedBox(
                   width: 10,
                 ),
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
+                StatefulBuilder(
+                  builder: (context, setDropdownState) => Flexible(
+                    child: DropdownButtonFormField<String>(
+                      value: dropdownValue4,
+                      icon: const Icon(Icons.arrow_downward),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      decoration:
+                          const InputDecoration(labelText: "Occupation Sector"),
+                      onChanged: (selectedvalue) {
+                        setDropdownState(() {
+                          dropdownValue4 = selectedvalue!;
+                          qHeaderQDetails.update(
+                              "QOccSect", (val) => dropdownValue4);
+                        });
+                      },
+                      items: qCcs
+                          .map(
+                            (values) => DropdownMenuItem(
+                              value: "${values['item']}",
+                              child: Text(
+                                "${values['longdesc']}",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
                     ),
-                    initialValue: qHeaderQDetails["QOccSect"],
-                    onChanged: (value) {
-                      qHeaderQDetails.update("QOccSect", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "Occ Sect",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
                   ),
                 ),
               ],

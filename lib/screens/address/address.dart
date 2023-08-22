@@ -79,7 +79,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
         "P0022");
     setState(() {
       addresstypes = response["data"];
-      print(addresstypes);
+      // print(addresstypes);
     });
   }
 
@@ -127,17 +127,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
     }
 
     // SingingCharacter? _character = SingingCharacter.lafayette;
-    String? gender;
     String selectedValue = 'BU';
-
-    void handleRadioValueChanged(String? value) {
-      setState(() {
-        selectedValue = value!;
-        initialvalues.update("AddressType", (val) => selectedValue);
-      });
-    }
-
-    print(initialvalues["AddressType"]);
 
     final TextEditingController clientIdController = TextEditingController();
     return Scaffold(

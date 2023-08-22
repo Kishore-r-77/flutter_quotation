@@ -8,7 +8,9 @@ import 'package:quotation_flutter/widgets/quotation/qdetails_modal5.dart';
 import 'package:quotation_flutter/widgets/quotation/qheader_modal.dart';
 
 class QuotationModal extends StatefulWidget {
-  const QuotationModal({super.key});
+  const QuotationModal({super.key, required this.loginResponse});
+
+  final dynamic loginResponse;
 
   @override
   State<QuotationModal> createState() => _QuotationModalState();
@@ -24,13 +26,13 @@ class _QuotationModalState extends State<QuotationModal> {
       body: PageView(
         controller: controller,
         physics: const AlwaysScrollableScrollPhysics(),
-        children: const [
-          QHeaderModal(),
-          QDetailsModal1(),
-          QDetailsModal2(),
-          QDetailsModal3(),
-          QDetailsModal4(),
-          QDetailsModal5(),
+        children: [
+          QHeaderModal(loginResponse: widget.loginResponse),
+          QDetailsModal1(loginResponse: widget.loginResponse),
+          QDetailsModal2(loginResponse: widget.loginResponse),
+          QDetailsModal3(loginResponse: widget.loginResponse),
+          QDetailsModal4(loginResponse: widget.loginResponse),
+          QDetailsModal5(loginResponse: widget.loginResponse),
         ],
       ),
     );

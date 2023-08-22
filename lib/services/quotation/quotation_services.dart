@@ -87,4 +87,39 @@ class QuotationServices {
       throw Exception(err);
     }
   }
+
+  static dynamic Params(token, companyid, languageid, name) async {
+    try {
+      final response = await dio.get(
+        '${AppUtils.appUrl}/api/v1/basicservices/paramItems?companyId=$companyid&name=$name&languageId=$languageid',
+        options: Options(headers: {"Cookie": "Authorization=$token"}),
+      );
+      if (response.statusCode == 200) {
+        print(response.data);
+        return response.data;
+      } else {
+        throw Exception('Failed to get Address Type');
+      }
+    } catch (err) {
+      throw Exception('An error occurred: $err');
+    }
+  }
+
+  static dynamic TermParams(
+      token, name, date, item, companyid, function) async {
+    try {
+      final response = await dio.get(
+        '${AppUtils.appUrl}/api/v1/basicservices/paramextradata?name=$name&date=$date&item=$item&company_id=$companyid&function=$function',
+        options: Options(headers: {"Cookie": "Authorization=$token"}),
+      );
+      if (response.statusCode == 200) {
+        print(response.data);
+        return response.data;
+      } else {
+        throw Exception('Failed to get Address Type');
+      }
+    } catch (err) {
+      throw Exception('An error occurred: $err');
+    }
+  }
 }
