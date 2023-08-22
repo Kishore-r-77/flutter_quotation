@@ -3,20 +3,63 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
 import 'package:quotation_flutter/providers/quotationProvider/quotation_provider.dart';
 import 'package:quotation_flutter/services/quotation/quotation_services.dart';
-import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 
-class QDetailsModal4 extends ConsumerWidget {
-  const QDetailsModal4({super.key});
+import '../../utils/appUtils/app_utils.dart';
+
+class QDetailsModal4 extends ConsumerStatefulWidget {
+  const QDetailsModal4({super.key, required this.loginResponse});
+
+  final dynamic loginResponse;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<QDetailsModal4> createState() => _QDetailsModal4State();
+}
+
+class _QDetailsModal4State extends ConsumerState<QDetailsModal4> {
+  @override
+  void initState() {
+    super.initState();
+    getQCover();
+    getTerms();
+  }
+
+  List<dynamic> qCovers = [];
+  List<dynamic> qTerms = [];
+  String dropdownValue1 = 'END1';
+  String dropdownValue2 = '5';
+
+  Future<dynamic> getQCover() async {
+    final response = await QuotationServices.Params(
+        widget.loginResponse['authToken'],
+        widget.loginResponse['companyId'],
+        widget.loginResponse['languageId'],
+        "Q0006");
+    setState(() {
+      qCovers = response["data"];
+    });
+  }
+
+  Future<dynamic> getTerms() async {
+    final response = await QuotationServices.TermParams(
+        widget.loginResponse['authToken'],
+        "Q0016",
+        "20220101",
+        dropdownValue1,
+        widget.loginResponse['companyId'],
+        "TermRange");
+    setState(() {
+      qTerms = response["ppt"];
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     double sumAssured = 100000;
 
     final Map<String, dynamic> qDetailModal4 =
         ref.watch(quotationProvider.notifier).modal4;
 
     List<dynamic> qDetails = ref.watch(quotationProvider)["QDetails"];
-    //qDetails.add(qDetailModal4);
     bool isAdd = ref.watch(quotationProvider.notifier).isAdd;
     bool isRemove = ref.watch(quotationProvider.notifier).isRemove;
     final Map<String, dynamic> qHeaderQDetails = ref.watch(quotationProvider);
@@ -24,8 +67,6 @@ class QDetailsModal4 extends ConsumerWidget {
         ref.watch(loginProvider.notifier).prefs?.getString("authToken");
     final companyId =
         ref.watch(loginProvider.notifier).prefs?.getInt("companyId");
-    print(isAdd);
-    print(isRemove);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -47,45 +88,70 @@ class QDetailsModal4 extends ConsumerWidget {
             ),
             Row(
               children: [
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
+                StatefulBuilder(
+                  builder: (context, setDropdownState) => Flexible(
+                    child: DropdownButtonFormField<String>(
+                      value: dropdownValue1,
+                      icon: const Icon(Icons.arrow_downward),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      decoration: const InputDecoration(labelText: "Coverage"),
+                      onChanged: (selectedvalue) {
+                        setDropdownState(() {
+                          dropdownValue1 = selectedvalue!;
+                          qDetailModal4.update(
+                              "QCoverage", (val) => dropdownValue1);
+                        });
+                      },
+                      items: qCovers
+                          .map(
+                            (values) => DropdownMenuItem(
+                              value: "${values['item']}",
+                              child: Text(
+                                "${values['item']}",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
                     ),
-                    initialValue: qDetailModal4["QCoverage"],
-                    onChanged: (value) {
-                      qDetailModal4.update("QCoverage", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "Coverage",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
                   ),
                 ),
                 const SizedBox(
                   width: 10,
                 ),
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
+                StatefulBuilder(
+                  builder: (context, setDropdownState) => Flexible(
+                    child: DropdownButtonFormField<String>(
+                      value: dropdownValue2,
+                      icon: const Icon(Icons.arrow_downward),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      decoration:
+                          const InputDecoration(labelText: "Risk Cess Term"),
+                      onChanged: (selectedvalue) {
+                        setDropdownState(() {
+                          dropdownValue2 = selectedvalue!;
+                          qDetailModal4.update(
+                              "QRiskCessTerm", (val) => dropdownValue2);
+                        });
+                      },
+                      items: qTerms
+                          .map(
+                            (values) => DropdownMenuItem(
+                              value: "${values}",
+                              child: Text(
+                                "${values}",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
                     ),
-                    initialValue: qDetailModal4["QRiskCessTerm"],
-                    onChanged: (value) {
-                      qDetailModal4.update("QRiskCessTerm", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "RiskCessTerm",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
                   ),
                 ),
               ],
@@ -95,45 +161,71 @@ class QDetailsModal4 extends ConsumerWidget {
             ),
             Row(
               children: [
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
+                StatefulBuilder(
+                  builder: (context, setDropdownState) => Flexible(
+                    child: DropdownButtonFormField<String>(
+                      value: dropdownValue2,
+                      icon: const Icon(Icons.arrow_downward),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      decoration:
+                          const InputDecoration(labelText: "Premium Cess Term"),
+                      onChanged: (selectedvalue) {
+                        setDropdownState(() {
+                          dropdownValue2 = selectedvalue!;
+                          qDetailModal4.update(
+                              "QPremCessTerm", (val) => dropdownValue2);
+                        });
+                      },
+                      items: qTerms
+                          .map(
+                            (values) => DropdownMenuItem(
+                              value: "${values}",
+                              child: Text(
+                                "${values}",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
                     ),
-                    initialValue: qDetailModal4["QPremCessTerm"],
-                    onChanged: (value) {
-                      qDetailModal4.update("QPremCessTerm", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "PremCessTerm",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
                   ),
                 ),
                 const SizedBox(
                   width: 10,
                 ),
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
+                StatefulBuilder(
+                  builder: (context, setDropdownState) => Flexible(
+                    child: DropdownButtonFormField<String>(
+                      value: dropdownValue2,
+                      icon: const Icon(Icons.arrow_downward),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      decoration:
+                          const InputDecoration(labelText: "Benefit Cess Term"),
+                      onChanged: (selectedvalue) {
+                        setDropdownState(() {
+                          dropdownValue2 = selectedvalue!;
+                          qDetailModal4.update(
+                              "QBeneCessTerm", (val) => dropdownValue2);
+                        });
+                      },
+                      items: qTerms
+                          .map(
+                            (values) => DropdownMenuItem(
+                              value: "${values}",
+                              child: Text(
+                                "${values}",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
                     ),
-                    initialValue: qDetailModal4["QBeneCessTerm"],
-                    onChanged: (value) {
-                      qDetailModal4.update("QBeneCessTerm", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "BeneCessTerm",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
                   ),
                 ),
               ],
@@ -320,6 +412,7 @@ class QDetailsModal4 extends ConsumerWidget {
                 );
                 print("Clicked");
                 print(qHeaderQDetails);
+                print(quotationStatusCode);
                 if (quotationStatusCode.statusCode == 200) {
                   Navigator.pop(context);
                   qDetailModal4.update("QCoverage", (value) => "");

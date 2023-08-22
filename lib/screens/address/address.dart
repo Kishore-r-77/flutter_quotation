@@ -82,7 +82,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
         "P0022");
     setState(() {
       addresstypes = response["data"];
-      print(addresstypes);
+      // print(addresstypes);
     });
   }
 
@@ -128,7 +128,6 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
     dynamic addressResponse;
 
     // SingingCharacter? _character = SingingCharacter.lafayette;
-
     String selectedValue = 'BU';
 
     final TextEditingController clientIdController = TextEditingController();

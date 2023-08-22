@@ -80,4 +80,52 @@ class BankService {
       throw Exception(err);
     }
   }
+
+  static dynamic getBankTypes(token, companyid, languageid, name) async {
+    try {
+      final response = await dio.get(
+        '${AppUtils.appUrl}/api/v1/basicservices/paramItems?companyId=$companyid&name=$name&languageId=$languageid',
+        options: Options(headers: {"Cookie": "Authorization=$token"}),
+      );
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        throw Exception('Failed to get Bank Type');
+      }
+    } catch (err) {
+      throw Exception('An error occurred: $err');
+    }
+  }
+
+  static dynamic getAccountTypes(token, companyid, languageid, name) async {
+    try {
+      final response = await dio.get(
+        '${AppUtils.appUrl}/api/v1/basicservices/paramItems?companyId=$companyid&name=$name&languageId=$languageid',
+        options: Options(headers: {"Cookie": "Authorization=$token"}),
+      );
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        throw Exception('Failed to get Account Type');
+      }
+    } catch (err) {
+      throw Exception('An error occurred: $err');
+    }
+  }
+
+  static dynamic getBankGroups(token, companyid, languageid, name, item) async {
+    try {
+      final response = await dio.get(
+        '${AppUtils.appUrl}/api/v1/basicservices/paramItem?companyId=1&name=P0050&languageId=1&item=BANKGROUP',
+        options: Options(headers: {"Cookie": "Authorization=$token"}),
+      );
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        throw Exception('Failed to get Account Type');
+      }
+    } catch (err) {
+      throw Exception('An error occurred: $err');
+    }
+  }
 }

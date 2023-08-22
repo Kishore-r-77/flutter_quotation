@@ -85,7 +85,8 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (ctx) => const QuotationModal(),
+                builder: (ctx) =>
+                    QuotationModal(loginResponse: widget.loginResponse),
               ),
             );
           },
