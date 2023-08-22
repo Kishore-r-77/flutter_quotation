@@ -117,6 +117,16 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
     });
   }
 
+  TextEditingController startDate = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    final authToken =
+        ref.watch(loginProvider.notifier).prefs?.getString("authToken");
+
+    final isDark = ref.watch(darkProvider);
+
+    dynamic addressResponse;
+
     // SingingCharacter? _character = SingingCharacter.lafayette;
     String selectedValue = 'BU';
 

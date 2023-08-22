@@ -298,6 +298,7 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                                 value: dropdownValue,
                                 icon: const Icon(Icons.arrow_downward),
                                 decoration: const InputDecoration(
+                                    fillColor: Colors.purple,
                                     labelText: "Bank Account Status"),
                                 elevation: 16,
                                 style:

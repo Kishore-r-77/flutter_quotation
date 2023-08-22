@@ -4,6 +4,8 @@ import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
 import 'package:quotation_flutter/providers/quotationProvider/quotation_provider.dart';
 import 'package:quotation_flutter/services/quotation/quotation_services.dart';
 
+import '../../utils/appUtils/app_utils.dart';
+
 class QDetailsModal1 extends ConsumerStatefulWidget {
   const QDetailsModal1({super.key, required this.loginResponse});
 
