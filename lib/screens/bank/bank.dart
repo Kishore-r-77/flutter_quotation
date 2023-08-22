@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
+import 'package:quotation_flutter/providers/darkProvider/dark_provider.dart';
 import 'package:quotation_flutter/screens/bank/bank_enquiry.dart';
 import 'package:quotation_flutter/screens/client/client.dart';
 import 'package:quotation_flutter/services/bank/bank_service.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
+import 'package:quotation_flutter/widgets/mainDrawer/main_drawer.dart';
 
 class BankScreen extends ConsumerStatefulWidget {
   const BankScreen({
@@ -117,6 +120,22 @@ class _BankScreenState extends ConsumerState<BankScreen> {
     initialvalues.update("BankGroup", (value) => "");
   }
 
+  deleteBank(id) async {
+    BankService.softDeleteBank(
+      widget.loginResponse['authToken'],
+      id,
+    );
+    var getData = await BankService.getAllBank(
+        widget.loginResponse['authToken'],
+        searchString.text,
+        searchCriteria,
+        pageNo.text,
+        pageSize);
+    setState(() {
+      bankLists = getData["All Banks"];
+    });
+  }
+
   final TextEditingController _sdate = TextEditingController();
   final TextEditingController _edate = TextEditingController();
 
@@ -127,24 +146,12 @@ class _BankScreenState extends ConsumerState<BankScreen> {
 
     dynamic bankResponse;
 
-    deleteBank(id) async {
-      BankService.softDeleteBank(
-        widget.loginResponse['authToken'],
-        id,
-      );
-      var getData = await BankService.getAllBank(
-          widget.loginResponse['authToken'],
-          searchString.text,
-          searchCriteria,
-          pageNo.text,
-          pageSize);
-      setState(() {
-        bankLists = getData["All Banks"];
-      });
-    }
-
     final TextEditingController clientIdController = TextEditingController();
+    final isDark = ref.watch(darkProvider);
     return Scaffold(
+      drawer: MainDrawer(
+        loginResponse: widget.loginResponse,
+      ),
       floatingActionButton: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: IconButton(
@@ -541,44 +548,178 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                 fit: FlexFit.loose,
                 child: ListView.builder(
                   itemCount: bankLists.length,
-                  itemBuilder: (context, index) => Dismissible(
-                    key: ValueKey(bankLists[index]['ID']),
-                    background: Container(
-                      color:
-                          Theme.of(context).colorScheme.error.withOpacity(0.75),
-                      // margin: EdgeInsets.symmetric(
-                      //     horizontal:
-                      //         Theme.of(context).cardTheme.margin!.horizontal),
-                    ),
-                    onDismissed: (direction) {
-                      deleteBank(bankLists[index]['ID']);
-                      ScaffoldMessenger.of(context).clearSnackBars();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text("Address Deleted"),
-                          duration: const Duration(seconds: 3),
-                          action: SnackBarAction(
-                            label: "Undo",
-                            onPressed: () {
-                              // setState(() {
-                              //   _registeredExpenses.insert(expenseIndex, expense);
-                              // });
+                  itemBuilder: (context, index) => InkWell(
+                    onTap: () {
+                      if (widget.isLookUp) {
+                        return Navigator.pop(
+                          context,
+                          bankLists[index]['ID'].toString(),
+                        );
+                      } else {
+                        return;
+                      }
+                    },
+                    child: Slidable(
+                      startActionPane: ActionPane(
+                        motion: const BehindMotion(),
+                        children: [
+                          SlidableAction(
+                            icon: Icons.delete,
+                            label: "Delete",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error,
+                            onPressed: (context) {
+                              showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  content: const Text(
+                                      "Are you sure you want to delete this Record"),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(ctx);
+                                      },
+                                      child: const Text("No"),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        deleteBank(bankLists[index]['ID']);
+                                        Navigator.pop(ctx);
+
+                                        ScaffoldMessenger.of(ctx)
+                                            .clearSnackBars();
+                                        ScaffoldMessenger.of(ctx).showSnackBar(
+                                          const SnackBar(
+                                            content: Text("Bank Deleted"),
+                                            duration: Duration(seconds: 2),
+                                            // action: SnackBarAction(
+                                            //   label: "Undo",
+                                            //   onPressed: () {
+                                            //     // setState(() {
+                                            //     //   _registeredExpenses.insert(expenseIndex, expense);
+                                            //     // });
+                                            //   },
+                                            //),
+                                          ),
+                                        );
+                                      },
+                                      child: const Text("Delete"),
+                                    ),
+                                  ],
+                                ),
+                                barrierDismissible: true,
+                              );
                             },
                           ),
-                        ),
-                      );
-                    },
-                    child: InkWell(
-                      onTap: () {
-                        if (widget.isLookUp) {
-                          return Navigator.pop(
-                            context,
-                            bankLists[index]['ID'].toString(),
-                          );
-                        } else {
-                          return;
-                        }
-                      },
+                          SlidableAction(
+                            icon: Icons.edit,
+                            label: "Edit",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            onPressed: (context) {},
+                          ),
+                          SlidableAction(
+                            icon: Icons.info,
+                            label: "Info",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.inversePrimary,
+                            onPressed: (context) async {
+                              bankResponse = await BankService.getBank(
+                                  authToken, bankLists[index]['ID']);
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BankEnquiry(
+                                      bankResponse: bankResponse["Bank"],
+                                      authToken: authToken),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      endActionPane: ActionPane(
+                        motion: const BehindMotion(),
+                        children: [
+                          SlidableAction(
+                            icon: Icons.delete,
+                            label: "Delete",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error,
+                            onPressed: (context) {
+                              showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  content: const Text(
+                                      "Are you sure you want to delete this Record"),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(ctx);
+                                      },
+                                      child: const Text("No"),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        deleteBank(bankLists[index]['ID']);
+                                        Navigator.pop(ctx);
+
+                                        ScaffoldMessenger.of(ctx)
+                                            .clearSnackBars();
+                                        ScaffoldMessenger.of(ctx).showSnackBar(
+                                          const SnackBar(
+                                            content: Text("Bank Deleted"),
+                                            duration: Duration(seconds: 2),
+                                            // action: SnackBarAction(
+                                            //   label: "Undo",
+                                            //   onPressed: () {
+                                            //     // setState(() {
+                                            //     //   _registeredExpenses.insert(expenseIndex, expense);
+                                            //     // });
+                                            //   },
+                                            //),
+                                          ),
+                                        );
+                                      },
+                                      child: const Text("Delete"),
+                                    ),
+                                  ],
+                                ),
+                                barrierDismissible: true,
+                              );
+                            },
+                          ),
+                          SlidableAction(
+                            icon: Icons.edit,
+                            label: "Edit",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            onPressed: (context) {},
+                          ),
+                          SlidableAction(
+                            icon: Icons.info,
+                            label: "Info",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.inversePrimary,
+                            onPressed: (context) async {
+                              bankResponse = await BankService.getBank(
+                                  authToken, bankLists[index]['ID']);
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BankEnquiry(
+                                      bankResponse: bankResponse["Bank"],
+                                      authToken: authToken),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                       child: Card(
                         color: Theme.of(context).colorScheme.surface,
                         shape: const RoundedRectangleBorder(
@@ -592,11 +733,16 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                         child: ListTile(
                           title: Row(
                             children: [
-                              Text(
-                                '${bankLists[index]['ID']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
+                              CircleAvatar(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.primary,
+                                foregroundColor:
+                                    isDark ? Colors.black : Colors.white,
+                                child: Text(
+                                  '${bankLists[index]['ID']}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                               const SizedBox(
@@ -631,23 +777,9 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                             ],
                           ),
                           trailing: IconButton(
-                              onPressed: () async {
-                                bankResponse = await BankService.getBank(
-                                    authToken, bankLists[index]['ID']);
-
-                                // ignore: use_build_context_synchronously
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => BankEnquiry(
-                                      bankResponse: bankResponse["Bank"],
-                                      authToken: authToken,
-                                    ),
-                                  ),
-                                );
-                              },
+                              onPressed: () {},
                               icon: Icon(
-                                Icons.info,
+                                Icons.swipe,
                                 color: Theme.of(context).colorScheme.primary,
                               )),
                         ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quotation_flutter/providers/darkProvider/dark_provider.dart';
 
+//Custom AppBar
 class CustomAppBar extends ConsumerStatefulWidget
     implements PreferredSizeWidget {
   const CustomAppBar({super.key, required this.title, required this.isBack});

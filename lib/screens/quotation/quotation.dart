@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
 import 'package:quotation_flutter/screens/quotation/quotation_enquiry.dart';
 import 'package:quotation_flutter/services/quotation/quotation_services.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
+import 'package:quotation_flutter/widgets/mainDrawer/main_drawer.dart';
 import 'package:quotation_flutter/widgets/quotation/quotation_modal.dart';
 
 class QuotationScreen extends ConsumerStatefulWidget {
@@ -49,6 +51,22 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
     });
   }
 
+  deleteQuotation(id) async {
+    QuotationServices.softDeleteQuotation(
+      widget.loginResponse['authToken'],
+      id,
+    );
+    var getData = await QuotationServices.getAllQuotation(
+        widget.loginResponse['authToken'],
+        searchString.text,
+        searchCriteria,
+        pageNo.text,
+        pageSize);
+    setState(() {
+      quotationLists = getData["All QHeaders"];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final authToken =
@@ -57,6 +75,9 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
     dynamic quotationResponse;
 
     return Scaffold(
+      drawer: MainDrawer(
+        loginResponse: widget.loginResponse,
+      ),
       floatingActionButton: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: IconButton(
@@ -160,59 +181,71 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
                 fit: FlexFit.loose,
                 child: ListView.builder(
                   itemCount: quotationLists.length,
-                  itemBuilder: (context, index) => Card(
-                    color: Theme.of(context).colorScheme.surface,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(15),
-                      ),
-                    ),
-                    borderOnForeground: false,
-                    // shadowColor: Theme.of(context).colorScheme.primary,
-                    elevation: 12,
-                    child: ListTile(
-                      title: Row(
-                        children: [
-                          Text(
-                            '${quotationLists[index]['ID']}',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            '${quotationLists[index]['QProduct']}',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      subtitle: Row(
-                        children: [
-                          Text(
-                            '${quotationLists[index]['QFirstName']}',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            '${quotationLists[index]['QOccupation']}',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                        ],
-                      ),
-                      trailing: IconButton(
-                          onPressed: () async {
+                  itemBuilder: (context, index) => Slidable(
+                    startActionPane: ActionPane(
+                      motion: const BehindMotion(),
+                      children: [
+                        SlidableAction(
+                          icon: Icons.delete,
+                          label: "Delete",
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                          onPressed: (context) {
+                            showDialog(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                content: const Text(
+                                    "Are you sure you want to delete this Record"),
+                                actions: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(ctx);
+                                    },
+                                    child: const Text("No"),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      deleteQuotation(
+                                          quotationLists[index]['ID']);
+                                      Navigator.pop(ctx);
+
+                                      ScaffoldMessenger.of(ctx)
+                                          .clearSnackBars();
+                                      ScaffoldMessenger.of(ctx).showSnackBar(
+                                        const SnackBar(
+                                          content: Text("Quotation Deleted"),
+                                          duration: Duration(seconds: 2),
+                                          // action: SnackBarAction(
+                                          //   label: "Undo",
+                                          //   onPressed: () {
+                                          //     // setState(() {
+                                          //     //   _registeredExpenses.insert(expenseIndex, expense);
+                                          //     // });
+                                          //   },
+                                          //),
+                                        ),
+                                      );
+                                    },
+                                    child: const Text("Delete"),
+                                  ),
+                                ],
+                              ),
+                              barrierDismissible: true,
+                            );
+                          },
+                        ),
+                        SlidableAction(
+                          icon: Icons.edit,
+                          label: "Edit",
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
+                          onPressed: (context) {},
+                        ),
+                        SlidableAction(
+                          icon: Icons.info,
+                          label: "Info",
+                          backgroundColor:
+                              Theme.of(context).colorScheme.inversePrimary,
+                          onPressed: (context) async {
                             quotationResponse =
                                 await QuotationServices.getQuotation(
                                     authToken, quotationLists[index]['ID']);
@@ -228,8 +261,144 @@ class _QuotationScreenState extends ConsumerState<QuotationScreen> {
                               ),
                             );
                           },
-                          icon: Icon(
-                            Icons.info,
+                        ),
+                      ],
+                    ),
+                    endActionPane: ActionPane(
+                      motion: const BehindMotion(),
+                      children: [
+                        SlidableAction(
+                          icon: Icons.delete,
+                          label: "Delete",
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                          onPressed: (context) {
+                            showDialog(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                content: const Text(
+                                    "Are you sure you want to delete this Record"),
+                                actions: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(ctx);
+                                    },
+                                    child: const Text("No"),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      deleteQuotation(
+                                          quotationLists[index]['ID']);
+                                      Navigator.pop(ctx);
+
+                                      ScaffoldMessenger.of(ctx)
+                                          .clearSnackBars();
+                                      ScaffoldMessenger.of(ctx).showSnackBar(
+                                        const SnackBar(
+                                          content: Text("Quotation Deleted"),
+                                          duration: Duration(seconds: 2),
+                                          // action: SnackBarAction(
+                                          //   label: "Undo",
+                                          //   onPressed: () {
+                                          //     // setState(() {
+                                          //     //   _registeredExpenses.insert(expenseIndex, expense);
+                                          //     // });
+                                          //   },
+                                          //),
+                                        ),
+                                      );
+                                    },
+                                    child: const Text("Delete"),
+                                  ),
+                                ],
+                              ),
+                              barrierDismissible: true,
+                            );
+                          },
+                        ),
+                        SlidableAction(
+                          icon: Icons.edit,
+                          label: "Edit",
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
+                          onPressed: (context) {},
+                        ),
+                        SlidableAction(
+                          icon: Icons.info,
+                          label: "Info",
+                          backgroundColor:
+                              Theme.of(context).colorScheme.inversePrimary,
+                          onPressed: (context) async {
+                            quotationResponse =
+                                await QuotationServices.getQuotation(
+                                    authToken, quotationLists[index]['ID']);
+
+                            // ignore: use_build_context_synchronously
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => QuotationEnquiry(
+                                    quotationResponse:
+                                        quotationResponse["QHeader"],
+                                    authToken: authToken),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    child: Card(
+                      color: Theme.of(context).colorScheme.surface,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                      ),
+                      borderOnForeground: false,
+                      // shadowColor: Theme.of(context).colorScheme.primary,
+                      elevation: 12,
+                      child: ListTile(
+                          title: Row(
+                            children: [
+                              Text(
+                                '${quotationLists[index]['ID']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                '${quotationLists[index]['QProduct']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          subtitle: Row(
+                            children: [
+                              Text(
+                                '${quotationLists[index]['QFirstName']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                '${quotationLists[index]['QOccupation']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ],
+                          ),
+                          trailing: Icon(
+                            Icons.swipe,
                             color: Theme.of(context).colorScheme.primary,
                           )),
                     ),

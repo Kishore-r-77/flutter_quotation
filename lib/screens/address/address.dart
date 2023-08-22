@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
+import 'package:quotation_flutter/providers/darkProvider/dark_provider.dart';
 import 'package:quotation_flutter/screens/address/address_enquiry.dart';
 import 'package:quotation_flutter/screens/client/client.dart';
 import 'package:quotation_flutter/services/address/address_service.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
+import 'package:quotation_flutter/widgets/mainDrawer/main_drawer.dart';
 
 class AddressScreen extends ConsumerStatefulWidget {
   const AddressScreen({
@@ -98,39 +101,30 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
     initialvalues.update("ClientID", (value) => "");
   }
 
-  TextEditingController _date = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-    final authToken =
-        ref.watch(loginProvider.notifier).prefs?.getString("authToken");
-    final companyId =
-        ref.watch(loginProvider.notifier).prefs?.getInt("companyId");
-    final languageId =
-        ref.watch(loginProvider.notifier).prefs?.getInt("languageId");
-
-    dynamic addressResponse;
-
-    deleteAddress(id) async {
-      AddressService.softDeleteAddress(
+  deleteAddress(id) async {
+    AddressService.softDeleteAddress(
+      widget.loginResponse['authToken'],
+      id,
+    );
+    var getData = await AddressService.getAllAddress(
         widget.loginResponse['authToken'],
-        id,
-      );
-      var getData = await AddressService.getAllAddress(
-          widget.loginResponse['authToken'],
-          searchString.text,
-          searchCriteria,
-          pageNo.text,
-          pageSize);
-      setState(() {
-        addressLists = getData["All Addresses"];
-      });
-    }
+        searchString.text,
+        searchCriteria,
+        pageNo.text,
+        pageSize);
+    setState(() {
+      addressLists = getData["All Addresses"];
+    });
+  }
 
     // SingingCharacter? _character = SingingCharacter.lafayette;
     String selectedValue = 'BU';
 
     final TextEditingController clientIdController = TextEditingController();
     return Scaffold(
+      drawer: MainDrawer(
+        loginResponse: widget.loginResponse,
+      ),
       floatingActionButton: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: IconButton(
@@ -393,7 +387,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                           ),
                           Flexible(
                             child: TextFormField(
-                              controller: _date,
+                              controller: startDate,
                               decoration: const InputDecoration(
                                 icon: Icon(Icons.calendar_today_rounded),
                                 labelText: "Start Date",
@@ -406,7 +400,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                                     lastDate: DateTime.now());
                                 if (pickeddate != null) {
                                   setState(() {
-                                    _date.text = DateFormat('dd/MM/yyyy')
+                                    startDate.text = DateFormat('dd/MM/yyyy')
                                         .format(pickeddate);
                                     initialvalues.update(
                                         "AddressStartDate",
@@ -618,44 +612,182 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                 fit: FlexFit.loose,
                 child: ListView.builder(
                   itemCount: addressLists.length,
-                  itemBuilder: (context, index) => Dismissible(
-                    key: ValueKey(addressLists[index]['ID']),
-                    background: Container(
-                      color:
-                          Theme.of(context).colorScheme.error.withOpacity(0.75),
-                      // margin: EdgeInsets.symmetric(
-                      //     horizontal:
-                      //         Theme.of(context).cardTheme.margin!.horizontal),
-                    ),
-                    onDismissed: (direction) {
-                      deleteAddress(addressLists[index]['ID']);
-                      ScaffoldMessenger.of(context).clearSnackBars();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text("Address Deleted"),
-                          duration: const Duration(seconds: 3),
-                          action: SnackBarAction(
-                            label: "Undo",
-                            onPressed: () {
-                              // setState(() {
-                              //   _registeredExpenses.insert(expenseIndex, expense);
-                              // });
+                  itemBuilder: (context, index) => InkWell(
+                    onTap: () {
+                      if (widget.isLookUp) {
+                        return Navigator.pop(
+                          context,
+                          addressLists[index]['ID'].toString(),
+                        );
+                      } else {
+                        return;
+                      }
+                    },
+                    child: Slidable(
+                      startActionPane: ActionPane(
+                        motion: const BehindMotion(),
+                        children: [
+                          SlidableAction(
+                            icon: Icons.delete,
+                            label: "Delete",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error,
+                            onPressed: (context) {
+                              showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  content: const Text(
+                                      "Are you sure you want to delete this Record"),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(ctx);
+                                      },
+                                      child: const Text("No"),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        deleteAddress(
+                                            addressLists[index]['ID']);
+                                        Navigator.pop(ctx);
+
+                                        ScaffoldMessenger.of(ctx)
+                                            .clearSnackBars();
+                                        ScaffoldMessenger.of(ctx).showSnackBar(
+                                          const SnackBar(
+                                            content: Text("Address Deleted"),
+                                            duration: Duration(seconds: 2),
+                                            // action: SnackBarAction(
+                                            //   label: "Undo",
+                                            //   onPressed: () {
+                                            //     // setState(() {
+                                            //     //   _registeredExpenses.insert(expenseIndex, expense);
+                                            //     // });
+                                            //   },
+                                            //),
+                                          ),
+                                        );
+                                      },
+                                      child: const Text("Delete"),
+                                    ),
+                                  ],
+                                ),
+                                barrierDismissible: true,
+                              );
                             },
                           ),
-                        ),
-                      );
-                    },
-                    child: InkWell(
-                      onTap: () {
-                        if (widget.isLookUp) {
-                          return Navigator.pop(
-                            context,
-                            addressLists[index]['ID'].toString(),
-                          );
-                        } else {
-                          return;
-                        }
-                      },
+                          SlidableAction(
+                            icon: Icons.edit,
+                            label: "Edit",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            onPressed: (context) {},
+                          ),
+                          SlidableAction(
+                            icon: Icons.info,
+                            label: "Info",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.inversePrimary,
+                            onPressed: (context) async {
+                              addressResponse = await AddressService.getAddress(
+                                  authToken, addressLists[index]['ID']);
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddressEnquiry(
+                                      addressResponse:
+                                          addressResponse["Address"],
+                                      authToken: authToken),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      endActionPane: ActionPane(
+                        motion: const BehindMotion(),
+                        children: [
+                          SlidableAction(
+                            icon: Icons.delete,
+                            label: "Delete",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error,
+                            onPressed: (context) {
+                              showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  content: const Text(
+                                      "Are you sure you want to delete this Record"),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(ctx);
+                                      },
+                                      child: const Text("No"),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        deleteAddress(
+                                            addressLists[index]['ID']);
+                                        Navigator.pop(ctx);
+
+                                        ScaffoldMessenger.of(ctx)
+                                            .clearSnackBars();
+                                        ScaffoldMessenger.of(ctx).showSnackBar(
+                                          const SnackBar(
+                                            content: Text("Address Deleted"),
+                                            duration: Duration(seconds: 2),
+                                            // action: SnackBarAction(
+                                            //   label: "Undo",
+                                            //   onPressed: () {
+                                            //     // setState(() {
+                                            //     //   _registeredExpenses.insert(expenseIndex, expense);
+                                            //     // });
+                                            //   },
+                                            //),
+                                          ),
+                                        );
+                                      },
+                                      child: const Text("Delete"),
+                                    ),
+                                  ],
+                                ),
+                                barrierDismissible: true,
+                              );
+                            },
+                          ),
+                          SlidableAction(
+                            icon: Icons.edit,
+                            label: "Edit",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            onPressed: (context) {},
+                          ),
+                          SlidableAction(
+                            icon: Icons.info,
+                            label: "Info",
+                            backgroundColor:
+                                Theme.of(context).colorScheme.inversePrimary,
+                            onPressed: (context) async {
+                              addressResponse = await AddressService.getAddress(
+                                  authToken, addressLists[index]['ID']);
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddressEnquiry(
+                                      addressResponse:
+                                          addressResponse["Address"],
+                                      authToken: authToken),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                       child: Card(
                         color: Theme.of(context).colorScheme.surface,
                         shape: const RoundedRectangleBorder(
@@ -669,11 +801,16 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                         child: ListTile(
                           title: Row(
                             children: [
-                              Text(
-                                '${addressLists[index]['ID']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
+                              CircleAvatar(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.primary,
+                                foregroundColor:
+                                    isDark ? Colors.black : Colors.white,
+                                child: Text(
+                                  '${addressLists[index]['ID']}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                               const SizedBox(
@@ -708,25 +845,9 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                             ],
                           ),
                           trailing: IconButton(
-                              onPressed: () async {
-                                addressResponse =
-                                    await AddressService.getAddress(
-                                        authToken, addressLists[index]['ID']);
-
-                                // ignore: use_build_context_synchronously
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => AddressEnquiry(
-                                      addressResponse:
-                                          addressResponse["Address"],
-                                      authToken: authToken,
-                                    ),
-                                  ),
-                                );
-                              },
+                              onPressed: () {},
                               icon: Icon(
-                                Icons.info,
+                                Icons.swipe,
                                 color: Theme.of(context).colorScheme.primary,
                               )),
                         ),

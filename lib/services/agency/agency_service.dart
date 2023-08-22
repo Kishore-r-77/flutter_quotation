@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
-import 'package:quotation_flutter/utils/authUtils/auth_utils.dart';
 
 Dio dio = Dio();
 
@@ -74,6 +73,18 @@ class AgencyService {
       return response.data;
     } catch (err) {
       print(err);
+      throw Exception(err);
+    }
+  }
+
+  static void softDeleteAgency(token, id) async {
+    try {
+      await dio.delete(
+        "${AppUtils.appUrl}api/v1/pacificservices/agencydelete/$id",
+        //localhost:3000/api/v1/pacificservices/agencydelete/4
+        options: Options(headers: {"Cookie": "Authorization=$token"}),
+      );
+    } catch (err) {
       throw Exception(err);
     }
   }

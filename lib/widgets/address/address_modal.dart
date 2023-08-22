@@ -13,7 +13,7 @@ class AddressModal extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
         width: double.infinity,
-        child: Column(
+        child: ListView(
           children: [
             Text(
               "Address Enquiry",
@@ -26,79 +26,55 @@ class AddressModal extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                CustomField(
-                    value: addressResponse['AddressType'],
-                    label: "Address Type"),
-                const SizedBox(
-                  width: 20,
-                ),
-                CustomField(
-                    value: addressResponse['AddressLine1'], label: "Line 1"),
-              ],
-            ),
+            CustomField(
+                value: addressResponse['AddressType'], label: "Address Type"),
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                CustomField(
-                    value: addressResponse['AddressLine2'], label: "Line 2"),
-                const SizedBox(
-                  width: 20,
-                ),
-                CustomField(
-                    value: addressResponse['AddressLine3'], label: "Line 3"),
-              ],
-            ),
+            CustomField(
+                value: addressResponse['AddressLine1'], label: "Line 1"),
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                CustomField(
-                    value: addressResponse['AddressLine4'], label: "Line 4"),
-                const SizedBox(
-                  width: 20,
-                ),
-                CustomField(
-                    value: addressResponse['AddressPostCode'],
-                    label: "Postal Code"),
-              ],
-            ),
+            CustomField(
+                value: addressResponse['AddressLine2'], label: "Line 2"),
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                CustomField(
-                    value: addressResponse['AddressState'], label: "State"),
-                const SizedBox(
-                  width: 20,
-                ),
-                CustomField(
-                    value: addressResponse['AddressCountry'], label: "Country"),
-              ],
-            ),
+            CustomField(
+                value: addressResponse['AddressLine3'], label: "Line 3"),
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                CustomField(
-                    value: AppUtils.formatDate(
-                        addressResponse['AddressStartDate']),
-                    label: "Start Date"),
-                const SizedBox(
-                  width: 20,
-                ),
-                CustomField(
-                    value:
-                        AppUtils.formatDate(addressResponse['AddressEndDate']),
-                    label: "End Date"),
-              ],
+            CustomField(
+                value: addressResponse['AddressLine4'], label: "Line 4"),
+            const SizedBox(
+              height: 20,
             ),
+            CustomField(
+                value: addressResponse['AddressPostCode'],
+                label: "Postal Code"),
+            const SizedBox(
+              height: 20,
+            ),
+            CustomField(value: addressResponse['AddressState'], label: "State"),
+            const SizedBox(
+              height: 20,
+            ),
+            CustomField(
+                value: addressResponse['AddressCountry'], label: "Country"),
+            const SizedBox(
+              height: 20,
+            ),
+            CustomField(
+                value: AppUtils.formatDate(addressResponse['AddressStartDate']),
+                label: "Start Date"),
+            const SizedBox(
+              height: 20,
+            ),
+            CustomField(
+                value: AppUtils.formatDate(addressResponse['AddressEndDate']),
+                label: "End Date"),
             const SizedBox(
               height: 20,
             ),

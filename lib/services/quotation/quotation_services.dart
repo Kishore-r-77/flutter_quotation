@@ -47,9 +47,7 @@ class QuotationServices {
     companyId,
     quotationData,
   ) async {
-    print(int.tryParse(
-      quotationData["QAnnualIncome"],
-    ));
+    print(quotationData);
     try {
       final response = await dio.post(
         '${AppUtils.appUrl}/api/v1/quotationservices/qheaderandbenefitcreate',
@@ -120,6 +118,17 @@ class QuotationServices {
       }
     } catch (err) {
       throw Exception('An error occurred: $err');
+    }
+  }
+
+  static void softDeleteQuotation(token, id) async {
+    try {
+      await dio.delete(
+        "${AppUtils.appUrl}/api/v1/quotationservices/qheaderdelete/$id",
+        options: Options(headers: {"Cookie": "Authorization=$token"}),
+      );
+    } catch (err) {
+      throw Exception(err);
     }
   }
 }

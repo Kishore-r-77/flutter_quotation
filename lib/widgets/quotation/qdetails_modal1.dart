@@ -52,6 +52,8 @@ class _QDetailsModal1State extends ConsumerState<QDetailsModal1> {
 
   @override
   Widget build(BuildContext context) {
+    double sumAssured = 100000;
+
     final Map<String, dynamic> qDetailModal1 =
         ref.watch(quotationProvider.notifier).modal1;
 
@@ -229,30 +231,45 @@ class _QDetailsModal1State extends ConsumerState<QDetailsModal1> {
             const SizedBox(
               height: 10,
             ),
-            Row(
-              children: [
-                Flexible(
-                  child: TextFormField(
+            StatefulBuilder(
+              builder: (context, setSliderState) => Row(
+                children: [
+                  Text(
+                    "Sum Assured: ${AppUtils.formatCurrency().format(
+                      sumAssured,
+                    )}",
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    initialValue: qDetailModal1["QSumAssured"],
-                    onChanged: (value) {
-                      qDetailModal1.update("QSumAssured", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "SumAssured",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
                   ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
+                  Flexible(
+                    child: Slider.adaptive(
+                      value: sumAssured,
+                      min: 100000,
+                      max: 1000000,
+                      divisions: 700000, // Adjust divisions to match the range
+                      label: AppUtils.formatCurrency().format(
+                        sumAssured,
+                      ), // Removed the toStringAsFixed(2) method here
+                      onChanged: (newValue) => setSliderState(
+                        () {
+                          sumAssured = newValue;
+                          qDetailModal1.update(
+                            "QSumAssured",
+                            (val) => newValue.toInt().toString(),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(
@@ -272,29 +289,29 @@ class _QDetailsModal1State extends ConsumerState<QDetailsModal1> {
                         )),
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Flexible(
-              child: TextFormField(
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
+                const SizedBox(
+                  width: 10,
                 ),
-                initialValue: qDetailModal1["QAgeAdmitted"],
-                onChanged: (value) {
-                  qDetailModal1.update("QAgeAdmitted", (val) => value);
-                },
-                decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    label: Text(
-                      "AgeAdmitted",
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    )),
-              ),
+                Flexible(
+                  child: TextFormField(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    initialValue: qDetailModal1["QAgeAdmitted"],
+                    onChanged: (value) {
+                      qDetailModal1.update("QAgeAdmitted", (val) => value);
+                    },
+                    decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        label: Text(
+                          "AgeAdmitted",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        )),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(
               height: 10,
@@ -391,9 +408,6 @@ class _QDetailsModal1State extends ConsumerState<QDetailsModal1> {
                   companyId,
                   qHeaderQDetails,
                 );
-                print("Clicked");
-                print(qHeaderQDetails);
-                print(quotationStatusCode);
                 if (quotationStatusCode.statusCode == 200) {
                   Navigator.pop(context);
                   qDetailModal1.update("QCoverage", (value) => "");

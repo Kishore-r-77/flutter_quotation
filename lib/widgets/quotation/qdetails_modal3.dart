@@ -52,6 +52,8 @@ class _QDetailsModal3State extends ConsumerState<QDetailsModal3> {
 
   @override
   Widget build(BuildContext context) {
+    double sumAssured = 100000;
+
     final Map<String, dynamic> qDetailModal3 =
         ref.watch(quotationProvider.notifier).modal3;
 
@@ -226,33 +228,45 @@ class _QDetailsModal3State extends ConsumerState<QDetailsModal3> {
                 ),
               ],
             ),
+            StatefulBuilder(
+              builder: (context, setSliderState) => Row(
+                children: [
+                  Text(
+                    "Sum Assured: ${AppUtils.formatCurrency().format(
+                      sumAssured,
+                    )}",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  Flexible(
+                    child: Slider.adaptive(
+                      value: sumAssured,
+                      min: 100000,
+                      max: 1000000,
+                      divisions: 700000, // Adjust divisions to match the range
+                      label: AppUtils.formatCurrency().format(
+                        sumAssured,
+                      ), // Removed the toStringAsFixed(2) method here
+                      onChanged: (newValue) => setSliderState(
+                        () {
+                          sumAssured = newValue;
+                          qDetailModal3.update(
+                            "QSumAssured",
+                            (val) => newValue.toInt().toString(),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(
               height: 10,
             ),
             Row(
               children: [
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    initialValue: qDetailModal3["QSumAssured"],
-                    onChanged: (value) {
-                      qDetailModal3.update("QSumAssured", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "SumAssured",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(
@@ -272,29 +286,29 @@ class _QDetailsModal3State extends ConsumerState<QDetailsModal3> {
                         )),
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Flexible(
-              child: TextFormField(
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
+                const SizedBox(
+                  width: 10,
                 ),
-                initialValue: qDetailModal3["QAgeAdmitted"],
-                onChanged: (value) {
-                  qDetailModal3.update("QAgeAdmitted", (val) => value);
-                },
-                decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    label: Text(
-                      "AgeAdmitted",
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    )),
-              ),
+                Flexible(
+                  child: TextFormField(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    initialValue: qDetailModal3["QAgeAdmitted"],
+                    onChanged: (value) {
+                      qDetailModal3.update("QAgeAdmitted", (val) => value);
+                    },
+                    decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        label: Text(
+                          "AgeAdmitted",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        )),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(
               height: 10,

@@ -86,7 +86,7 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
 
   @override
   Widget build(BuildContext context) {
-    double annualIncome = 300000;
+    double annualIncome = 100000;
 
     TextEditingController quoteDate =
         ref.watch(quotationProvider.notifier).quoteDate;
@@ -104,7 +104,6 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
     final companyId =
         ref.watch(loginProvider.notifier).prefs?.getInt("companyId");
 
-    print(qHeaderQDetails["QAnnualIncome"]);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Form(
@@ -464,7 +463,7 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                   Flexible(
                     child: Slider.adaptive(
                       value: annualIncome,
-                      min: 300000,
+                      min: 100000,
                       max: 1000000,
                       divisions: 700000, // Adjust divisions to match the range
                       label: AppUtils.formatCurrency().format(
@@ -475,7 +474,7 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                           annualIncome = newValue;
                           qHeaderQDetails.update(
                             "QAnnualIncome",
-                            (val) => newValue.toString(),
+                            (val) => newValue.toInt().toString(),
                           );
                         },
                       ),
@@ -512,7 +511,8 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                 final quotationStatusCode =
                     await QuotationServices.createQheaderWithQDetails(
                         authToken, companyId, qHeaderQDetails);
-                if (quotationStatusCode == 200) {
+
+                if (quotationStatusCode.statusCode == 200) {
                   Navigator.pop(context);
                 }
               },
