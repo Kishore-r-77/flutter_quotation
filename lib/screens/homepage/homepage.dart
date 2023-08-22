@@ -2,12 +2,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:quotation_flutter/screens/address/address.dart';
-import 'package:quotation_flutter/screens/agency/agency.dart';
-import 'package:quotation_flutter/screens/bank/bank.dart';
-import 'package:quotation_flutter/screens/client/client.dart';
 import 'package:quotation_flutter/screens/profile/profile.dart';
-import 'package:quotation_flutter/screens/quotation/quotation.dart';
 import 'package:quotation_flutter/widgets/category/quotation_category.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
 import 'package:quotation_flutter/widgets/mainDrawer/main_drawer.dart';
@@ -23,7 +18,7 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  bool isIntroduction = false;
+  bool isIntroduction = true;
 
   List<PageViewModel> getPages() {
     return [
@@ -119,64 +114,64 @@ class _HomePageState extends ConsumerState<HomePage> {
     var selectedPageIndex = 0;
 
     final screens = [
-      HomePage(loginResponse: widget.loginResponse),
-      QuotationCategory(
-        loginResponse: widget.loginResponse,
-      ),
+      QuotationCategory(loginResponse: widget.loginResponse),
       Profile(loginResponse: widget.loginResponse)
     ];
-
+    Widget mainScreen = QuotationCategory(loginResponse: widget.loginResponse);
     return WillPopScope(
       onWillPop: () async {
         return false;
       },
       child: Scaffold(
-        bottomNavigationBar: StatefulBuilder(
-          builder: (context, setState) => BottomNavigationBar(
-            currentIndex: selectedPageIndex,
-            onTap: (value) {
-              setState(
-                () {
-                  selectedPageIndex = value;
-                  if (value == 1) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Profile(
-                          loginResponse: widget.loginResponse,
-                        ),
-                      ),
-                    );
-                  } else if (value == 0) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HomePage(
-                          loginResponse: widget.loginResponse,
-                        ),
-                      ),
-                    );
-                  }
-                },
-              );
-            },
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Profile',
-              ),
-              // Icon(
-              //   Icons.home,
-              // ),
-              // Icon(
-              //   Icons.person,
-              // ),
-            ],
-          ),
+        bottomNavigationBar: CurvedNavigationBar(
+          // currentIndex: selectedPageIndex,
+          index: selectedPageIndex,
+          onTap: (value) {
+            setState(
+              () {
+                selectedPageIndex = value;
+                print(selectedPageIndex);
+                if (selectedPageIndex == 1) {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => Profile(
+                  //       loginResponse: widget.loginResponse,
+                  //     ),
+                  //   ),
+                  // );
+                  mainScreen = Profile(loginResponse: widget.loginResponse);
+                } else if (selectedPageIndex == 0) {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => HomePage(
+                  //       loginResponse: widget.loginResponse,
+                  //     ),
+                  //   ),
+                  // );
+                  mainScreen =
+                      QuotationCategory(loginResponse: widget.loginResponse);
+                }
+              },
+            );
+          },
+          items: const [
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.home),
+            //   label: 'Home',
+            // ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.person),
+            //   label: 'Profile',
+            // ),
+            Icon(
+              Icons.home,
+            ),
+            Icon(
+              Icons.person,
+            ),
+          ],
         ),
         drawer: MainDrawer(loginResponse: widget.loginResponse),
         appBar: const CustomAppBar(
@@ -201,7 +196,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 showSkipButton: true,
                 showNextButton: false,
               )
-            : QuotationCategory(loginResponse: widget.loginResponse),
+            : screens[selectedPageIndex],
       ),
     );
   }
