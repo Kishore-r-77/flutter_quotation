@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
+import 'package:quotation_flutter/providers/darkProvider/dark_provider.dart';
 import 'package:quotation_flutter/screens/bank/bank_enquiry.dart';
 import 'package:quotation_flutter/screens/client/client.dart';
 import 'package:quotation_flutter/services/bank/bank_service.dart';
@@ -26,6 +27,9 @@ class BankScreen extends ConsumerStatefulWidget {
 class _BankScreenState extends ConsumerState<BankScreen> {
   List<dynamic> bankLists = [];
   List<dynamic> fieldMap = [];
+  List<dynamic> bankypes = [];
+  List<dynamic> bankaccountstatus = [];
+  List<dynamic> bankgroups = [];
 
   Map<String, dynamic> initialvalues = {
     "BankCode": "",
@@ -35,6 +39,7 @@ class _BankScreenState extends ConsumerState<BankScreen> {
     "BankType": "",
     "BankAccountStatus": "",
     "ClientID": "",
+    "BankGroup": "",
   };
 
   TextEditingController searchString = TextEditingController();
@@ -44,6 +49,9 @@ class _BankScreenState extends ConsumerState<BankScreen> {
   @override
   void initState() {
     super.initState();
+    getBankTypes();
+    getBankAccountStatus();
+    // getBankGroups();
     getAllBank(widget.loginResponse['authToken'], searchString.text,
         searchCriteria, pageNo.text, pageSize);
   }
@@ -63,6 +71,44 @@ class _BankScreenState extends ConsumerState<BankScreen> {
     });
   }
 
+  String selectedValue = 'CA';
+  String dropdownValue = 'AC';
+
+  Future<dynamic> getBankTypes() async {
+    final response = await BankService.getBankTypes(
+        widget.loginResponse['authToken'],
+        widget.loginResponse['companyId'],
+        widget.loginResponse['languageId'],
+        "P0020");
+    setState(() {
+      bankypes = response["data"];
+    });
+  }
+
+  Future<dynamic> getBankAccountStatus() async {
+    final response = await BankService.getAccountTypes(
+        widget.loginResponse['authToken'],
+        widget.loginResponse['companyId'],
+        widget.loginResponse['languageId'],
+        "P0021");
+    setState(() {
+      bankaccountstatus = response["data"];
+    });
+  }
+
+  // Future<dynamic> getBankGroups() async {
+  //   final response = await BankService.getBankGroups(
+  //       widget.loginResponse['authToken'],
+  //       widget.loginResponse['companyId'],
+  //       widget.loginResponse['languageId'],
+  //       "P0050",
+  //       "BANKGROUP");
+  //   setState(() {
+  //     bankgroups = response;
+  //     print(bankgroups);
+  //   });
+  // }
+
   void resetInitialValues() {
     initialvalues.update("BankCode", (value) => "");
     initialvalues.update("BankAccountNo", (value) => "");
@@ -71,6 +117,7 @@ class _BankScreenState extends ConsumerState<BankScreen> {
     initialvalues.update("BankType", (value) => "");
     initialvalues.update("BankAccountStatus", (value) => "");
     initialvalues.update("ClientID", (value) => "");
+    initialvalues.update("BankGroup", (value) => "");
   }
 
   deleteBank(id) async {
@@ -100,6 +147,7 @@ class _BankScreenState extends ConsumerState<BankScreen> {
     dynamic bankResponse;
 
     final TextEditingController clientIdController = TextEditingController();
+    final isDark = ref.watch(darkProvider);
     return Scaffold(
       drawer: MainDrawer(
         loginResponse: widget.loginResponse,
@@ -118,42 +166,73 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                   child: ListView(
                     padding: const EdgeInsets.all(8.0),
                     children: [
-                      Flexible(
-                        child: TextFormField(
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          controller:
-                              clientIdController, // Use the TextEditingController
-                          onTap: () async {
-                            final clientId = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (ctx) => ClientScreen(
-                                  isLookUp: true,
-                                  loginResponse: widget.loginResponse,
-                                ),
-                              ),
-                            );
-
-                            clientIdController.text = clientId ?? 0;
-                            initialvalues.update(
-                              "ClientID",
-                              (value) => clientIdController.text,
-                            );
-                          },
-                          // onChanged: (value) {
-
-                          // },
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8),
+                      Row(
+                        children: [
+                          StatefulBuilder(
+                            builder: (context, setRadioState) => Flexible(
+                              child: Row(
+                                children: [
+                                  ...bankypes.map((address) => Flexible(
+                                        child: RadioListTile<String>(
+                                          // title: const Text('Business'),
+                                          title: Text(address['longdesc']),
+                                          value: address['item'],
+                                          groupValue: selectedValue,
+                                          onChanged: (value) {
+                                            setRadioState(() {
+                                              selectedValue = value!;
+                                              initialvalues.update("BankType",
+                                                  (val) => selectedValue);
+                                            });
+                                          },
+                                        ),
+                                      ))
+                                ],
                               ),
                             ),
-                            label: Text("Owner Id"),
                           ),
-                        ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: TextFormField(
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              controller:
+                                  clientIdController, // Use the TextEditingController
+                              onTap: () async {
+                                final clientId = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (ctx) => ClientScreen(
+                                      isLookUp: true,
+                                      loginResponse: widget.loginResponse,
+                                    ),
+                                  ),
+                                );
+
+                                clientIdController.text = clientId ?? 0;
+                                initialvalues.update(
+                                  "ClientID",
+                                  (value) => clientIdController.text,
+                                );
+                              },
+                              // onChanged: (value) {
+
+                              // },
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                label: Text("Owner Id"),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(
                         height: 10,
@@ -210,46 +289,42 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                       ),
                       Row(
                         children: [
-                          Flexible(
-                            child: TextFormField(
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                              initialValue: initialvalues["BankType"],
-                              onChanged: (value) {
-                                initialvalues.update(
-                                    "BankType", (val) => value);
-                              },
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                label: Text("Bank Type"),
-                              ),
-                            ),
-                          ),
                           const SizedBox(
                             width: 10,
                           ),
-                          Flexible(
-                            child: TextFormField(
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                              initialValue: initialvalues["BankAccountStatus"],
-                              onChanged: (value) {
-                                initialvalues.update(
-                                    "BankAccountStatus", (val) => value);
-                              },
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                label: Text("Bank Account Status"),
+                          StatefulBuilder(
+                            builder: (context, setDropdownState) => Flexible(
+                              child: DropdownButtonFormField<String>(
+                                value: dropdownValue,
+                                icon: const Icon(Icons.arrow_downward),
+                                decoration: const InputDecoration(
+                                    fillColor: Colors.purple,
+                                    labelText: "Bank Account Status"),
+                                elevation: 16,
+                                style:
+                                    const TextStyle(color: Colors.deepPurple),
+                                onChanged: (selectedvalue) {
+                                  setDropdownState(() {
+                                    dropdownValue = selectedvalue!;
+                                    initialvalues.update("BankAccountStatus",
+                                        (val) => dropdownValue);
+                                  });
+                                },
+                                items: bankaccountstatus
+                                    .map(
+                                      (values) => DropdownMenuItem(
+                                        value: "${values['item']}",
+                                        child: Text(
+                                          "${values['longdesc']}",
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
                               ),
                             ),
                           ),
@@ -659,11 +734,16 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                         child: ListTile(
                           title: Row(
                             children: [
-                              Text(
-                                '${bankLists[index]['ID']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
+                              CircleAvatar(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.primary,
+                                foregroundColor:
+                                    isDark ? Colors.black : Colors.white,
+                                child: Text(
+                                  '${bankLists[index]['ID']}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                               const SizedBox(
