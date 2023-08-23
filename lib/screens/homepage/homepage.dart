@@ -109,62 +109,46 @@ class _HomePageState extends ConsumerState<HomePage> {
     ];
   }
 
+  var selectedPageIndex = 0;
+  @override
+  void initState() {
+    super.initState();
+    selectedPageIndex = 0;
+  }
+
   @override
   Widget build(BuildContext context) {
-    var selectedPageIndex = 0;
+    Widget getScreens({required int index}) {
+      switch (index) {
+        case 0:
+          return QuotationCategory(loginResponse: widget.loginResponse);
 
-    final screens = [
-      QuotationCategory(loginResponse: widget.loginResponse),
-      Profile(loginResponse: widget.loginResponse)
-    ];
-    Widget mainScreen = QuotationCategory(loginResponse: widget.loginResponse);
+        case 1:
+          return Profile(loginResponse: widget.loginResponse);
+
+        default:
+          return QuotationCategory(loginResponse: widget.loginResponse);
+      }
+    }
+
     return WillPopScope(
       onWillPop: () async {
         return false;
       },
       child: Scaffold(
         bottomNavigationBar: CurvedNavigationBar(
-          // currentIndex: selectedPageIndex,
+          backgroundColor: Colors.pink,
+          color: Theme.of(context).colorScheme.primary,
+          buttonBackgroundColor: Colors.green,
           index: selectedPageIndex,
           onTap: (value) {
             setState(
               () {
                 selectedPageIndex = value;
-                print(selectedPageIndex);
-                if (selectedPageIndex == 1) {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => Profile(
-                  //       loginResponse: widget.loginResponse,
-                  //     ),
-                  //   ),
-                  // );
-                  mainScreen = Profile(loginResponse: widget.loginResponse);
-                } else if (selectedPageIndex == 0) {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => HomePage(
-                  //       loginResponse: widget.loginResponse,
-                  //     ),
-                  //   ),
-                  // );
-                  mainScreen =
-                      QuotationCategory(loginResponse: widget.loginResponse);
-                }
               },
             );
           },
           items: const [
-            // BottomNavigationBarItem(
-            //   icon: Icon(Icons.home),
-            //   label: 'Home',
-            // ),
-            // BottomNavigationBarItem(
-            //   icon: Icon(Icons.person),
-            //   label: 'Profile',
-            // ),
             Icon(
               Icons.home,
             ),
@@ -196,7 +180,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 showSkipButton: true,
                 showNextButton: false,
               )
-            : screens[selectedPageIndex],
+            : getScreens(index: selectedPageIndex),
       ),
     );
   }

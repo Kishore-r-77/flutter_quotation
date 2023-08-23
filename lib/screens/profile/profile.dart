@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key, required this.loginResponse});
@@ -7,10 +6,6 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: "Profile",
-        isBack: true,
-      ),
       body: ListView(
         padding: const EdgeInsets.all(8.0),
         children: <Widget>[
