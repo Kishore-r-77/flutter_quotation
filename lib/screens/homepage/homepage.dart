@@ -136,27 +136,29 @@ class _HomePageState extends ConsumerState<HomePage> {
         return false;
       },
       child: Scaffold(
-        bottomNavigationBar: CurvedNavigationBar(
-          backgroundColor: Colors.transparent,
-          color: Theme.of(context).colorScheme.primary,
-          buttonBackgroundColor: Colors.green,
-          index: selectedPageIndex,
-          onTap: (value) {
-            setState(
-              () {
-                selectedPageIndex = value;
-              },
-            );
-          },
-          items: const [
-            Icon(
-              Icons.home,
-            ),
-            Icon(
-              Icons.person,
-            ),
-          ],
-        ),
+        bottomNavigationBar: isIntroduction
+            ? null
+            : CurvedNavigationBar(
+                backgroundColor: Colors.transparent,
+                color: Theme.of(context).colorScheme.primary,
+                buttonBackgroundColor: Colors.green,
+                index: selectedPageIndex,
+                onTap: (value) {
+                  setState(
+                    () {
+                      selectedPageIndex = value;
+                    },
+                  );
+                },
+                items: const [
+                  Icon(
+                    Icons.home,
+                  ),
+                  Icon(
+                    Icons.person,
+                  ),
+                ],
+              ),
         drawer: MainDrawer(loginResponse: widget.loginResponse),
         appBar: const CustomAppBar(
           title: "Quotation App",
