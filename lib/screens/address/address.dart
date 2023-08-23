@@ -706,6 +706,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                                     languageId:
                                         widget.loginResponse['languageId'],
                                     loginResponse: widget.loginResponse,
+                                    addressLists: addressLists,
                                   ),
                                 ),
                               );
@@ -806,6 +807,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                                     languageId:
                                         widget.loginResponse['languageId'],
                                     loginResponse: widget.loginResponse,
+                                    addressLists: addressLists,
                                   ),
                                 ),
                               );

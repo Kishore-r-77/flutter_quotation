@@ -111,27 +111,30 @@ class HomePage extends ConsumerWidget {
                         },
                         splashColor: Theme.of(context).primaryColor,
                         borderRadius: BorderRadius.circular(16),
-                        child: Card(
-                          elevation: 12,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Text(
-                                  "Address",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
+                        child: Flexible(
+                          child: Card(
+                            elevation: 12,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Address",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.location_city,
+                                    size: 60,
                                     color:
                                         Theme.of(context).colorScheme.primary,
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.location_city,
-                                  size: 60,
-                                  color: Theme.of(context).colorScheme.primary,
-                                )
-                              ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
