@@ -137,7 +137,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       },
       child: Scaffold(
         bottomNavigationBar: CurvedNavigationBar(
-          backgroundColor: Colors.pink,
+          backgroundColor: Colors.transparent,
           color: Theme.of(context).colorScheme.primary,
           buttonBackgroundColor: Colors.green,
           index: selectedPageIndex,
