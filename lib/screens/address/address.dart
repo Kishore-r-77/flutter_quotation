@@ -697,7 +697,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                                   authToken, addressLists[index]['ID']);
 
                               // ignore: use_build_context_synchronously
-                              Navigator.push(
+                              final resp = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => AddressEdit(
@@ -708,10 +708,12 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                                     languageId:
                                         widget.loginResponse['languageId'],
                                     loginResponse: widget.loginResponse,
-                                    addressLists: addressLists,
                                   ),
                                 ),
                               );
+                              setState(() {
+                                addressLists = resp;
+                              });
                             },
                           ),
                           SlidableAction(
@@ -798,7 +800,7 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                               addressResponse = await AddressService.getAddress(
                                   authToken, addressLists[index]['ID']);
                               // ignore: use_build_context_synchronously
-                              Navigator.push(
+                              final resp = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => AddressEdit(
@@ -809,10 +811,12 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                                     languageId:
                                         widget.loginResponse['languageId'],
                                     loginResponse: widget.loginResponse,
-                                    addressLists: addressLists,
                                   ),
                                 ),
                               );
+                              setState(() {
+                                addressLists = resp;
+                              });
                             },
                           ),
                           SlidableAction(

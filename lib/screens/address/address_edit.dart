@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:quotation_flutter/screens/client/client.dart';
 import 'package:quotation_flutter/services/address/address_service.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
 
 // ignore: must_be_immutable
 class AddressEdit extends StatefulWidget {
-  AddressEdit(
-      {super.key,
-      required this.addressRecord,
-      required this.authToken,
-      required this.companyId,
-      required this.languageId,
-      required this.loginResponse,
-      required this.addressLists});
+  const AddressEdit({
+    super.key,
+    required this.addressRecord,
+    required this.authToken,
+    required this.companyId,
+    required this.languageId,
+    required this.loginResponse,
+  });
 
   final dynamic addressRecord;
   final dynamic loginResponse;
   final String? authToken;
   final dynamic companyId;
   final dynamic languageId;
-  List<dynamic> addressLists = [];
 
   @override
   State<AddressEdit> createState() => _AddressEditState();
@@ -65,7 +62,7 @@ class _AddressEditState extends State<AddressEdit> {
     initialvalues.update("ClientID", (value) => "");
   }
 
-  TextEditingController _date = TextEditingController();
+  TextEditingController addressStartDate = TextEditingController();
   TextEditingController clientIdController = TextEditingController();
 
   Future<dynamic> getAddressTypes() async {
@@ -359,7 +356,7 @@ class _AddressEditState extends State<AddressEdit> {
                 // Flexible(
                 //   child: TextFormField(
                 //     initialValue: widget.addressRecord["AddressStartDate"],
-                //     controller: _date,
+                //     controller: addressStartDate,
                 //     decoration: const InputDecoration(
                 //       icon: Icon(Icons.calendar_today_rounded),
                 //       labelText: "Start Date",
@@ -374,7 +371,7 @@ class _AddressEditState extends State<AddressEdit> {
                 //           lastDate: DateTime.now());
                 //       if (pickeddate != null) {
                 //         setState(() {
-                //           _date.text =
+                //           addressStartDate.text =
                 //               DateFormat('dd/MM/yyyy').format(pickeddate);
                 //           widget.addressRecord.update(
                 //               "AddressStartDate",
@@ -476,7 +473,6 @@ class _AddressEditState extends State<AddressEdit> {
                     foregroundColor: Theme.of(context).colorScheme.onSecondary,
                   ),
                   onPressed: () async {
-                    print(widget.addressRecord);
                     await AddressService.editAddress(widget.authToken,
                         widget.companyId, widget.addressRecord);
                     final addressResp = await AddressService.getAllAddress(
@@ -487,8 +483,7 @@ class _AddressEditState extends State<AddressEdit> {
                       pageSize,
                     );
                     setState(() {
-                      Navigator.pop(context);
-                      widget.addressLists = addressResp["All Addresses"];
+                      Navigator.pop(context, addressResp["All Addresses"]);
                       resetInitialValues();
                     });
                   },
