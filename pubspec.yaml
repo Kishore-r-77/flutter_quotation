@@ -76,6 +76,10 @@ flutter:
   assets:
     - .env
     - assets/images/futura_logo.png
+    - assets/images/insurance.jpeg
+    - assets/images/technologies.jpeg
+    - assets/images/planning_and_consulting.jpeg
+    - assets/images/colloboration.jpeg
 
     # - images/a_dot_burr.jpeg
     # - images/a_dot_ham.jpeg
