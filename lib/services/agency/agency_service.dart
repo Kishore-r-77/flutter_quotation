@@ -77,6 +77,42 @@ class AgencyService {
     }
   }
 
+  static dynamic editAgency(
+    token,
+    companyId,
+    agencyData,
+  ) async {
+    print(agencyData);
+    try {
+      final response = await dio.put(
+        '${AppUtils.appUrl}/api/v1/pacificservices/agencyupdate',
+        data: {
+          "ID": agencyData["ID"],
+          "CompanyID": companyId,
+          "AgencyChannelSt": agencyData["AgencyChannelSt"],
+          "Office": agencyData["Office"],
+          "AgencySt": agencyData["AgencySt"],
+          "LicenseNo": agencyData["LicenseNo"],
+          "LicenseStartDate": agencyData["LicenseStartDate"],
+          "LicenseEndDate": agencyData["LicenseEndDate"],
+          "Startdate": agencyData["Startdate"],
+          "EndDate": agencyData["EndDate"],
+          "TerminationReason": agencyData["TerminationReason"],
+          "Aadhar": agencyData["Aadhar"],
+          "Pan": agencyData["Pan"],
+          "ClientID": agencyData["ClientID"],
+          "BankID": agencyData["BankID"],
+        },
+        options: Options(headers: {"Cookie": "Authorization=$token"}),
+      );
+      print(response.data);
+      return response.data;
+    } catch (err) {
+      print(err);
+      throw Exception(err);
+    }
+  }
+
   static void softDeleteAgency(token, id) async {
     try {
       await dio.delete(
