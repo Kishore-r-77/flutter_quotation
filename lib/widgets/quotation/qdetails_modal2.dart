@@ -92,10 +92,12 @@ class _QDetailsModal2State extends ConsumerState<QDetailsModal2> {
                   builder: (context, setDropdownState) => Flexible(
                     child: DropdownButtonFormField<String>(
                       value: dropdownValue1,
-                      icon: const Icon(Icons.arrow_downward),
                       elevation: 16,
                       style: const TextStyle(color: Colors.deepPurple),
-                      decoration: const InputDecoration(labelText: "Coverage"),
+                      decoration: const InputDecoration(
+                        labelText: "Coverage",
+                        border: OutlineInputBorder(),
+                      ),
                       onChanged: (selectedvalue) {
                         setDropdownState(() {
                           dropdownValue1 = selectedvalue!;
@@ -126,11 +128,11 @@ class _QDetailsModal2State extends ConsumerState<QDetailsModal2> {
                   builder: (context, setDropdownState) => Flexible(
                     child: DropdownButtonFormField<String>(
                       value: dropdownValue2,
-                      icon: const Icon(Icons.arrow_downward),
                       elevation: 16,
                       style: const TextStyle(color: Colors.deepPurple),
-                      decoration:
-                          const InputDecoration(labelText: "Risk Cess Term"),
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "Risk Cess Term"),
                       onChanged: (selectedvalue) {
                         setDropdownState(() {
                           dropdownValue2 = selectedvalue!;
@@ -165,11 +167,11 @@ class _QDetailsModal2State extends ConsumerState<QDetailsModal2> {
                   builder: (context, setDropdownState) => Flexible(
                     child: DropdownButtonFormField<String>(
                       value: dropdownValue2,
-                      icon: const Icon(Icons.arrow_downward),
                       elevation: 16,
                       style: const TextStyle(color: Colors.deepPurple),
-                      decoration:
-                          const InputDecoration(labelText: "Premium Cess Term"),
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "Premium Cess Term"),
                       onChanged: (selectedvalue) {
                         setDropdownState(() {
                           dropdownValue2 = selectedvalue!;
@@ -200,11 +202,11 @@ class _QDetailsModal2State extends ConsumerState<QDetailsModal2> {
                   builder: (context, setDropdownState) => Flexible(
                     child: DropdownButtonFormField<String>(
                       value: dropdownValue2,
-                      icon: const Icon(Icons.arrow_downward),
                       elevation: 16,
                       style: const TextStyle(color: Colors.deepPurple),
-                      decoration:
-                          const InputDecoration(labelText: "Benefit Cess Term"),
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "Benefit Cess Term"),
                       onChanged: (selectedvalue) {
                         setDropdownState(() {
                           dropdownValue2 = selectedvalue!;

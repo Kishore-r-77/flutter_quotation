@@ -246,11 +246,12 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                   builder: (context, setDropdownState) => Flexible(
                     child: DropdownButtonFormField<String>(
                       value: dropdownValue1,
-                      icon: const Icon(Icons.arrow_downward),
                       elevation: 16,
                       style: const TextStyle(color: Colors.deepPurple),
-                      decoration:
-                          const InputDecoration(labelText: "NRI status"),
+                      decoration: const InputDecoration(
+                        labelText: "NRI status",
+                        border: OutlineInputBorder(),
+                      ),
                       onChanged: (selectedvalue) {
                         setDropdownState(() {
                           dropdownValue1 = selectedvalue!;
@@ -281,11 +282,12 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                   builder: (context, setDropdownState) => Flexible(
                     child: DropdownButtonFormField<String>(
                       value: dropdownValue2,
-                      icon: const Icon(Icons.arrow_downward),
                       elevation: 16,
                       style: const TextStyle(color: Colors.deepPurple),
-                      decoration:
-                          const InputDecoration(labelText: "Occupation Group"),
+                      decoration: const InputDecoration(
+                        labelText: "Occupation Group",
+                        border: OutlineInputBorder(),
+                      ),
                       onChanged: (selectedvalue) {
                         setDropdownState(() {
                           dropdownValue2 = selectedvalue!;
@@ -356,10 +358,12 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                   builder: (context, setDropdownState) => Flexible(
                     child: DropdownButtonFormField<String>(
                       value: dropdownValue3,
-                      icon: const Icon(Icons.arrow_downward),
                       elevation: 16,
                       style: const TextStyle(color: Colors.deepPurple),
-                      decoration: const InputDecoration(labelText: "Product"),
+                      decoration: const InputDecoration(
+                        labelText: "Product",
+                        border: OutlineInputBorder(),
+                      ),
                       onChanged: (selectedvalue) {
                         setDropdownState(() {
                           dropdownValue3 = selectedvalue!;
@@ -416,11 +420,12 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
                   builder: (context, setDropdownState) => Flexible(
                     child: DropdownButtonFormField<String>(
                       value: dropdownValue4,
-                      icon: const Icon(Icons.arrow_downward),
                       elevation: 16,
                       style: const TextStyle(color: Colors.deepPurple),
-                      decoration:
-                          const InputDecoration(labelText: "Occupation Sector"),
+                      decoration: const InputDecoration(
+                        labelText: "Occupation Sector",
+                        border: OutlineInputBorder(),
+                      ),
                       onChanged: (selectedvalue) {
                         setDropdownState(() {
                           dropdownValue4 = selectedvalue!;
