@@ -70,12 +70,20 @@ class QuotationCategory extends StatelessWidget {
                               ),
                             ),
                             Expanded(
-                              child: Icon(
-                                Icons.location_city,
-                                size: 60,
-                                color: Theme.of(context).colorScheme.primary,
+                              child: LayoutBuilder(
+                                builder: (BuildContext context,
+                                    BoxConstraints constraints) {
+                                  double iconSize = constraints.maxHeight *
+                                      1; // Adjust the factor as needed
+                                  return Icon(
+                                    Icons.location_city,
+                                    size: iconSize,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  );
+                                },
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -110,12 +118,20 @@ class QuotationCategory extends StatelessWidget {
                               ),
                             ),
                             Expanded(
-                              child: Icon(
-                                Icons.person,
-                                size: 60,
-                                color: Theme.of(context).colorScheme.primary,
+                              child: LayoutBuilder(
+                                builder: (BuildContext context,
+                                    BoxConstraints constraints) {
+                                  double iconSize = constraints.maxHeight *
+                                      1; // Adjust the factor as needed
+                                  return Icon(
+                                    Icons.person,
+                                    size: iconSize,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  );
+                                },
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -150,12 +166,20 @@ class QuotationCategory extends StatelessWidget {
                               ),
                             ),
                             Expanded(
-                              child: Icon(
-                                Icons.account_balance,
-                                size: 60,
-                                color: Theme.of(context).colorScheme.primary,
+                              child: LayoutBuilder(
+                                builder: (BuildContext context,
+                                    BoxConstraints constraints) {
+                                  double iconSize = constraints.maxHeight *
+                                      1; // Adjust the factor as needed
+                                  return Icon(
+                                    Icons.account_balance,
+                                    size: iconSize,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  );
+                                },
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -190,12 +214,20 @@ class QuotationCategory extends StatelessWidget {
                               ),
                             ),
                             Expanded(
-                              child: Icon(
-                                Icons.people,
-                                size: 60,
-                                color: Theme.of(context).colorScheme.primary,
+                              child: LayoutBuilder(
+                                builder: (BuildContext context,
+                                    BoxConstraints constraints) {
+                                  double iconSize = constraints.maxHeight *
+                                      1; // Adjust the factor as needed
+                                  return Icon(
+                                    Icons.people,
+                                    size: iconSize,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  );
+                                },
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -229,12 +261,20 @@ class QuotationCategory extends StatelessWidget {
                               ),
                             ),
                             Expanded(
-                              child: Icon(
-                                Icons.notes,
-                                size: 60,
-                                color: Theme.of(context).colorScheme.primary,
+                              child: LayoutBuilder(
+                                builder: (BuildContext context,
+                                    BoxConstraints constraints) {
+                                  double iconSize = constraints.maxHeight *
+                                      1; // Adjust the factor as needed
+                                  return Icon(
+                                    Icons.notes,
+                                    size: iconSize,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  );
+                                },
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
