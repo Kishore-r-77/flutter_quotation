@@ -139,6 +139,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         bottomNavigationBar: isIntroduction
             ? null
             : CurvedNavigationBar(
+                height: 50,
                 backgroundColor: Colors.transparent,
                 color: Theme.of(context).colorScheme.primary,
                 buttonBackgroundColor: Colors.green,
