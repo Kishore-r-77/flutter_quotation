@@ -69,10 +69,12 @@ class QuotationCategory extends StatelessWidget {
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                             ),
-                            Icon(
-                              Icons.location_city,
-                              size: 60,
-                              color: Theme.of(context).colorScheme.primary,
+                            Expanded(
+                              child: Icon(
+                                Icons.location_city,
+                                size: 60,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                             )
                           ],
                         ),
@@ -107,10 +109,12 @@ class QuotationCategory extends StatelessWidget {
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                             ),
-                            Icon(
-                              Icons.person,
-                              size: 60,
-                              color: Theme.of(context).colorScheme.primary,
+                            Expanded(
+                              child: Icon(
+                                Icons.person,
+                                size: 60,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                             )
                           ],
                         ),
@@ -145,10 +149,12 @@ class QuotationCategory extends StatelessWidget {
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                             ),
-                            Icon(
-                              Icons.account_balance,
-                              size: 60,
-                              color: Theme.of(context).colorScheme.primary,
+                            Expanded(
+                              child: Icon(
+                                Icons.account_balance,
+                                size: 60,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                             )
                           ],
                         ),
@@ -183,10 +189,12 @@ class QuotationCategory extends StatelessWidget {
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                             ),
-                            Icon(
-                              Icons.people,
-                              size: 60,
-                              color: Theme.of(context).colorScheme.primary,
+                            Expanded(
+                              child: Icon(
+                                Icons.people,
+                                size: 60,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                             )
                           ],
                         ),
@@ -220,33 +228,14 @@ class QuotationCategory extends StatelessWidget {
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                             ),
-                            Icon(
-                              Icons.notes,
-                              size: 60,
-                              color: Theme.of(context).colorScheme.primary,
+                            Expanded(
+                              child: Icon(
+                                Icons.notes,
+                                size: 60,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                             )
                           ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => QuotationScreen(
-                            loginResponse: loginResponse,
-                          ),
-                        ),
-                      );
-                    },
-                    splashColor: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.circular(16),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/futura_logo.png"),
                         ),
                       ),
                     ),
