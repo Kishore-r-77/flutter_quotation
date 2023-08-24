@@ -285,7 +285,7 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                                     lastDate: DateTime.now());
                                 if (pickeddate != null) {
                                   setState(() {
-                                    _sdate.text = DateFormat('dd/MM/yyyy')
+                                    _lsdate.text = DateFormat('dd/MM/yyyy')
                                         .format(pickeddate);
                                     initialvalues.update(
                                         "LicenseStartDate",
@@ -314,7 +314,7 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                                     lastDate: DateTime(3000));
                                 if (pickeddate != null) {
                                   setState(() {
-                                    _edate.text = DateFormat('dd/MM/yyyy')
+                                    _ledate.text = DateFormat('dd/MM/yyyy')
                                         .format(pickeddate);
                                     initialvalues.update(
                                         "LicenseEndDate",
