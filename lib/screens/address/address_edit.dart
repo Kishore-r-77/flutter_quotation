@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:quotation_flutter/services/address/address_service.dart';
+import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
 
 // ignore: must_be_immutable
@@ -70,7 +72,6 @@ class _AddressEditState extends State<AddressEdit> {
         widget.authToken, widget.companyId, widget.languageId, "P0022");
     setState(() {
       addresstypes = response["data"];
-      print(addresstypes);
     });
   }
 
@@ -83,6 +84,9 @@ class _AddressEditState extends State<AddressEdit> {
   @override
   Widget build(BuildContext context) {
     String selectedValue = widget.addressRecord["AddressType"];
+    TextEditingController startDate = TextEditingController();
+    startDate.text =
+        AppUtils.formatDate(widget.addressRecord["AddressStartDate"]);
 
     return Scaffold(
       appBar: const CustomAppBar(title: "Address Edit", isBack: false),
@@ -338,19 +342,28 @@ class _AddressEditState extends State<AddressEdit> {
 
                 Flexible(
                   child: TextFormField(
-                    initialValue: widget.addressRecord["AddressStartDate"],
-                    onChanged: (value) {
-                      widget.addressRecord
-                          .update("AddressStartDate", (val) => value);
-                    },
+                    controller: startDate,
                     decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8),
-                        ),
-                      ),
-                      label: Text("Start Date"),
+                      icon: Icon(Icons.calendar_today_rounded),
+                      labelText: "Start Date",
                     ),
+                    onTap: () async {
+                      DateTime? pickeddate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime.now());
+                      if (pickeddate != null) {
+                        setState(() {
+                          startDate.text =
+                              DateFormat('dd-MM-yyyy').format(pickeddate);
+                          widget.addressRecord.update(
+                              "AddressStartDate",
+                              (val) =>
+                                  DateFormat('yyyyMMdd').format(pickeddate));
+                        });
+                      }
+                    },
                   ),
                 ),
                 // Flexible(
