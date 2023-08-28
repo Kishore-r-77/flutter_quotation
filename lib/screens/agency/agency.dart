@@ -983,26 +983,26 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                         child: ListTile(
                           title: Row(
                             children: [
+                              Text(
+                                '${agencyLists[index]['ID']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
                               CircleAvatar(
                                 backgroundColor:
                                     Theme.of(context).colorScheme.primary,
                                 foregroundColor:
                                     isDark ? Colors.black : Colors.white,
                                 child: Text(
-                                  '${agencyLists[index]['ID']}',
+                                  '${agencyLists[index]['AgencyChannel']}',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                '${agencyLists[index]['AgencyChannelSt']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ],

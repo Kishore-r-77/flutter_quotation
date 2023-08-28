@@ -859,26 +859,26 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                         child: ListTile(
                           title: Row(
                             children: [
+                              Text(
+                                '${addressLists[index]['ID']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
                               CircleAvatar(
                                 backgroundColor:
                                     Theme.of(context).colorScheme.primary,
                                 foregroundColor:
                                     isDark ? Colors.black : Colors.white,
                                 child: Text(
-                                  '${addressLists[index]['ID']}',
+                                  '${addressLists[index]['AddressType']}',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                '${addressLists[index]['AddressType']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ],

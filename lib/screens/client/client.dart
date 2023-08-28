@@ -388,13 +388,23 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
                         child: ListTile(
                           title: Row(
                             children: [
+                              Text(
+                                '${clientLists[index]['ID']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
                               CircleAvatar(
                                 backgroundColor:
                                     Theme.of(context).colorScheme.primary,
                                 foregroundColor:
                                     isDark ? Colors.black : Colors.white,
                                 child: Text(
-                                  '${clientLists[index]['ID']}',
+                                  '${clientLists[index]['ClientType']}',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),

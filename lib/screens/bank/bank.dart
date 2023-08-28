@@ -774,13 +774,23 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                         child: ListTile(
                           title: Row(
                             children: [
+                              Text(
+                                '${bankLists[index]['ID']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
                               CircleAvatar(
                                 backgroundColor:
                                     Theme.of(context).colorScheme.primary,
                                 foregroundColor:
                                     isDark ? Colors.black : Colors.white,
                                 child: Text(
-                                  '${bankLists[index]['ID']}',
+                                  '${bankLists[index]['BankType']}',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -800,15 +810,15 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                           ),
                           subtitle: Row(
                             children: [
-                              Text(
-                                '${bankLists[index]['BankType']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
+                              // Text(
+                              //   '${bankLists[index]['BankType']}',
+                              //   style: TextStyle(
+                              //     color: Theme.of(context).colorScheme.primary,
+                              //   ),
+                              // ),
+                              // const SizedBox(
+                              //   width: 10,
+                              // ),
                               Text(
                                 '${bankLists[index]['BankAccountNo']}',
                                 style: TextStyle(
