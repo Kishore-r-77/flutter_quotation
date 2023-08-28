@@ -712,7 +712,11 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                                 ),
                               );
                               setState(() {
-                                addressLists = resp;
+                                if (resp == null) {
+                                  return;
+                                } else {
+                                  addressLists = resp;
+                                }
                               });
                             },
                           ),

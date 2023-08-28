@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
 import 'package:quotation_flutter/providers/darkProvider/dark_provider.dart';
 import 'package:quotation_flutter/screens/address/address.dart';
+import 'package:quotation_flutter/screens/agency/agency_edit.dart';
 import 'package:quotation_flutter/screens/agency/agency_enquiry.dart';
 import 'package:quotation_flutter/screens/bank/bank.dart';
 import 'package:quotation_flutter/screens/client/client.dart';
@@ -819,7 +820,32 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                             label: "Edit",
                             backgroundColor:
                                 Theme.of(context).colorScheme.primary,
-                            onPressed: (context) {},
+                            onPressed: (context) async {
+                              agencyResponse = await AgencyService.getAgency(
+                                  authToken, agencyLists[index]['ID']);
+                              // ignore: use_build_context_synchronously
+                              final resp = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AgencyEdit(
+                                    agencyRecord: agencyResponse["Agency"],
+                                    authToken: authToken,
+                                    companyId:
+                                        widget.loginResponse['companyId'],
+                                    languageId:
+                                        widget.loginResponse['languageId'],
+                                    loginResponse: widget.loginResponse,
+                                  ),
+                                ),
+                              );
+                              setState(() {
+                                if (resp == null) {
+                                  return;
+                                } else {
+                                  agencyLists = resp;
+                                }
+                              });
+                            },
                           ),
                           SlidableAction(
                             icon: Icons.info,
@@ -899,7 +925,28 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                             label: "Edit",
                             backgroundColor:
                                 Theme.of(context).colorScheme.primary,
-                            onPressed: (context) {},
+                            onPressed: (context) async {
+                              agencyResponse = await AgencyService.getAgency(
+                                  authToken, agencyLists[index]['ID']);
+                              // ignore: use_build_context_synchronously
+                              final resp = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AgencyEdit(
+                                    agencyRecord: agencyResponse["Agency"],
+                                    authToken: authToken,
+                                    companyId:
+                                        widget.loginResponse['companyId'],
+                                    languageId:
+                                        widget.loginResponse['languageId'],
+                                    loginResponse: widget.loginResponse,
+                                  ),
+                                ),
+                              );
+                              setState(() {
+                                agencyLists = resp;
+                              });
+                            },
                           ),
                           SlidableAction(
                             icon: Icons.info,

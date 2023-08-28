@@ -27,16 +27,23 @@ class AgencyModal extends StatelessWidget {
               height: 20,
             ),
             CustomField(
-                value: clientResponse['AgencyChannelSt'],
-                label: "Channel list"),
+              value: clientResponse['AgencyChannelSt'],
+              label: "Channel list",
+            ),
             const SizedBox(
               height: 20,
             ),
-            CustomField(value: clientResponse['Office'], label: "Office"),
+            CustomField(
+              value: clientResponse['Office'],
+              label: "Office",
+            ),
             const SizedBox(
               height: 20,
             ),
-            CustomField(value: clientResponse['AgencySt'], label: "AgencySt"),
+            CustomField(
+              value: clientResponse['AgencySt'],
+              label: "AgencySt",
+            ),
             const SizedBox(
               height: 20,
             ),
@@ -46,26 +53,35 @@ class AgencyModal extends StatelessWidget {
               height: 20,
             ),
             CustomField(
-                value: AppUtils.formatDate(clientResponse['LicenseStartDate']),
+                value: AppUtils.formatDate(
+                  clientResponse['LicenseStartDate'],
+                ),
                 label: "License StartDate"),
             const SizedBox(
               height: 20,
             ),
             CustomField(
-                value: AppUtils.formatDate(clientResponse['LicenseEndDate']),
+                value: AppUtils.formatDate(
+                  clientResponse['LicenseEndDate'],
+                ),
                 label: "License EndDate"),
             const SizedBox(
               height: 20,
             ),
             CustomField(
-                value: AppUtils.formatDate(clientResponse['Startdate']),
+                value: AppUtils.formatDate(
+                  clientResponse['Startdate'],
+                ),
                 label: "Start Date"),
             const SizedBox(
               height: 20,
             ),
             CustomField(
-                value: AppUtils.formatDate(clientResponse['EndDate']),
-                label: "End Date"),
+              value: AppUtils.formatDate(
+                clientResponse['EndDate'],
+              ),
+              label: "End Date",
+            ),
             const SizedBox(
               height: 20,
             ),
@@ -77,8 +93,9 @@ class AgencyModal extends StatelessWidget {
             ),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    foregroundColor: Theme.of(context).colorScheme.onSecondary),
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                ),
                 onPressed: () => Navigator.pop(context),
                 child: const Text("Back"))
           ],

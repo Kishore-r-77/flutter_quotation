@@ -69,11 +69,21 @@ class QuotationCategory extends StatelessWidget {
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                             ),
-                            Icon(
-                              Icons.location_city,
-                              size: 60,
-                              color: Theme.of(context).colorScheme.primary,
-                            )
+                            Expanded(
+                              child: LayoutBuilder(
+                                builder: (BuildContext context,
+                                    BoxConstraints constraints) {
+                                  double iconSize = constraints.maxHeight *
+                                      1; // Adjust the factor as needed
+                                  return Icon(
+                                    Icons.location_city,
+                                    size: iconSize,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  );
+                                },
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -107,11 +117,21 @@ class QuotationCategory extends StatelessWidget {
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                             ),
-                            Icon(
-                              Icons.person,
-                              size: 60,
-                              color: Theme.of(context).colorScheme.primary,
-                            )
+                            Expanded(
+                              child: LayoutBuilder(
+                                builder: (BuildContext context,
+                                    BoxConstraints constraints) {
+                                  double iconSize = constraints.maxHeight *
+                                      1; // Adjust the factor as needed
+                                  return Icon(
+                                    Icons.person,
+                                    size: iconSize,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  );
+                                },
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -145,11 +165,21 @@ class QuotationCategory extends StatelessWidget {
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                             ),
-                            Icon(
-                              Icons.account_balance,
-                              size: 60,
-                              color: Theme.of(context).colorScheme.primary,
-                            )
+                            Expanded(
+                              child: LayoutBuilder(
+                                builder: (BuildContext context,
+                                    BoxConstraints constraints) {
+                                  double iconSize = constraints.maxHeight *
+                                      1; // Adjust the factor as needed
+                                  return Icon(
+                                    Icons.account_balance,
+                                    size: iconSize,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  );
+                                },
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -183,11 +213,21 @@ class QuotationCategory extends StatelessWidget {
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                             ),
-                            Icon(
-                              Icons.people,
-                              size: 60,
-                              color: Theme.of(context).colorScheme.primary,
-                            )
+                            Expanded(
+                              child: LayoutBuilder(
+                                builder: (BuildContext context,
+                                    BoxConstraints constraints) {
+                                  double iconSize = constraints.maxHeight *
+                                      1; // Adjust the factor as needed
+                                  return Icon(
+                                    Icons.people,
+                                    size: iconSize,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  );
+                                },
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -220,33 +260,22 @@ class QuotationCategory extends StatelessWidget {
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                             ),
-                            Icon(
-                              Icons.notes,
-                              size: 60,
-                              color: Theme.of(context).colorScheme.primary,
-                            )
+                            Expanded(
+                              child: LayoutBuilder(
+                                builder: (BuildContext context,
+                                    BoxConstraints constraints) {
+                                  double iconSize = constraints.maxHeight *
+                                      1; // Adjust the factor as needed
+                                  return Icon(
+                                    Icons.notes,
+                                    size: iconSize,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  );
+                                },
+                              ),
+                            ),
                           ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => QuotationScreen(
-                            loginResponse: loginResponse,
-                          ),
-                        ),
-                      );
-                    },
-                    splashColor: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.circular(16),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/futura_logo.png"),
                         ),
                       ),
                     ),
