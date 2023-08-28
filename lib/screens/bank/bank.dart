@@ -72,7 +72,8 @@ class _BankScreenState extends ConsumerState<BankScreen> {
   }
 
   String selectedValue = 'CA';
-  String dropdownValue = 'AC';
+  String dropdownValue1 = 'AC';
+  String dropdownValue2 = '00001';
 
   Future<dynamic> getBankTypes() async {
     final response = await BankService.getBankTypes(
@@ -104,7 +105,7 @@ class _BankScreenState extends ConsumerState<BankScreen> {
   //       "P0050",
   //       "BANKGROUP");
   //   setState(() {
-  //     bankgroups = response;
+  //     bankgroups = response['param']['data']['datapairs'];
   //     print(bankgroups);
   //   });
   // }
@@ -295,7 +296,7 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                           StatefulBuilder(
                             builder: (context, setDropdownState) => Flexible(
                               child: DropdownButtonFormField<String>(
-                                value: dropdownValue,
+                                value: dropdownValue1,
                                 icon: const Icon(Icons.arrow_downward),
                                 decoration: const InputDecoration(
                                     fillColor: Colors.purple,
@@ -305,9 +306,9 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                                     const TextStyle(color: Colors.deepPurple),
                                 onChanged: (selectedvalue) {
                                   setDropdownState(() {
-                                    dropdownValue = selectedvalue!;
+                                    dropdownValue1 = selectedvalue!;
                                     initialvalues.update("BankAccountStatus",
-                                        (val) => dropdownValue);
+                                        (val) => dropdownValue1);
                                   });
                                 },
                                 items: bankaccountstatus
@@ -396,6 +397,45 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                               },
                             ),
                           ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          // StatefulBuilder(
+                          //   builder: (context, setDropdownState) => Flexible(
+                          //     child: DropdownButtonFormField<String>(
+                          //       value: dropdownValue2,
+                          //       icon: const Icon(Icons.arrow_downward),
+                          //       decoration: const InputDecoration(
+                          //           fillColor: Colors.purple,
+                          //           labelText: "Bank Group"),
+                          //       elevation: 16,
+                          //       style:
+                          //           const TextStyle(color: Colors.deepPurple),
+                          //       onChanged: (selectedvalue) {
+                          //         setDropdownState(() {
+                          //           dropdownValue2 = selectedvalue!;
+                          //           initialvalues.update(
+                          //               "BankGroup", (val) => dropdownValue2);
+                          //         });
+                          //       },
+                          //       items: bankgroups
+                          //           .map(
+                          //             (values) => DropdownMenuItem(
+                          //               value: "${values['item']}",
+                          //               child: Text(
+                          //                 "${values['longdesc']}",
+                          //                 style: TextStyle(
+                          //                   color: Theme.of(context)
+                          //                       .colorScheme
+                          //                       .primary,
+                          //                 ),
+                          //               ),
+                          //             ),
+                          //           )
+                          //           .toList(),
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                       const SizedBox(

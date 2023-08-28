@@ -3,16 +3,40 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
 import 'package:quotation_flutter/providers/clientProvider/client_provider.dart';
+import 'package:quotation_flutter/services/address/address_service.dart';
 import 'package:quotation_flutter/services/client/client_service.dart';
 
 class AddressesModal2 extends ConsumerStatefulWidget {
-  const AddressesModal2({super.key});
+  const AddressesModal2({super.key, required this.loginResponse});
+
+  final dynamic loginResponse;
 
   @override
   ConsumerState<AddressesModal2> createState() => _AddressesModal2State();
 }
 
+List<dynamic> addresstypes = [];
+String selectedValue = 'BU';
+
 class _AddressesModal2State extends ConsumerState<AddressesModal2> {
+  @override
+  void initState() {
+    super.initState();
+    getAddressTypes();
+  }
+
+  Future<dynamic> getAddressTypes() async {
+    final response = await AddressService.getAddressTypes(
+        widget.loginResponse['authToken'],
+        widget.loginResponse['companyId'],
+        widget.loginResponse['languageId'],
+        "P0022");
+    setState(() {
+      addresstypes = response["data"];
+      // print(addresstypes);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> addressesModal2 =
@@ -51,24 +75,31 @@ class _AddressesModal2State extends ConsumerState<AddressesModal2> {
             ),
             Row(
               children: [
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
+                StatefulBuilder(
+                  builder: (context, setRadioState) => Flexible(
+                    child: Row(
+                      children: [
+                        ...addresstypes.map((address) => Flexible(
+                              child: RadioListTile<String>(
+                                // title: const Text('Business'),
+                                title: Text(address['longdesc']),
+                                value: address['item'],
+                                groupValue: selectedValue,
+                                onChanged: (value) {
+                                  setRadioState(() {
+                                    selectedValue = value!;
+                                    addressesModal2.update(
+                                        "AddressType", (val) => selectedValue);
+                                  });
+                                },
+                              ),
+                            ))
+                      ],
                     ),
-                    initialValue: addressesModal2["AddressType"],
-                    onChanged: (value) {
-                      addressesModal2.update("AddressType", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "Address Type",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
                   ),
+                ),
+                const SizedBox(
+                  width: 10,
                 ),
                 const SizedBox(
                   width: 10,

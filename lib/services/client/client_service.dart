@@ -88,4 +88,21 @@ class ClientService {
       throw Exception(err);
     }
   }
+
+  static dynamic getParam(token, companyid, name, languageid) async {
+    try {
+      final response = await dio.get(
+        '${AppUtils.appUrl}/api/v1/basicservices/paramItems?companyId=$companyid&name=$name&languageId=$languageid',
+        options: Options(headers: {"Cookie": "Authorization=$token"}),
+      );
+      if (response.statusCode == 200) {
+        print(response.data);
+        return response.data;
+      } else {
+        throw Exception('Failed to get Param');
+      }
+    } catch (err) {
+      throw Exception('An error occurred: $err');
+    }
+  }
 }

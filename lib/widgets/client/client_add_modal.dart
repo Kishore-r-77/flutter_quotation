@@ -6,14 +6,77 @@ import 'package:quotation_flutter/providers/clientProvider/client_provider.dart'
 import 'package:quotation_flutter/services/client/client_service.dart';
 
 class ClientAddModal extends ConsumerStatefulWidget {
-  const ClientAddModal({super.key});
+  const ClientAddModal({super.key, required this.loginResponse});
+
+  final dynamic loginResponse;
 
   @override
   ConsumerState<ClientAddModal> createState() => _ClientAddModalState();
 }
 
 class _ClientAddModalState extends ConsumerState<ClientAddModal> {
+  List<dynamic> gender = [];
+  List<dynamic> salutations = [];
+  List<dynamic> languages = [];
+  List<dynamic> clientstatuses = [];
   String selectedValue = 'I';
+  String dropdownValue1 = 'F';
+  String dropdownValue2 = 'Capt';
+  String dropdownValue3 = 'E';
+  String dropdownValue4 = 'AC';
+
+  @override
+  void initState() {
+    super.initState();
+    getGender();
+    getSalutation();
+    getLanguage();
+    getClientStatus();
+  }
+
+  Future<dynamic> getGender() async {
+    final response = await ClientService.getParam(
+        widget.loginResponse['authToken'],
+        widget.loginResponse['companyId'],
+        "P0001",
+        widget.loginResponse['languageId']);
+    setState(() {
+      gender = response["data"];
+    });
+  }
+
+  Future<dynamic> getSalutation() async {
+    final response = await ClientService.getParam(
+        widget.loginResponse['authToken'],
+        widget.loginResponse['companyId'],
+        "P0006",
+        widget.loginResponse['languageId']);
+    setState(() {
+      salutations = response["data"];
+    });
+  }
+
+  Future<dynamic> getLanguage() async {
+    final response = await ClientService.getParam(
+        widget.loginResponse['authToken'],
+        widget.loginResponse['companyId'],
+        "P0002",
+        widget.loginResponse['languageId']);
+    setState(() {
+      languages = response["data"];
+    });
+  }
+
+  Future<dynamic> getClientStatus() async {
+    final response = await ClientService.getParam(
+        widget.loginResponse['authToken'],
+        widget.loginResponse['companyId'],
+        "P0009",
+        widget.loginResponse['languageId']);
+    setState(() {
+      clientstatuses = response["data"];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,23 +213,36 @@ class _ClientAddModalState extends ConsumerState<ClientAddModal> {
                 const SizedBox(
                   width: 10,
                 ),
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
+                StatefulBuilder(
+                  builder: (context, setDropdownState) => Flexible(
+                    child: DropdownButtonFormField<String>(
+                      value: dropdownValue1,
+                      icon: const Icon(Icons.arrow_downward),
+                      decoration: const InputDecoration(
+                          fillColor: Colors.purple, labelText: "Gender"),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      onChanged: (selectedvalue) {
+                        setDropdownState(() {
+                          dropdownValue1 = selectedvalue!;
+                          clientAddressDetails.update(
+                              "Gender", (val) => dropdownValue1);
+                        });
+                      },
+                      items: gender
+                          .map(
+                            (values) => DropdownMenuItem(
+                              value: "${values['item']}",
+                              child: Text(
+                                "${values['longdesc']}",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
                     ),
-                    initialValue: clientAddressDetails["Gender"],
-                    onChanged: (value) {
-                      clientAddressDetails.update("Gender", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "Gender",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
                   ),
                 ),
               ],
@@ -176,45 +252,71 @@ class _ClientAddModalState extends ConsumerState<ClientAddModal> {
             ),
             Row(
               children: [
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
+                StatefulBuilder(
+                  builder: (context, setDropdownState) => Flexible(
+                    child: DropdownButtonFormField<String>(
+                      value: dropdownValue2,
+                      icon: const Icon(Icons.arrow_downward),
+                      decoration: const InputDecoration(
+                          fillColor: Colors.purple, labelText: "Salutation"),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      onChanged: (selectedvalue) {
+                        setDropdownState(() {
+                          dropdownValue2 = selectedvalue!;
+                          clientAddressDetails.update(
+                              "Salutation", (val) => dropdownValue2);
+                        });
+                      },
+                      items: salutations
+                          .map(
+                            (values) => DropdownMenuItem(
+                              value: "${values['item']}",
+                              child: Text(
+                                "${values['longdesc']}",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
                     ),
-                    initialValue: clientAddressDetails["Salutation"],
-                    onChanged: (value) {
-                      clientAddressDetails.update("Salutation", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "Salutation",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
                   ),
                 ),
                 const SizedBox(
                   width: 10,
                 ),
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
+                StatefulBuilder(
+                  builder: (context, setDropdownState) => Flexible(
+                    child: DropdownButtonFormField<String>(
+                      value: dropdownValue3,
+                      icon: const Icon(Icons.arrow_downward),
+                      decoration: const InputDecoration(
+                          fillColor: Colors.purple, labelText: "Language"),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      onChanged: (selectedvalue) {
+                        setDropdownState(() {
+                          dropdownValue3 = selectedvalue!;
+                          clientAddressDetails.update(
+                              "Language", (val) => dropdownValue3);
+                        });
+                      },
+                      items: languages
+                          .map(
+                            (values) => DropdownMenuItem(
+                              value: "${values['item']}",
+                              child: Text(
+                                "${values['longdesc']}",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
                     ),
-                    initialValue: clientAddressDetails["Language"],
-                    onChanged: (value) {
-                      clientAddressDetails.update("Language", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "Language",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
                   ),
                 ),
               ],
@@ -296,24 +398,36 @@ class _ClientAddModalState extends ConsumerState<ClientAddModal> {
                 // const SizedBox(
                 //   width: 10,
                 // ),
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
+                StatefulBuilder(
+                  builder: (context, setDropdownState) => Flexible(
+                    child: DropdownButtonFormField<String>(
+                      value: dropdownValue4,
+                      icon: const Icon(Icons.arrow_downward),
+                      decoration: const InputDecoration(
+                          fillColor: Colors.purple, labelText: "ClientStatus"),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      onChanged: (selectedvalue) {
+                        setDropdownState(() {
+                          dropdownValue4 = selectedvalue!;
+                          clientAddressDetails.update(
+                              "ClientStatus", (val) => dropdownValue4);
+                        });
+                      },
+                      items: clientstatuses
+                          .map(
+                            (values) => DropdownMenuItem(
+                              value: "${values['item']}",
+                              child: Text(
+                                "${values['longdesc']}",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
                     ),
-                    initialValue: clientAddressDetails["ClientStatus"],
-                    onChanged: (value) {
-                      clientAddressDetails.update(
-                          "ClientStatus", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "Status",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
                   ),
                 ),
                 const SizedBox(

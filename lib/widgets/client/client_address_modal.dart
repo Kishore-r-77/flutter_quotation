@@ -8,7 +8,9 @@ import 'package:quotation_flutter/widgets/client/client_add_modal.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
 
 class ClientAddressModal extends StatefulWidget {
-  const ClientAddressModal({super.key});
+  const ClientAddressModal({super.key, required this.loginResponse});
+
+  final dynamic loginResponse;
 
   @override
   State<ClientAddressModal> createState() => _ClientAddressModalState();
@@ -24,13 +26,13 @@ class _ClientAddressModalState extends State<ClientAddressModal> {
       body: PageView(
         controller: controller,
         physics: const AlwaysScrollableScrollPhysics(),
-        children: const [
-          ClientAddModal(),
-          AddressesModal1(),
-          AddressesModal2(),
-          AddressesModal3(),
-          AddressesModal4(),
-          AddressesModal5(),
+        children: [
+          ClientAddModal(loginResponse: widget.loginResponse),
+          AddressesModal1(loginResponse: widget.loginResponse),
+          AddressesModal2(loginResponse: widget.loginResponse),
+          AddressesModal3(loginResponse: widget.loginResponse),
+          AddressesModal4(loginResponse: widget.loginResponse),
+          AddressesModal5(loginResponse: widget.loginResponse),
         ],
       ),
     );

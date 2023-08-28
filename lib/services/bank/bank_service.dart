@@ -120,6 +120,7 @@ class BankService {
         options: Options(headers: {"Cookie": "Authorization=$token"}),
       );
       if (response.statusCode == 200) {
+        print(response.data);
         return response.data;
       } else {
         throw Exception('Failed to get Account Type');

@@ -29,6 +29,8 @@ class AgencyScreen extends ConsumerStatefulWidget {
 class _AgencyScreenState extends ConsumerState<AgencyScreen> {
   List<dynamic> agencyLists = [];
   List<dynamic> fieldMap = [];
+  List<dynamic> agencychstatus = [];
+  List<dynamic> agencystatus = [];
   Map<String, dynamic> initialvalues = {
     "AgencyChannelSt": "",
     "Office": "",
@@ -55,6 +57,8 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
     super.initState();
     getAllAgency(widget.loginResponse['authToken'], searchString.text,
         searchCriteria, pageNo.text, pageSize);
+    getAgencyChStatus();
+    getAgencyStatus();
   }
 
   Future<dynamic> getAllAgency(
@@ -87,6 +91,31 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
       agencyLists = getData["All Agencies"];
     });
   }
+
+  Future<dynamic> getAgencyChStatus() async {
+    final response = await AgencyService.getParam(
+        widget.loginResponse['authToken'],
+        widget.loginResponse['companyId'],
+        "P0017",
+        widget.loginResponse['languageId']);
+    setState(() {
+      agencychstatus = response["data"];
+    });
+  }
+
+  Future<dynamic> getAgencyStatus() async {
+    final response = await AgencyService.getParam(
+        widget.loginResponse['authToken'],
+        widget.loginResponse['companyId'],
+        "P0019",
+        widget.loginResponse['languageId']);
+    setState(() {
+      agencystatus = response["data"];
+    });
+  }
+
+  String dropdownValue1 = 'AG';
+  String dropdownValue2 = 'AC';
 
   TextEditingController _lsdate = TextEditingController();
   TextEditingController _ledate = TextEditingController();
@@ -141,20 +170,39 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                     children: [
                       Row(
                         children: [
-                          Flexible(
-                            child: TextFormField(
-                              initialValue: initialvalues["AgencyChannelSt"],
-                              onChanged: (value) {
-                                initialvalues.update(
-                                    "AgencyChannelSt", (val) => value);
-                              },
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                label: Text("Agency Channel st"),
+                          StatefulBuilder(
+                            builder: (context, setDropdownState) => Flexible(
+                              child: DropdownButtonFormField<String>(
+                                value: dropdownValue1,
+                                icon: const Icon(Icons.arrow_downward),
+                                decoration: const InputDecoration(
+                                    fillColor: Colors.purple,
+                                    labelText: "Agency Channel Status"),
+                                elevation: 16,
+                                style:
+                                    const TextStyle(color: Colors.deepPurple),
+                                onChanged: (selectedvalue) {
+                                  setDropdownState(() {
+                                    dropdownValue1 = selectedvalue!;
+                                    initialvalues.update("AgencyChannelSt",
+                                        (val) => dropdownValue1);
+                                  });
+                                },
+                                items: agencychstatus
+                                    .map(
+                                      (values) => DropdownMenuItem(
+                                        value: "${values['item']}",
+                                        child: Text(
+                                          "${values['shortdesc']}",
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
                               ),
                             ),
                           ),
@@ -184,20 +232,39 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                       ),
                       Row(
                         children: [
-                          Flexible(
-                            child: TextFormField(
-                              initialValue: initialvalues["AgencySt"],
-                              onChanged: (value) {
-                                initialvalues.update(
-                                    "AgencySt", (val) => value);
-                              },
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                label: Text("Agency St"),
+                          StatefulBuilder(
+                            builder: (context, setDropdownState) => Flexible(
+                              child: DropdownButtonFormField<String>(
+                                value: dropdownValue2,
+                                icon: const Icon(Icons.arrow_downward),
+                                decoration: const InputDecoration(
+                                    fillColor: Colors.purple,
+                                    labelText: "Agency Status"),
+                                elevation: 16,
+                                style:
+                                    const TextStyle(color: Colors.deepPurple),
+                                onChanged: (selectedvalue) {
+                                  setDropdownState(() {
+                                    dropdownValue2 = selectedvalue!;
+                                    initialvalues.update(
+                                        "AgencySt", (val) => dropdownValue2);
+                                  });
+                                },
+                                items: agencystatus
+                                    .map(
+                                      (values) => DropdownMenuItem(
+                                        value: "${values['item']}",
+                                        child: Text(
+                                          "${values['shortdesc']}",
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
                               ),
                             ),
                           ),
@@ -285,7 +352,7 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                                     lastDate: DateTime.now());
                                 if (pickeddate != null) {
                                   setState(() {
-                                    _sdate.text = DateFormat('dd/MM/yyyy')
+                                    _lsdate.text = DateFormat('dd/MM/yyyy')
                                         .format(pickeddate);
                                     initialvalues.update(
                                         "LicenseStartDate",
@@ -314,7 +381,7 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                                     lastDate: DateTime(3000));
                                 if (pickeddate != null) {
                                   setState(() {
-                                    _edate.text = DateFormat('dd/MM/yyyy')
+                                    _ledate.text = DateFormat('dd/MM/yyyy')
                                         .format(pickeddate);
                                     initialvalues.update(
                                         "LicenseEndDate",

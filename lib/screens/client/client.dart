@@ -106,7 +106,8 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (ctx) => const ClientAddressModal(),
+                builder: (ctx) =>
+                    ClientAddressModal(loginResponse: widget.loginResponse),
               ),
             );
           },
