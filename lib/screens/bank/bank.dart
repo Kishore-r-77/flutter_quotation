@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
 import 'package:quotation_flutter/providers/darkProvider/dark_provider.dart';
+import 'package:quotation_flutter/screens/bank/bank_edit.dart';
 import 'package:quotation_flutter/screens/bank/bank_enquiry.dart';
 import 'package:quotation_flutter/screens/client/client.dart';
 import 'package:quotation_flutter/services/bank/bank_service.dart';
@@ -297,13 +298,13 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                             builder: (context, setDropdownState) => Flexible(
                               child: DropdownButtonFormField<String>(
                                 value: dropdownValue1,
-                                icon: const Icon(Icons.arrow_downward),
-                                decoration: const InputDecoration(
-                                    fillColor: Colors.purple,
-                                    labelText: "Bank Account Status"),
                                 elevation: 16,
                                 style:
                                     const TextStyle(color: Colors.deepPurple),
+                                decoration: const InputDecoration(
+                                  labelText: "Bank Account Status",
+                                  border: OutlineInputBorder(),
+                                ),
                                 onChanged: (selectedvalue) {
                                   setDropdownState(() {
                                     dropdownValue1 = selectedvalue!;
@@ -657,7 +658,33 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                             label: "Edit",
                             backgroundColor:
                                 Theme.of(context).colorScheme.primary,
-                            onPressed: (context) {},
+                            onPressed: (context) async {
+                              bankResponse = await BankService.getBank(
+                                  authToken, bankLists[index]['ID']);
+
+                              // ignore: use_build_context_synchronously
+                              final resp = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BankEdit(
+                                    bankRecord: bankResponse["Bank"],
+                                    authToken: authToken,
+                                    companyId:
+                                        widget.loginResponse['companyId'],
+                                    languageId:
+                                        widget.loginResponse['languageId'],
+                                    loginResponse: widget.loginResponse,
+                                  ),
+                                ),
+                              );
+                              setState(() {
+                                if (resp == null) {
+                                  return;
+                                } else {
+                                  bankLists = resp;
+                                }
+                              });
+                            },
                           ),
                           SlidableAction(
                             icon: Icons.info,
@@ -737,7 +764,33 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                             label: "Edit",
                             backgroundColor:
                                 Theme.of(context).colorScheme.primary,
-                            onPressed: (context) {},
+                            onPressed: (context) async {
+                              bankResponse = await BankService.getBank(
+                                  authToken, bankLists[index]['ID']);
+
+                              // ignore: use_build_context_synchronously
+                              final resp = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BankEdit(
+                                    bankRecord: bankResponse["Bank"],
+                                    authToken: authToken,
+                                    companyId:
+                                        widget.loginResponse['companyId'],
+                                    languageId:
+                                        widget.loginResponse['languageId'],
+                                    loginResponse: widget.loginResponse,
+                                  ),
+                                ),
+                              );
+                              setState(() {
+                                if (resp == null) {
+                                  return;
+                                } else {
+                                  bankLists = resp;
+                                }
+                              });
+                            },
                           ),
                           SlidableAction(
                             icon: Icons.info,
@@ -774,16 +827,11 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                         child: ListTile(
                           title: Row(
                             children: [
-                              CircleAvatar(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.primary,
-                                foregroundColor:
-                                    isDark ? Colors.black : Colors.white,
-                                child: Text(
-                                  '${bankLists[index]['ID']}',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              Text(
+                                '${bankLists[index]['ID']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                               const SizedBox(

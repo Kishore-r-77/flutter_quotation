@@ -175,13 +175,13 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                             builder: (context, setDropdownState) => Flexible(
                               child: DropdownButtonFormField<String>(
                                 value: dropdownValue1,
-                                icon: const Icon(Icons.arrow_downward),
-                                decoration: const InputDecoration(
-                                    fillColor: Colors.purple,
-                                    labelText: "Agency Channel Status"),
                                 elevation: 16,
                                 style:
                                     const TextStyle(color: Colors.deepPurple),
+                                decoration: const InputDecoration(
+                                  labelText: "Agency Channel Status",
+                                  border: OutlineInputBorder(),
+                                ),
                                 onChanged: (selectedvalue) {
                                   setDropdownState(() {
                                     dropdownValue1 = selectedvalue!;
@@ -194,7 +194,7 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                                       (values) => DropdownMenuItem(
                                         value: "${values['item']}",
                                         child: Text(
-                                          "${values['shortdesc']}",
+                                          "${values['longdesc']}",
                                           style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme
@@ -237,13 +237,13 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                             builder: (context, setDropdownState) => Flexible(
                               child: DropdownButtonFormField<String>(
                                 value: dropdownValue2,
-                                icon: const Icon(Icons.arrow_downward),
-                                decoration: const InputDecoration(
-                                    fillColor: Colors.purple,
-                                    labelText: "Agency Status"),
                                 elevation: 16,
                                 style:
                                     const TextStyle(color: Colors.deepPurple),
+                                decoration: const InputDecoration(
+                                  labelText: "Agency Status",
+                                  border: OutlineInputBorder(),
+                                ),
                                 onChanged: (selectedvalue) {
                                   setDropdownState(() {
                                     dropdownValue2 = selectedvalue!;
@@ -256,7 +256,7 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                                       (values) => DropdownMenuItem(
                                         value: "${values['item']}",
                                         child: Text(
-                                          "${values['shortdesc']}",
+                                          "${values['longdesc']}",
                                           style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme

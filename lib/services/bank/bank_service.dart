@@ -70,6 +70,52 @@ class BankService {
     }
   }
 
+  static dynamic editBank(
+    token,
+    companyId,
+    bankRecord,
+  ) async {
+    try {
+      final response = await dio.put(
+        '${AppUtils.appUrl}/api/v1/basicservices/bankupdate',
+        data: {
+          "ID": bankRecord["ID"],
+          "CompanyID": companyId,
+          "BankCode": bankRecord["BankCode"],
+          "BankAccountNo": bankRecord["BankAccountNo"],
+          "StartDate": bankRecord["StartDate"],
+          "EndDate": bankRecord["EndDate"],
+          "BankType": bankRecord["BankType"],
+          "BankAccountStatus": bankRecord["BankAccountStatus"],
+          "ClientID": bankRecord["ClientID"]
+        },
+        options: Options(headers: {"Cookie": "Authorization=$token"}),
+      );
+
+      return response.data;
+    } catch (err) {
+      print(err);
+      throw Exception(err);
+    }
+  }
+
+  static dynamic Params(token, companyid, languageid, name) async {
+    try {
+      final response = await dio.get(
+        '${AppUtils.appUrl}/api/v1/basicservices/paramItems?companyId=$companyid&name=$name&languageId=$languageid',
+        options: Options(headers: {"Cookie": "Authorization=$token"}),
+      );
+      if (response.statusCode == 200) {
+        print(response.data);
+        return response.data;
+      } else {
+        throw Exception('Failed to get Address Type');
+      }
+    } catch (err) {
+      throw Exception('An error occurred: $err');
+    }
+  }
+
   static void softDeleteBank(token, id) async {
     try {
       await dio.delete(
@@ -113,7 +159,7 @@ class BankService {
     }
   }
 
-  static dynamic getBankGroups(token, companyid, languageid, name, item) async {
+  static dynamic getBankGroups(token, companyid, languageid, name) async {
     try {
       final response = await dio.get(
         '${AppUtils.appUrl}/api/v1/basicservices/paramItem?companyId=1&name=P0050&languageId=1&item=BANKGROUP',

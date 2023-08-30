@@ -217,11 +217,12 @@ class _ClientAddModalState extends ConsumerState<ClientAddModal> {
                   builder: (context, setDropdownState) => Flexible(
                     child: DropdownButtonFormField<String>(
                       value: dropdownValue1,
-                      icon: const Icon(Icons.arrow_downward),
-                      decoration: const InputDecoration(
-                          fillColor: Colors.purple, labelText: "Gender"),
                       elevation: 16,
                       style: const TextStyle(color: Colors.deepPurple),
+                      decoration: const InputDecoration(
+                        labelText: "Gender",
+                        border: OutlineInputBorder(),
+                      ),
                       onChanged: (selectedvalue) {
                         setDropdownState(() {
                           dropdownValue1 = selectedvalue!;
@@ -256,11 +257,12 @@ class _ClientAddModalState extends ConsumerState<ClientAddModal> {
                   builder: (context, setDropdownState) => Flexible(
                     child: DropdownButtonFormField<String>(
                       value: dropdownValue2,
-                      icon: const Icon(Icons.arrow_downward),
-                      decoration: const InputDecoration(
-                          fillColor: Colors.purple, labelText: "Salutation"),
                       elevation: 16,
                       style: const TextStyle(color: Colors.deepPurple),
+                      decoration: const InputDecoration(
+                        labelText: "Salutation",
+                        border: OutlineInputBorder(),
+                      ),
                       onChanged: (selectedvalue) {
                         setDropdownState(() {
                           dropdownValue2 = selectedvalue!;
@@ -291,10 +293,11 @@ class _ClientAddModalState extends ConsumerState<ClientAddModal> {
                   builder: (context, setDropdownState) => Flexible(
                     child: DropdownButtonFormField<String>(
                       value: dropdownValue3,
-                      icon: const Icon(Icons.arrow_downward),
-                      decoration: const InputDecoration(
-                          fillColor: Colors.purple, labelText: "Language"),
                       elevation: 16,
+                      decoration: const InputDecoration(
+                        labelText: "Language",
+                        border: OutlineInputBorder(),
+                      ),
                       style: const TextStyle(color: Colors.deepPurple),
                       onChanged: (selectedvalue) {
                         setDropdownState(() {
@@ -402,9 +405,10 @@ class _ClientAddModalState extends ConsumerState<ClientAddModal> {
                   builder: (context, setDropdownState) => Flexible(
                     child: DropdownButtonFormField<String>(
                       value: dropdownValue4,
-                      icon: const Icon(Icons.arrow_downward),
                       decoration: const InputDecoration(
-                          fillColor: Colors.purple, labelText: "ClientStatus"),
+                        labelText: "ClientStatus",
+                        border: OutlineInputBorder(),
+                      ),
                       elevation: 16,
                       style: const TextStyle(color: Colors.deepPurple),
                       onChanged: (selectedvalue) {
