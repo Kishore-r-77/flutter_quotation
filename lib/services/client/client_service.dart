@@ -78,6 +78,43 @@ class ClientService {
     }
   }
 
+  static dynamic editClient(
+    token,
+    companyId,
+    clientRecord,
+  ) async {
+    try {
+      final response = await dio.put(
+        '${AppUtils.appUrl}/api/v1/basicservices/clientupdate',
+        data: {
+          "ID": clientRecord["ID"],
+          "CompanyID": companyId,
+          "ClientShortName": clientRecord["ClientShortName"],
+          //"QuoteDate": "20230101",
+          "ClientLongName": clientRecord["ClientLongName"],
+          "ClientSurName": clientRecord["ClientSurName"],
+          "Gender": clientRecord["Gender"],
+          "Salutation": clientRecord["Salutation"],
+          "Language": clientRecord["Language"],
+          "ClientDob": clientRecord["ClientDob"],
+          "ClientDod": clientRecord["ClientDod"],
+          "ClientEmail": clientRecord["ClientEmail"],
+          "ClientMobile": clientRecord["ClientMobile"],
+          "ClientStatus": clientRecord["ClientStatus"],
+          "ClientType": clientRecord["ClientType"],
+          "Addresses": clientRecord["Addresses"]
+          //"QDetails": quotationData["QDetails"]
+        },
+        options: Options(headers: {"Cookie": "Authorization=$token"}),
+      );
+      print(response);
+      return response;
+    } catch (err) {
+      print(err);
+      throw Exception(err);
+    }
+  }
+
   static void softDeleteClient(token, id) async {
     try {
       await dio.delete(
