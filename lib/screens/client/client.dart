@@ -26,6 +26,15 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
   bool isLoading = false;
   List<dynamic> clientLists = [];
   List<dynamic> fieldMap = [];
+  List<dynamic> gender = [];
+  List<dynamic> salutations = [];
+  List<dynamic> languages = [];
+  List<dynamic> clientstatuses = [];
+  String selectedValue = 'I';
+  String dropdownValue1 = 'F';
+  String dropdownValue2 = 'Capt';
+  String dropdownValue3 = 'E';
+  String dropdownValue4 = 'AC';
   TextEditingController searchString = TextEditingController();
   String searchCriteria = "id";
   TextEditingController pageNo = TextEditingController();
@@ -33,6 +42,10 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
   @override
   void initState() {
     super.initState();
+    getGender();
+    getSalutation();
+    getLanguage();
+    getClientStatus();
     // scrollController.addListener(_scrollListener);
     getAllClients(
       widget.loginResponse['authToken'],
@@ -43,6 +56,49 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
     );
   }
 
+  Future<dynamic> getGender() async {
+    final response = await ClientService.getParam(
+        widget.loginResponse['authToken'],
+        widget.loginResponse['companyId'],
+        "P0001",
+        widget.loginResponse['languageId']);
+    setState(() {
+      gender = response["data"];
+    });
+  }
+
+  Future<dynamic> getSalutation() async {
+    final response = await ClientService.getParam(
+        widget.loginResponse['authToken'],
+        widget.loginResponse['companyId'],
+        "P0006",
+        widget.loginResponse['languageId']);
+    setState(() {
+      salutations = response["data"];
+    });
+  }
+
+  Future<dynamic> getLanguage() async {
+    final response = await ClientService.getParam(
+        widget.loginResponse['authToken'],
+        widget.loginResponse['companyId'],
+        "P0002",
+        widget.loginResponse['languageId']);
+    setState(() {
+      languages = response["data"];
+    });
+  }
+
+  Future<dynamic> getClientStatus() async {
+    final response = await ClientService.getParam(
+        widget.loginResponse['authToken'],
+        widget.loginResponse['companyId'],
+        "P0009",
+        widget.loginResponse['languageId']);
+    setState(() {
+      clientstatuses = response["data"];
+    });
+  }
   // void _scrollListener() async {
   //   if (isLoading) return;
   //   if (scrollController.position.pixels ==
@@ -276,14 +332,23 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
                                   authToken, clientLists[index]['ID']);
 
                               // ignore: use_build_context_synchronously
-                              Navigator.push(
+                              final resp = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ClientEdit(
-                                      clientRecord: clientResponse["Client"],
-                                      authToken: authToken),
+                                    clientRecord: clientResponse["Client"],
+                                    authToken: authToken,
+                                    companyId:
+                                        widget.loginResponse['companyId'],
+                                    languageId:
+                                        widget.loginResponse['languageId'],
+                                    loginResponse: widget.loginResponse,
+                                  ),
                                 ),
                               );
+                              setState(() {
+                                clientLists = resp;
+                              });
                             },
                           ),
                           SlidableAction(
@@ -364,7 +429,29 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
                             label: "Edit",
                             backgroundColor:
                                 Theme.of(context).colorScheme.primary,
-                            onPressed: (context) {},
+                            onPressed: (context) async {
+                              clientResponse = await ClientService.getClient(
+                                  authToken, clientLists[index]['ID']);
+
+                              // ignore: use_build_context_synchronously
+                              final resp = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ClientEdit(
+                                    clientRecord: clientResponse["Client"],
+                                    authToken: authToken,
+                                    companyId:
+                                        widget.loginResponse['companyId'],
+                                    languageId:
+                                        widget.loginResponse['languageId'],
+                                    loginResponse: widget.loginResponse,
+                                  ),
+                                ),
+                              );
+                              setState(() {
+                                clientLists = resp;
+                              });
+                            },
                           ),
                           SlidableAction(
                             icon: Icons.info,
@@ -388,13 +475,23 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
                         child: ListTile(
                           title: Row(
                             children: [
+                              Text(
+                                '${clientLists[index]['ID']}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
                               CircleAvatar(
                                 backgroundColor:
                                     Theme.of(context).colorScheme.primary,
                                 foregroundColor:
                                     isDark ? Colors.black : Colors.white,
                                 child: Text(
-                                  '${clientLists[index]['ID']}',
+                                  '${clientLists[index]['ClientType']}',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
