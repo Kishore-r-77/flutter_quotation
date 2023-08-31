@@ -160,9 +160,13 @@ class _ClientAddModalState extends ConsumerState<ClientAddModal> {
                         )),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(
@@ -210,9 +214,13 @@ class _ClientAddModalState extends ConsumerState<ClientAddModal> {
                         )),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 StatefulBuilder(
                   builder: (context, setDropdownState) => Flexible(
                     child: DropdownButtonFormField<String>(
@@ -286,9 +294,13 @@ class _ClientAddModalState extends ConsumerState<ClientAddModal> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 StatefulBuilder(
                   builder: (context, setDropdownState) => Flexible(
                     child: DropdownButtonFormField<String>(
@@ -349,9 +361,13 @@ class _ClientAddModalState extends ConsumerState<ClientAddModal> {
                         )),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(
@@ -379,28 +395,6 @@ class _ClientAddModalState extends ConsumerState<ClientAddModal> {
             ),
             Row(
               children: [
-                // Flexible(
-                //   child: TextFormField(
-                //     style: TextStyle(
-                //       color: Theme.of(context).colorScheme.primary,
-                //     ),
-                //     initialValue: clientAddressDetails["ClientType"],
-                //     onChanged: (value) {
-                //       clientAddressDetails.update("ClientType", (val) => value);
-                //     },
-                //     decoration: InputDecoration(
-                //         border: const OutlineInputBorder(),
-                //         label: Text(
-                //           "Client Type",
-                //           style: TextStyle(
-                //             color: Theme.of(context).colorScheme.primary,
-                //           ),
-                //         )),
-                //   ),
-                // ),
-                // const SizedBox(
-                //   width: 10,
-                // ),
                 StatefulBuilder(
                   builder: (context, setDropdownState) => Flexible(
                     child: DropdownButtonFormField<String>(
@@ -434,10 +428,13 @@ class _ClientAddModalState extends ConsumerState<ClientAddModal> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(

@@ -201,9 +201,13 @@ class _ClientEditState extends State<ClientEdit> {
                         )),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(
@@ -251,9 +255,13 @@ class _ClientEditState extends State<ClientEdit> {
                         )),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 StatefulBuilder(
                   builder: (context, setDropdownState) => Flexible(
                     child: DropdownButtonFormField<String>(
@@ -327,9 +335,13 @@ class _ClientEditState extends State<ClientEdit> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 StatefulBuilder(
                   builder: (context, setDropdownState) => Flexible(
                     child: DropdownButtonFormField<String>(
@@ -389,9 +401,13 @@ class _ClientEditState extends State<ClientEdit> {
                         )),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(
@@ -474,10 +490,13 @@ class _ClientEditState extends State<ClientEdit> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(

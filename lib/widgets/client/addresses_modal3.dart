@@ -98,9 +98,13 @@ class _AddressesModal3State extends ConsumerState<AddressesModal3> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(
@@ -146,9 +150,13 @@ class _AddressesModal3State extends ConsumerState<AddressesModal3> {
                         )),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(
@@ -194,9 +202,13 @@ class _AddressesModal3State extends ConsumerState<AddressesModal3> {
                         )),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(
@@ -242,9 +254,13 @@ class _AddressesModal3State extends ConsumerState<AddressesModal3> {
                         )),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(
@@ -290,9 +306,13 @@ class _AddressesModal3State extends ConsumerState<AddressesModal3> {
                         )),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(

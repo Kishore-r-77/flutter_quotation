@@ -98,12 +98,13 @@ class _AddressesModal2State extends ConsumerState<AddressesModal2> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(
@@ -149,9 +150,13 @@ class _AddressesModal2State extends ConsumerState<AddressesModal2> {
                         )),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(
@@ -197,9 +202,13 @@ class _AddressesModal2State extends ConsumerState<AddressesModal2> {
                         )),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(
@@ -245,9 +254,13 @@ class _AddressesModal2State extends ConsumerState<AddressesModal2> {
                         )),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(
@@ -293,9 +306,13 @@ class _AddressesModal2State extends ConsumerState<AddressesModal2> {
                         )),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 Flexible(
                   child: TextFormField(
                     style: TextStyle(
