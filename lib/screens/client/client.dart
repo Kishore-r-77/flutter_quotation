@@ -473,6 +473,48 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
                         // shadowColor: Theme.of(context).colorScheme.primary,
                         elevation: 12,
                         child: ListTile(
+                          onLongPress: () {
+                            showDialog(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                content: const Text(
+                                    "Are you sure you want to delete this Record"),
+                                actions: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(ctx);
+                                    },
+                                    child: const Text("No"),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      deleteService(clientLists[index]['ID']);
+                                      Navigator.pop(ctx);
+
+                                      ScaffoldMessenger.of(ctx)
+                                          .clearSnackBars();
+                                      ScaffoldMessenger.of(ctx).showSnackBar(
+                                        const SnackBar(
+                                          content: Text("Client Deleted"),
+                                          duration: Duration(seconds: 2),
+                                          // action: SnackBarAction(
+                                          //   label: "Undo",
+                                          //   onPressed: () {
+                                          //     // setState(() {
+                                          //     //   _registeredExpenses.insert(expenseIndex, expense);
+                                          //     // });
+                                          //   },
+                                          //),
+                                        ),
+                                      );
+                                    },
+                                    child: const Text("Delete"),
+                                  ),
+                                ],
+                              ),
+                              barrierDismissible: true,
+                            );
+                          },
                           title: Row(
                             children: [
                               Text(

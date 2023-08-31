@@ -846,68 +846,130 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                           ),
                         ],
                       ),
-                      child: Card(
-                        color: Theme.of(context).colorScheme.surface,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15),
+                      child: InkWell(
+                        onDoubleTap: () async {
+                          addressResponse = await AddressService.getAddress(
+                              authToken, addressLists[index]['ID']);
+
+                          // ignore: use_build_context_synchronously
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddressEnquiry(
+                                  addressResponse: addressResponse["Address"],
+                                  authToken: authToken),
+                            ),
+                          );
+                        },
+                        child: Card(
+                          color: Theme.of(context).colorScheme.surface,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(15),
+                            ),
                           ),
-                        ),
-                        borderOnForeground: false,
-                        // shadowColor: Theme.of(context).colorScheme.primary,
-                        elevation: 12,
-                        child: ListTile(
-                          title: Row(
-                            children: [
-                              Text(
-                                '${addressLists[index]['ID']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
+                          borderOnForeground: false,
+                          // shadowColor: Theme.of(context).colorScheme.primary,
+                          elevation: 12,
+                          child: ListTile(
+                            onLongPress: () {
+                              showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  content: const Text(
+                                      "Are you sure you want to delete this Record"),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(ctx);
+                                      },
+                                      child: const Text("No"),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        deleteAddress(
+                                            addressLists[index]['ID']);
+                                        Navigator.pop(ctx);
+
+                                        ScaffoldMessenger.of(ctx)
+                                            .clearSnackBars();
+                                        ScaffoldMessenger.of(ctx).showSnackBar(
+                                          const SnackBar(
+                                            content: Text("Address Deleted"),
+                                            duration: Duration(seconds: 2),
+                                            // action: SnackBarAction(
+                                            //   label: "Undo",
+                                            //   onPressed: () {
+                                            //     // setState(() {
+                                            //     //   _registeredExpenses.insert(expenseIndex, expense);
+                                            //     // });
+                                            //   },
+                                            //),
+                                          ),
+                                        );
+                                      },
+                                      child: const Text("Delete"),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              CircleAvatar(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.primary,
-                                foregroundColor:
-                                    isDark ? Colors.black : Colors.white,
-                                child: Text(
-                                  '${addressLists[index]['AddressType']}',
-                                  style: const TextStyle(
+                                barrierDismissible: true,
+                              );
+                            },
+                            title: Row(
+                              children: [
+                                Text(
+                                  '${addressLists[index]['ID']}',
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          subtitle: Row(
-                            children: [
-                              Text(
-                                '${addressLists[index]['AddressLine1']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
+                                const SizedBox(
+                                  width: 10,
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                '${addressLists[index]['AddressPostCode']}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
+                                CircleAvatar(
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.primary,
+                                  foregroundColor:
+                                      isDark ? Colors.black : Colors.white,
+                                  child: Text(
+                                    '${addressLists[index]['AddressType']}',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
+                            subtitle: Row(
+                              children: [
+                                Text(
+                                  '${addressLists[index]['AddressLine1']}',
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  '${addressLists[index]['AddressPostCode']}',
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            trailing: IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.swipe,
+                                  color: Theme.of(context).colorScheme.primary,
+                                )),
                           ),
-                          trailing: IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.swipe,
-                                color: Theme.of(context).colorScheme.primary,
-                              )),
                         ),
                       ),
                     ),

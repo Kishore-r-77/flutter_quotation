@@ -44,6 +44,7 @@ dependencies:
   flutter_native_splash: ^2.3.2
   introduction_screen: ^3.1.11
   curved_navigation_bar: ^1.0.3
+  azlistview: ^2.0.0
 
 flutter_native_splash:
   color: "#04120c"
