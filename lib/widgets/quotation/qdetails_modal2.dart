@@ -84,156 +84,148 @@ class _QDetailsModal2State extends ConsumerState<QDetailsModal2> {
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
-            Row(
-              children: [
-                StatefulBuilder(
-                  builder: (context, setDropdownState) => Flexible(
-                    child: DropdownButtonFormField<String>(
-                      value: dropdownValue1,
-                      elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
-                      decoration: const InputDecoration(
-                        labelText: "Coverage",
-                        border: OutlineInputBorder(),
-                      ),
-                      onChanged: (selectedvalue) {
-                        setDropdownState(() {
-                          dropdownValue1 = selectedvalue!;
-                          qDetailModal2.update(
-                              "QCoverage", (val) => dropdownValue1);
-                        });
-                      },
-                      items: qCovers
-                          .map(
-                            (values) => DropdownMenuItem(
-                              value: "${values['item']}",
-                              child: Text(
-                                "${values['item']}",
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                            ),
-                          )
-                          .toList(),
-                    ),
+            StatefulBuilder(
+              builder: (context, setDropdownState) => Flexible(
+                child: DropdownButtonFormField<String>(
+                  value: dropdownValue1,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.deepPurple),
+                  decoration: const InputDecoration(
+                    labelText: "Coverage",
+                    border: OutlineInputBorder(),
                   ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                StatefulBuilder(
-                  builder: (context, setDropdownState) => Flexible(
-                    child: DropdownButtonFormField<String>(
-                      value: dropdownValue2,
-                      elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: "Risk Cess Term"),
-                      onChanged: (selectedvalue) {
-                        setDropdownState(() {
-                          dropdownValue2 = selectedvalue!;
-                          qDetailModal2.update(
-                              "QRiskCessTerm", (val) => dropdownValue2);
-                        });
-                      },
-                      items: qTerms
-                          .map(
-                            (values) => DropdownMenuItem(
-                              value: "${values}",
-                              child: Text(
-                                "${values}",
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
+                  onChanged: (selectedvalue) {
+                    setDropdownState(() {
+                      dropdownValue1 = selectedvalue!;
+                      qDetailModal2.update(
+                          "QCoverage", (val) => dropdownValue1);
+                    });
+                  },
+                  items: qCovers
+                      .map(
+                        (values) => DropdownMenuItem(
+                          value: "${values['item']}",
+                          child: Text(
+                            "${values['item']}",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
                             ),
-                          )
-                          .toList(),
-                    ),
-                  ),
+                          ),
+                        ),
+                      )
+                      .toList(),
                 ),
-              ],
+              ),
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
-            Row(
-              children: [
-                StatefulBuilder(
-                  builder: (context, setDropdownState) => Flexible(
-                    child: DropdownButtonFormField<String>(
-                      value: dropdownValue2,
-                      elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: "Premium Cess Term"),
-                      onChanged: (selectedvalue) {
-                        setDropdownState(() {
-                          dropdownValue2 = selectedvalue!;
-                          qDetailModal2.update(
-                              "QPremCessTerm", (val) => dropdownValue2);
-                        });
-                      },
-                      items: qTerms
-                          .map(
-                            (values) => DropdownMenuItem(
-                              value: "${values}",
-                              child: Text(
-                                "${values}",
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
+            StatefulBuilder(
+              builder: (context, setDropdownState) => Flexible(
+                child: DropdownButtonFormField<String>(
+                  value: dropdownValue2,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.deepPurple),
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "Risk Cess Term"),
+                  onChanged: (selectedvalue) {
+                    setDropdownState(() {
+                      dropdownValue2 = selectedvalue!;
+                      qDetailModal2.update(
+                          "QRiskCessTerm", (val) => dropdownValue2);
+                    });
+                  },
+                  items: qTerms
+                      .map(
+                        (values) => DropdownMenuItem(
+                          value: "${values}",
+                          child: Text(
+                            "${values}",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
                             ),
-                          )
-                          .toList(),
-                    ),
-                  ),
+                          ),
+                        ),
+                      )
+                      .toList(),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                StatefulBuilder(
-                  builder: (context, setDropdownState) => Flexible(
-                    child: DropdownButtonFormField<String>(
-                      value: dropdownValue2,
-                      elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: "Benefit Cess Term"),
-                      onChanged: (selectedvalue) {
-                        setDropdownState(() {
-                          dropdownValue2 = selectedvalue!;
-                          qDetailModal2.update(
-                              "QBeneCessTerm", (val) => dropdownValue2);
-                        });
-                      },
-                      items: qTerms
-                          .map(
-                            (values) => DropdownMenuItem(
-                              value: "${values}",
-                              child: Text(
-                                "${values}",
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
+            ),
+            StatefulBuilder(
+              builder: (context, setDropdownState) => Flexible(
+                child: DropdownButtonFormField<String>(
+                  value: dropdownValue2,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.deepPurple),
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "Premium Cess Term"),
+                  onChanged: (selectedvalue) {
+                    setDropdownState(() {
+                      dropdownValue2 = selectedvalue!;
+                      qDetailModal2.update(
+                          "QPremCessTerm", (val) => dropdownValue2);
+                    });
+                  },
+                  items: qTerms
+                      .map(
+                        (values) => DropdownMenuItem(
+                          value: "${values}",
+                          child: Text(
+                            "${values}",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            StatefulBuilder(
+              builder: (context, setDropdownState) => Flexible(
+                child: DropdownButtonFormField<String>(
+                  value: dropdownValue2,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.deepPurple),
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "Benefit Cess Term"),
+                  onChanged: (selectedvalue) {
+                    setDropdownState(() {
+                      dropdownValue2 = selectedvalue!;
+                      qDetailModal2.update(
+                          "QBeneCessTerm", (val) => dropdownValue2);
+                    });
+                  },
+                  items: qTerms
+                      .map(
+                        (values) => DropdownMenuItem(
+                          value: "${values}",
+                          child: Text(
+                            "${values}",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
             ),
             StatefulBuilder(
               builder: (context, setSliderState) => Row(
@@ -270,55 +262,51 @@ class _QDetailsModal2State extends ConsumerState<QDetailsModal2> {
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
-            Row(
-              children: [
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    initialValue: qDetailModal2["QEmrRating"],
-                    onChanged: (value) {
-                      qDetailModal2.update("QEmrRating", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "EmrRating",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
-                  ),
+            Flexible(
+              child: TextFormField(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    initialValue: qDetailModal2["QAgeAdmitted"],
-                    onChanged: (value) {
-                      qDetailModal2.update("QAgeAdmitted", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "AgeAdmitted",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
-                  ),
-                ),
-              ],
+                initialValue: qDetailModal2["QEmrRating"],
+                onChanged: (value) {
+                  qDetailModal2.update("QEmrRating", (val) => value);
+                },
+                decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    label: Text(
+                      "EmrRating",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    )),
+              ),
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
+            ),
+            Flexible(
+              child: TextFormField(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                initialValue: qDetailModal2["QAgeAdmitted"],
+                onChanged: (value) {
+                  qDetailModal2.update("QAgeAdmitted", (val) => value);
+                },
+                decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    label: Text(
+                      "AgeAdmitted",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    )),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
             ),
             StatefulBuilder(
               builder: (context, setState) => Row(
@@ -386,7 +374,7 @@ class _QDetailsModal2State extends ConsumerState<QDetailsModal2> {
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
             Center(
               child: Text(

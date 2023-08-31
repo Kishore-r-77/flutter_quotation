@@ -38,7 +38,7 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
   String dropdownValue1 = 'N';
   String dropdownValue2 = 'ACC';
   String dropdownValue3 = 'AEN';
-  String dropdownValue4 = 'CHEM';
+  String dropdownValue4 = 'ADV';
 
   Future<dynamic> getQNri() async {
     final response = await QuotationServices.Params(
@@ -120,339 +120,318 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
-            Row(
-              children: [
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
+            Flexible(
+              child: TextFormField(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                controller: clientIdController, // Use the TextEditingController
+                onTap: () async {
+                  final clientId = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (ctx) => ClientScreen(
+                        isLookUp: true,
+                        loginResponse: ref.watch(loginProvider),
+                      ),
                     ),
-                    controller:
-                        clientIdController, // Use the TextEditingController
-                    onTap: () async {
-                      final clientId = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (ctx) => ClientScreen(
-                            isLookUp: true,
-                            loginResponse: ref.watch(loginProvider),
+                  );
+
+                  clientIdController.text = clientId ?? 0;
+                  qHeaderQDetails.update(
+                    "ClientID",
+                    (value) => clientIdController.text,
+                  );
+                },
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
+                  ),
+                  label: Text("Client Id"),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Flexible(
+              child: TextFormField(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                controller: agencyIdController, // Use the TextEditingController
+                onTap: () async {
+                  final agencyId = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (ctx) => AgencyScreen(
+                        isLookUp: true,
+                        loginResponse: ref.watch(loginProvider),
+                      ),
+                    ),
+                  );
+
+                  agencyIdController.text = agencyId ?? 0;
+                  qHeaderQDetails.update(
+                    "AgencyID",
+                    (value) => agencyIdController.text,
+                  );
+                },
+                // onChanged: (value) {
+
+                // },
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
+                  ),
+                  label: Text("AgencyID Id"),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Flexible(
+              child: TextFormField(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                controller:
+                    addressIdController, // Use the TextEditingController
+                onTap: () async {
+                  final addressId = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (ctx) => AddressScreen(
+                        isLookUp: true,
+                        loginResponse: ref.watch(loginProvider),
+                      ),
+                    ),
+                  );
+
+                  addressIdController.text = addressId ?? 0;
+                  qHeaderQDetails.update(
+                    "AddressID",
+                    (value) => addressIdController.text,
+                  );
+                },
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
+                  ),
+                  label: Text("Address Id"),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            StatefulBuilder(
+              builder: (context, setDropdownState) => Flexible(
+                child: DropdownButtonFormField<String>(
+                  value: dropdownValue1,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.deepPurple),
+                  decoration: const InputDecoration(
+                    labelText: "NRI status",
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (selectedvalue) {
+                    setDropdownState(() {
+                      dropdownValue1 = selectedvalue!;
+                      qHeaderQDetails.update("QNri", (val) => dropdownValue1);
+                    });
+                  },
+                  items: qNri
+                      .map(
+                        (values) => DropdownMenuItem(
+                          value: "${values['item']}",
+                          child: Text(
+                            "${values['longdesc']}",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                           ),
                         ),
-                      );
-
-                      clientIdController.text = clientId ?? 0;
+                      )
+                      .toList(),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            StatefulBuilder(
+              builder: (context, setDropdownState) => Flexible(
+                child: DropdownButtonFormField<String>(
+                  value: dropdownValue2,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.deepPurple),
+                  decoration: const InputDecoration(
+                    labelText: "Occupation Group",
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (selectedvalue) {
+                    setDropdownState(() {
+                      dropdownValue2 = selectedvalue!;
                       qHeaderQDetails.update(
-                        "ClientID",
-                        (value) => clientIdController.text,
-                      );
-                    },
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8),
-                        ),
-                      ),
-                      label: Text("Client Id"),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    controller:
-                        agencyIdController, // Use the TextEditingController
-                    onTap: () async {
-                      final agencyId = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (ctx) => AgencyScreen(
-                            isLookUp: true,
-                            loginResponse: ref.watch(loginProvider),
+                          "QOccGroup", (val) => dropdownValue2);
+                    });
+                  },
+                  items: qCcg
+                      .map(
+                        (values) => DropdownMenuItem(
+                          value: "${values['item']}",
+                          child: Text(
+                            "${values['longdesc']}",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                           ),
                         ),
-                      );
-
-                      agencyIdController.text = agencyId ?? 0;
+                      )
+                      .toList(),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Flexible(
+              child: TextFormField(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                controller: quoteDate,
+                onTap: () async {
+                  DateTime? pickeddate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime.now());
+                  if (pickeddate != null) {
+                    setState(() {
+                      quoteDate.text =
+                          DateFormat('dd/MM/yyyy').format(pickeddate);
+                      qHeaderQDetails.update("QuoteDate",
+                          (val) => DateFormat('yyyyMMdd').format(pickeddate));
+                    });
+                  }
+                },
+                decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    label: Text(
+                      "Quote Date",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    )),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            StatefulBuilder(
+              builder: (context, setDropdownState) => Flexible(
+                child: DropdownButtonFormField<String>(
+                  value: dropdownValue3,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.deepPurple),
+                  decoration: const InputDecoration(
+                    labelText: "Product",
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (selectedvalue) {
+                    setDropdownState(() {
+                      dropdownValue3 = selectedvalue!;
                       qHeaderQDetails.update(
-                        "AgencyID",
-                        (value) => agencyIdController.text,
-                      );
-                    },
-                    // onChanged: (value) {
-
-                    // },
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8),
-                        ),
-                      ),
-                      label: Text("AgencyID Id"),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    controller:
-                        addressIdController, // Use the TextEditingController
-                    onTap: () async {
-                      final addressId = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (ctx) => AddressScreen(
-                            isLookUp: true,
-                            loginResponse: ref.watch(loginProvider),
+                          "QProduct", (val) => dropdownValue3);
+                    });
+                  },
+                  items: qProduct
+                      .map(
+                        (values) => DropdownMenuItem(
+                          value: "${values['item']}",
+                          child: Text(
+                            "${values['shortdesc']}",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                           ),
                         ),
-                      );
-
-                      addressIdController.text = addressId ?? 0;
+                      )
+                      .toList(),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Flexible(
+              child: TextFormField(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                initialValue: qHeaderQDetails["QOccupation"],
+                onChanged: (value) {
+                  qHeaderQDetails.update("QOccupation", (val) => value);
+                },
+                decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    label: Text(
+                      "Occupation",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    )),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            StatefulBuilder(
+              builder: (context, setDropdownState) => Flexible(
+                child: DropdownButtonFormField<String>(
+                  value: dropdownValue4,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.deepPurple),
+                  decoration: const InputDecoration(
+                    labelText: "Occupation Sector",
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (selectedvalue) {
+                    setDropdownState(() {
+                      dropdownValue4 = selectedvalue!;
                       qHeaderQDetails.update(
-                        "AddressID",
-                        (value) => addressIdController.text,
-                      );
-                    },
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8),
+                          "QOccSect", (val) => dropdownValue4);
+                    });
+                  },
+                  items: qCcs
+                      .map(
+                        (values) => DropdownMenuItem(
+                          value: "${values['item']}",
+                          child: Text(
+                            "${values['longdesc']}",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
                         ),
-                      ),
-                      label: Text("Address Id"),
-                    ),
-                  ),
+                      )
+                      .toList(),
                 ),
-              ],
+              ),
             ),
             const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                StatefulBuilder(
-                  builder: (context, setDropdownState) => Flexible(
-                    child: DropdownButtonFormField<String>(
-                      value: dropdownValue1,
-                      elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
-                      decoration: const InputDecoration(
-                        labelText: "NRI status",
-                        border: OutlineInputBorder(),
-                      ),
-                      onChanged: (selectedvalue) {
-                        setDropdownState(() {
-                          dropdownValue1 = selectedvalue!;
-                          qHeaderQDetails.update(
-                              "QNri", (val) => dropdownValue1);
-                        });
-                      },
-                      items: qNri
-                          .map(
-                            (values) => DropdownMenuItem(
-                              value: "${values['item']}",
-                              child: Text(
-                                "${values['longdesc']}",
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                StatefulBuilder(
-                  builder: (context, setDropdownState) => Flexible(
-                    child: DropdownButtonFormField<String>(
-                      value: dropdownValue2,
-                      elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
-                      decoration: const InputDecoration(
-                        labelText: "Occupation Group",
-                        border: OutlineInputBorder(),
-                      ),
-                      onChanged: (selectedvalue) {
-                        setDropdownState(() {
-                          dropdownValue2 = selectedvalue!;
-                          qHeaderQDetails.update(
-                              "QOccGroup", (val) => dropdownValue2);
-                        });
-                      },
-                      items: qCcg
-                          .map(
-                            (values) => DropdownMenuItem(
-                              value: "${values['item']}",
-                              child: Text(
-                                "${values['longdesc']}",
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    controller: quoteDate,
-                    onTap: () async {
-                      DateTime? pickeddate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime.now());
-                      if (pickeddate != null) {
-                        setState(() {
-                          quoteDate.text =
-                              DateFormat('dd/MM/yyyy').format(pickeddate);
-                          qHeaderQDetails.update(
-                              "QuoteDate",
-                              (val) =>
-                                  DateFormat('yyyyMMdd').format(pickeddate));
-                        });
-                      }
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "Quote Date",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                StatefulBuilder(
-                  builder: (context, setDropdownState) => Flexible(
-                    child: DropdownButtonFormField<String>(
-                      value: dropdownValue3,
-                      elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
-                      decoration: const InputDecoration(
-                        labelText: "Product",
-                        border: OutlineInputBorder(),
-                      ),
-                      onChanged: (selectedvalue) {
-                        setDropdownState(() {
-                          dropdownValue3 = selectedvalue!;
-                          qHeaderQDetails.update(
-                              "QProduct", (val) => dropdownValue3);
-                        });
-                      },
-                      items: qProduct
-                          .map(
-                            (values) => DropdownMenuItem(
-                              value: "${values['item']}",
-                              child: Text(
-                                "${values['shortdesc']}",
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    initialValue: qHeaderQDetails["QOccupation"],
-                    onChanged: (value) {
-                      qHeaderQDetails.update("QOccupation", (val) => value);
-                    },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        label: Text(
-                          "Occupation",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                StatefulBuilder(
-                  builder: (context, setDropdownState) => Flexible(
-                    child: DropdownButtonFormField<String>(
-                      value: dropdownValue4,
-                      elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
-                      decoration: const InputDecoration(
-                        labelText: "Occupation Sector",
-                        border: OutlineInputBorder(),
-                      ),
-                      onChanged: (selectedvalue) {
-                        setDropdownState(() {
-                          dropdownValue4 = selectedvalue!;
-                          qHeaderQDetails.update(
-                              "QOccSect", (val) => dropdownValue4);
-                        });
-                      },
-                      items: qCcs
-                          .map(
-                            (values) => DropdownMenuItem(
-                              value: "${values['item']}",
-                              child: Text(
-                                "${values['longdesc']}",
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
+              height: 20,
             ),
             StatefulBuilder(
               builder: (context, setSliderState) => Row(
@@ -489,7 +468,7 @@ class _QHeaderModalState extends ConsumerState<QHeaderModal> {
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
             Icon(
               Icons.swipe,

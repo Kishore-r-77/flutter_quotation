@@ -59,7 +59,6 @@ class _BankEditState extends State<BankEdit> {
     super.initState();
     getBankTypes();
     getBankAccountStatus();
-    getBankGroup();
     // getBankGroups();
     getAllBank(widget.loginResponse['authToken'], searchString.text,
         searchCriteria, pageNo.text, pageSize);
@@ -106,16 +105,18 @@ class _BankEditState extends State<BankEdit> {
     });
   }
 
-  Future<dynamic> getBankGroup() async {
-    final response = await BankService.getBankGroups(
-        widget.loginResponse['authToken'],
-        widget.loginResponse['companyId'],
-        widget.loginResponse['languageId'],
-        "P0056");
-    setState(() {
-      bankaccountstatus = response["data"];
-    });
-  }
+  // Future<dynamic> getBankGroups() async {
+  //   final response = await BankService.getBankGroups(
+  //       widget.loginResponse['authToken'],
+  //       widget.loginResponse['companyId'],
+  //       widget.loginResponse['languageId'],
+  //       "P0050",
+  //       "BANKGROUP");
+  //   setState(() {
+  //     bankgroups = response['param']['data']['datapairs'];
+  //     print(bankgroups);
+  //   });
+  // }
 
   void resetInitialValues() {
     initialvalues.update("BankCode", (value) => "");
@@ -131,19 +132,6 @@ class _BankEditState extends State<BankEdit> {
   TextEditingController startDate = TextEditingController();
   TextEditingController endDate = TextEditingController();
   TextEditingController clientIdController = TextEditingController();
-
-  // Future<dynamic> getAddressTypes() async {
-  //   final response = await BankService.getAddressTypes(
-  //       widget.authToken, widget.companyId, widget.languageId, "P0022");
-  //   setState(() {
-  //     addresstypes = response["data"];
-  //   });
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -161,285 +149,225 @@ class _BankEditState extends State<BankEdit> {
         child: ListView(
           padding: const EdgeInsets.all(8.0),
           children: [
-            Row(
-              children: [
-                StatefulBuilder(
-                  builder: (context, setRadioState) => Flexible(
-                    child: Row(
-                      children: [
-                        ...bankypes.map((address) => Flexible(
-                              child: RadioListTile<String>(
-                                // title: const Text('Business'),
-                                title: Text(address['longdesc']),
-                                value: address['item'],
-                                groupValue: selectedValue,
-                                onChanged: (value) {
-                                  setRadioState(() {
-                                    selectedValue = value!;
-                                    initialvalues.update(
-                                        "BankType", (val) => selectedValue);
-                                  });
-                                },
-                              ),
-                            ))
-                      ],
-                    ),
-                  ),
+            StatefulBuilder(
+              builder: (context, setRadioState) => Flexible(
+                child: Row(
+                  children: [
+                    ...bankypes.map((address) => Flexible(
+                          child: RadioListTile<String>(
+                            // title: const Text('Business'),
+                            title: Text(address['longdesc']),
+                            value: address['item'],
+                            groupValue: selectedValue,
+                            onChanged: (value) {
+                              setRadioState(() {
+                                selectedValue = value!;
+                                initialvalues.update(
+                                    "BankType", (val) => selectedValue);
+                              });
+                            },
+                          ),
+                        ))
+                  ],
                 ),
-              ],
+              ),
             ),
-            Row(
-              children: [
-                Flexible(
-                  child: TextFormField(
-                    initialValue: widget.bankRecord["ClientID"].toString(),
-                    onChanged: (value) {
-                      widget.bankRecord.update("ClientID", (val) => value);
-                    },
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8),
-                        ),
-                      ),
-                      label: Text("OwnerID"),
+            Flexible(
+              child: TextFormField(
+                initialValue: widget.bankRecord["ClientID"].toString(),
+                onChanged: (value) {
+                  widget.bankRecord.update("ClientID", (val) => value);
+                },
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
                     ),
                   ),
+                  label: Text("OwnerID"),
                 ),
-              ],
+              ),
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
-            Row(
-              children: [
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    initialValue: widget.bankRecord["BankCode"],
-                    onChanged: (value) {
-                      widget.bankRecord.update("BankCode", (val) => value);
-                    },
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8),
-                        ),
-                      ),
-                      label: Text("Bank Code"),
+            Flexible(
+              child: TextFormField(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                initialValue: widget.bankRecord["BankCode"],
+                onChanged: (value) {
+                  widget.bankRecord.update("BankCode", (val) => value);
+                },
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
                     ),
                   ),
+                  label: Text("Bank Code"),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    initialValue: widget.bankRecord["BankAccountNo"],
-                    onChanged: (value) {
-                      widget.bankRecord.update("BankAccountNo", (val) => value);
-                    },
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8),
-                        ),
-                      ),
-                      label: Text("Bank Account No"),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
-            Row(
-              children: [
-                const SizedBox(
-                  width: 10,
+            Flexible(
+              child: TextFormField(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
                 ),
-                StatefulBuilder(
-                  builder: (context, setDropdownState) => Flexible(
-                    child: DropdownButtonFormField<String>(
-                      value: dropdownValue1,
-                      elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
-                      decoration: const InputDecoration(
-                        labelText: "Bank Account Status",
-                        border: OutlineInputBorder(),
-                      ),
-                      onChanged: (selectedvalue) {
-                        setDropdownState(() {
-                          dropdownValue1 = selectedvalue!;
-                          initialvalues.update(
-                              "BankAccountStatus", (val) => dropdownValue1);
-                        });
-                      },
-                      items: bankaccountstatus
-                          .map(
-                            (values) => DropdownMenuItem(
-                              value: "${values['item']}",
-                              child: Text(
-                                "${values['longdesc']}",
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
+                initialValue: widget.bankRecord["BankAccountNo"],
+                onChanged: (value) {
+                  widget.bankRecord.update("BankAccountNo", (val) => value);
+                },
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
+                  ),
+                  label: Text("Bank Account No"),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            // const SizedBox(
+            //   height: 20,
+            // ),
+            StatefulBuilder(
+              builder: (context, setDropdownState) => Flexible(
+                child: DropdownButtonFormField<String>(
+                  value: dropdownValue1,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.deepPurple),
+                  decoration: const InputDecoration(
+                    labelText: "Bank Account Status",
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (selectedvalue) {
+                    setDropdownState(() {
+                      dropdownValue1 = selectedvalue!;
+                      initialvalues.update(
+                          "BankAccountStatus", (val) => dropdownValue1);
+                    });
+                  },
+                  items: bankaccountstatus
+                      .map(
+                        (values) => DropdownMenuItem(
+                          value: "${values['item']}",
+                          child: Text(
+                            "${values['longdesc']}",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
                             ),
-                          )
-                          .toList(),
-                    ),
-                  ),
+                          ),
+                        ),
+                      )
+                      .toList(),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                // StatefulBuilder(
-                //   builder: (context, setDropdownState) => Flexible(
-                //     child: DropdownButtonFormField<String>(
-                //       value: dropdownValue2,
-                //       elevation: 16,
-                //       style: const TextStyle(color: Colors.deepPurple),
-                //       decoration: const InputDecoration(
-                //         labelText: "Bank Group",
-                //         border: OutlineInputBorder(),
-                //       ),
-                //       onChanged: (selectedvalue) {
-                //         setDropdownState(() {
-                //           dropdownValue2 = selectedvalue!;
-                //           initialvalues.update(
-                //               "BankGroup", (val) => dropdownValue2);
-                //         });
-                //       },
-                //       items: bankgroups
-                //           .map(
-                //             (values) => DropdownMenuItem(
-                //               value: "${values['item']}",
-                //               child: Text(
-                //                 "${values['longdesc']}",
-                //                 style: TextStyle(
-                //                   color: Theme.of(context).colorScheme.primary,
-                //                 ),
-                //               ),
-                //             ),
-                //           )
-                //           .toList(),
-                //     ),
-                //   ),
-                // ),
-              ],
+              ),
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
-            Row(
-              children: [
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    controller: startDate,
-                    decoration: const InputDecoration(
-                      icon: Icon(Icons.calendar_today_rounded),
-                      labelText: "Start Date",
-                    ),
-                    onTap: () async {
-                      DateTime? pickeddate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime.now());
-                      if (pickeddate != null) {
-                        setState(() {
-                          startDate.text =
-                              DateFormat('dd/MM/yyyy').format(pickeddate);
-                          initialvalues.update(
-                              "StartDate",
-                              (val) =>
-                                  DateFormat('yyyyMMdd').format(pickeddate));
-                        });
-                      }
-                    },
-                  ),
+            Flexible(
+              child: TextFormField(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
                 ),
-                const SizedBox(
-                  width: 10,
+                controller: startDate,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.calendar_today_rounded),
+                  labelText: "Start Date",
                 ),
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    controller: endDate,
-                    decoration: const InputDecoration(
-                      icon: Icon(Icons.calendar_today_rounded),
-                      labelText: "End Date",
-                    ),
-                    onTap: () async {
-                      DateTime? pickeddate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime(3000));
-                      if (pickeddate != null) {
-                        setState(() {
-                          endDate.text =
-                              DateFormat('dd/MM/yyyy').format(pickeddate);
-                          initialvalues.update(
-                              "EndDate",
-                              (val) =>
-                                  DateFormat('yyyyMMdd').format(pickeddate));
-                        });
-                      }
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                // StatefulBuilder(
-                //   builder: (context, setDropdownState) => Flexible(
-                //     child: DropdownButtonFormField<String>(
-                //       value: dropdownValue2,
-                //       icon: const Icon(Icons.arrow_downward),
-                //       decoration: const InputDecoration(
-                //           fillColor: Colors.purple, labelText: "Bank Group"),
-                //       elevation: 16,
-                //       style: const TextStyle(color: Colors.deepPurple),
-                //       onChanged: (selectedvalue) {
-                //         setDropdownState(() {
-                //           dropdownValue2 = selectedvalue!;
-                //           initialvalues.update(
-                //               "BankGroup", (val) => dropdownValue2);
-                //         });
-                //       },
-                //       items: bankgroups
-                //           .map(
-                //             (values) => DropdownMenuItem(
-                //               value: "${values['item']}",
-                //               child: Text(
-                //                 "${values['longdesc']}",
-                //                 style: TextStyle(
-                //                   color: Theme.of(context).colorScheme.primary,
-                //                 ),
-                //               ),
-                //             ),
-                //           )
-                //           .toList(),
-                //     ),
-                //   ),
-                // ),
-              ],
+                onTap: () async {
+                  DateTime? pickeddate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime.now());
+                  if (pickeddate != null) {
+                    setState(() {
+                      startDate.text =
+                          DateFormat('dd/MM/yyyy').format(pickeddate);
+                      initialvalues.update("StartDate",
+                          (val) => DateFormat('yyyyMMdd').format(pickeddate));
+                    });
+                  }
+                },
+              ),
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
+            ),
+            Flexible(
+              child: TextFormField(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                controller: endDate,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.calendar_today_rounded),
+                  labelText: "End Date",
+                ),
+                onTap: () async {
+                  DateTime? pickeddate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime(3000));
+                  if (pickeddate != null) {
+                    setState(() {
+                      endDate.text =
+                          DateFormat('dd/MM/yyyy').format(pickeddate);
+                      initialvalues.update("EndDate",
+                          (val) => DateFormat('yyyyMMdd').format(pickeddate));
+                    });
+                  }
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            // StatefulBuilder(
+            //   builder: (context, setDropdownState) => Flexible(
+            //     child: DropdownButtonFormField<String>(
+            //       value: dropdownValue2,
+            //       icon: const Icon(Icons.arrow_downward),
+            //       decoration: const InputDecoration(
+            //           fillColor: Colors.purple, labelText: "Bank Group"),
+            //       elevation: 16,
+            //       style: const TextStyle(color: Colors.deepPurple),
+            //       onChanged: (selectedvalue) {
+            //         setDropdownState(() {
+            //           dropdownValue2 = selectedvalue!;
+            //           initialvalues.update(
+            //               "BankGroup", (val) => dropdownValue2);
+            //         });
+            //       },
+            //       items: bankgroups
+            //           .map(
+            //             (values) => DropdownMenuItem(
+            //               value: "${values['item']}",
+            //               child: Text(
+            //                 "${values['longdesc']}",
+            //                 style: TextStyle(
+            //                   color: Theme.of(context).colorScheme.primary,
+            //                 ),
+            //               ),
+            //             ),
+            //           )
+            //           .toList(),
+            //     ),
+            //   ),
+            // ),
+            const SizedBox(
+              height: 20,
             ),
             Row(
               children: [

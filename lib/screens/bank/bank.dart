@@ -168,279 +168,257 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                   child: ListView(
                     padding: const EdgeInsets.all(8.0),
                     children: [
-                      Row(
-                        children: [
-                          StatefulBuilder(
-                            builder: (context, setRadioState) => Flexible(
-                              child: Row(
-                                children: [
-                                  ...bankypes.map((address) => Flexible(
-                                        child: RadioListTile<String>(
-                                          // title: const Text('Business'),
-                                          title: Text(address['longdesc']),
-                                          value: address['item'],
-                                          groupValue: selectedValue,
-                                          onChanged: (value) {
-                                            setRadioState(() {
-                                              selectedValue = value!;
-                                              initialvalues.update("BankType",
-                                                  (val) => selectedValue);
-                                            });
-                                          },
-                                        ),
-                                      ))
-                                ],
+                      StatefulBuilder(
+                        builder: (context, setRadioState) => Flexible(
+                          child: Row(
+                            children: [
+                              ...bankypes.map((address) => Flexible(
+                                    child: RadioListTile<String>(
+                                      // title: const Text('Business'),
+                                      title: Text(address['longdesc']),
+                                      value: address['item'],
+                                      groupValue: selectedValue,
+                                      onChanged: (value) {
+                                        setRadioState(() {
+                                          selectedValue = value!;
+                                          initialvalues.update("BankType",
+                                              (val) => selectedValue);
+                                        });
+                                      },
+                                    ),
+                                  ))
+                            ],
+                          ),
+                        ),
+                      ),
+                      Flexible(
+                        child: TextFormField(
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          controller:
+                              clientIdController, // Use the TextEditingController
+                          onTap: () async {
+                            final clientId = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (ctx) => ClientScreen(
+                                  isLookUp: true,
+                                  loginResponse: widget.loginResponse,
+                                ),
+                              ),
+                            );
+
+                            clientIdController.text = clientId ?? 0;
+                            initialvalues.update(
+                              "ClientID",
+                              (value) => clientIdController.text,
+                            );
+                          },
+                          // onChanged: (value) {
+
+                          // },
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
                               ),
                             ),
+                            label: Text("Owner Id"),
                           ),
-                        ],
+                        ),
                       ),
-                      Row(
-                        children: [
-                          Flexible(
-                            child: TextFormField(
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Flexible(
+                        child: TextFormField(
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          initialValue: initialvalues["BankCode"],
+                          onChanged: (value) {
+                            initialvalues.update("BankCode", (val) => value);
+                          },
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
                               ),
-                              controller:
-                                  clientIdController, // Use the TextEditingController
-                              onTap: () async {
-                                final clientId = await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (ctx) => ClientScreen(
-                                      isLookUp: true,
-                                      loginResponse: widget.loginResponse,
+                            ),
+                            label: Text("Bank Code"),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Flexible(
+                        child: TextFormField(
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          initialValue: initialvalues["BankAccountNo"],
+                          onChanged: (value) {
+                            initialvalues.update(
+                                "BankAccountNo", (val) => value);
+                          },
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                            ),
+                            label: Text("Bank Account No"),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      StatefulBuilder(
+                        builder: (context, setDropdownState) => Flexible(
+                          child: DropdownButtonFormField<String>(
+                            value: dropdownValue1,
+                            elevation: 16,
+                            style: const TextStyle(color: Colors.deepPurple),
+                            decoration: const InputDecoration(
+                              labelText: "Bank Account Status",
+                              border: OutlineInputBorder(),
+                            ),
+                            onChanged: (selectedvalue) {
+                              setDropdownState(() {
+                                dropdownValue1 = selectedvalue!;
+                                initialvalues.update("BankAccountStatus",
+                                    (val) => dropdownValue1);
+                              });
+                            },
+                            items: bankaccountstatus
+                                .map(
+                                  (values) => DropdownMenuItem(
+                                    value: "${values['item']}",
+                                    child: Text(
+                                      "${values['longdesc']}",
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                      ),
                                     ),
                                   ),
-                                );
-
-                                clientIdController.text = clientId ?? 0;
+                                )
+                                .toList(),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Flexible(
+                        child: TextFormField(
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          controller: _sdate,
+                          decoration: const InputDecoration(
+                            icon: Icon(Icons.calendar_today_rounded),
+                            labelText: "Start Date",
+                          ),
+                          onTap: () async {
+                            DateTime? pickeddate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime.now());
+                            if (pickeddate != null) {
+                              setState(() {
+                                _sdate.text =
+                                    DateFormat('dd/MM/yyyy').format(pickeddate);
                                 initialvalues.update(
-                                  "ClientID",
-                                  (value) => clientIdController.text,
-                                );
-                              },
-                              // onChanged: (value) {
-
-                              // },
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                label: Text("Owner Id"),
-                              ),
-                            ),
-                          ),
-                        ],
+                                    "StartDate",
+                                    (val) => DateFormat('yyyyMMdd')
+                                        .format(pickeddate));
+                              });
+                            }
+                          },
+                        ),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
-                      Row(
-                        children: [
-                          Flexible(
-                            child: TextFormField(
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                              initialValue: initialvalues["BankCode"],
-                              onChanged: (value) {
+                      Flexible(
+                        child: TextFormField(
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          controller: _edate,
+                          decoration: const InputDecoration(
+                            icon: Icon(Icons.calendar_today_rounded),
+                            labelText: "End Date",
+                          ),
+                          onTap: () async {
+                            DateTime? pickeddate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime(3000));
+                            if (pickeddate != null) {
+                              setState(() {
+                                _edate.text =
+                                    DateFormat('dd/MM/yyyy').format(pickeddate);
                                 initialvalues.update(
-                                    "BankCode", (val) => value);
-                              },
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                label: Text("Bank Code"),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Flexible(
-                            child: TextFormField(
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                              initialValue: initialvalues["BankAccountNo"],
-                              onChanged: (value) {
-                                initialvalues.update(
-                                    "BankAccountNo", (val) => value);
-                              },
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                label: Text("Bank Account No"),
-                              ),
-                            ),
-                          ),
-                        ],
+                                    "EndDate",
+                                    (val) => DateFormat('yyyyMMdd')
+                                        .format(pickeddate));
+                              });
+                            }
+                          },
+                        ),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
-                      Row(
-                        children: [
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          StatefulBuilder(
-                            builder: (context, setDropdownState) => Flexible(
-                              child: DropdownButtonFormField<String>(
-                                value: dropdownValue1,
-                                elevation: 16,
-                                style:
-                                    const TextStyle(color: Colors.deepPurple),
-                                decoration: const InputDecoration(
-                                  labelText: "Bank Account Status",
-                                  border: OutlineInputBorder(),
-                                ),
-                                onChanged: (selectedvalue) {
-                                  setDropdownState(() {
-                                    dropdownValue1 = selectedvalue!;
-                                    initialvalues.update("BankAccountStatus",
-                                        (val) => dropdownValue1);
-                                  });
-                                },
-                                items: bankaccountstatus
-                                    .map(
-                                      (values) => DropdownMenuItem(
-                                        value: "${values['item']}",
-                                        child: Text(
-                                          "${values['longdesc']}",
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      // StatefulBuilder(
+                      //   builder: (context, setDropdownState) => Flexible(
+                      //     child: DropdownButtonFormField<String>(
+                      //       value: dropdownValue2,
+                      //       icon: const Icon(Icons.arrow_downward),
+                      //       decoration: const InputDecoration(
+                      //           fillColor: Colors.purple,
+                      //           labelText: "Bank Group"),
+                      //       elevation: 16,
+                      //       style:
+                      //           const TextStyle(color: Colors.deepPurple),
+                      //       onChanged: (selectedvalue) {
+                      //         setDropdownState(() {
+                      //           dropdownValue2 = selectedvalue!;
+                      //           initialvalues.update(
+                      //               "BankGroup", (val) => dropdownValue2);
+                      //         });
+                      //       },
+                      //       items: bankgroups
+                      //           .map(
+                      //             (values) => DropdownMenuItem(
+                      //               value: "${values['item']}",
+                      //               child: Text(
+                      //                 "${values['longdesc']}",
+                      //                 style: TextStyle(
+                      //                   color: Theme.of(context)
+                      //                       .colorScheme
+                      //                       .primary,
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //           )
+                      //           .toList(),
+                      //     ),
+                      //   ),
+                      // ),
                       const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Flexible(
-                            child: TextFormField(
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                              controller: _sdate,
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.calendar_today_rounded),
-                                labelText: "Start Date",
-                              ),
-                              onTap: () async {
-                                DateTime? pickeddate = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(1900),
-                                    lastDate: DateTime.now());
-                                if (pickeddate != null) {
-                                  setState(() {
-                                    _sdate.text = DateFormat('dd/MM/yyyy')
-                                        .format(pickeddate);
-                                    initialvalues.update(
-                                        "StartDate",
-                                        (val) => DateFormat('yyyyMMdd')
-                                            .format(pickeddate));
-                                  });
-                                }
-                              },
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Flexible(
-                            child: TextFormField(
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                              controller: _edate,
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.calendar_today_rounded),
-                                labelText: "End Date",
-                              ),
-                              onTap: () async {
-                                DateTime? pickeddate = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(1900),
-                                    lastDate: DateTime(3000));
-                                if (pickeddate != null) {
-                                  setState(() {
-                                    _edate.text = DateFormat('dd/MM/yyyy')
-                                        .format(pickeddate);
-                                    initialvalues.update(
-                                        "EndDate",
-                                        (val) => DateFormat('yyyyMMdd')
-                                            .format(pickeddate));
-                                  });
-                                }
-                              },
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          // StatefulBuilder(
-                          //   builder: (context, setDropdownState) => Flexible(
-                          //     child: DropdownButtonFormField<String>(
-                          //       value: dropdownValue2,
-                          //       icon: const Icon(Icons.arrow_downward),
-                          //       decoration: const InputDecoration(
-                          //           fillColor: Colors.purple,
-                          //           labelText: "Bank Group"),
-                          //       elevation: 16,
-                          //       style:
-                          //           const TextStyle(color: Colors.deepPurple),
-                          //       onChanged: (selectedvalue) {
-                          //         setDropdownState(() {
-                          //           dropdownValue2 = selectedvalue!;
-                          //           initialvalues.update(
-                          //               "BankGroup", (val) => dropdownValue2);
-                          //         });
-                          //       },
-                          //       items: bankgroups
-                          //           .map(
-                          //             (values) => DropdownMenuItem(
-                          //               value: "${values['item']}",
-                          //               child: Text(
-                          //                 "${values['longdesc']}",
-                          //                 style: TextStyle(
-                          //                   color: Theme.of(context)
-                          //                       .colorScheme
-                          //                       .primary,
-                          //                 ),
-                          //               ),
-                          //             ),
-                          //           )
-                          //           .toList(),
-                          //     ),
-                          //   ),
-                          // ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
                       Row(
                         children: [
@@ -835,7 +813,7 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                                 ),
                               ),
                               const SizedBox(
-                                width: 10,
+                                height: 20,
                               ),
                               CircleAvatar(
                                 backgroundColor:
@@ -850,7 +828,7 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                                 ),
                               ),
                               const SizedBox(
-                                width: 10,
+                                height: 20,
                               ),
                               Text(
                                 '${bankLists[index]['BankCode']}',
@@ -870,7 +848,7 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                               //   ),
                               // ),
                               // const SizedBox(
-                              //   width: 10,
+                              //   height: 20,
                               // ),
                               Text(
                                 '${bankLists[index]['BankAccountNo']}',
