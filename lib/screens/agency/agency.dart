@@ -324,10 +324,14 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                       Flexible(
                         child: TextFormField(
                           controller: _lsdate,
-                          decoration: const InputDecoration(
-                            icon: Icon(Icons.calendar_today_rounded),
-                            labelText: "License Start Date",
-                          ),
+                          decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              label: Text(
+                                "License Start Date",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              )),
                           onTap: () async {
                             DateTime? pickeddate = await showDatePicker(
                                 context: context,
@@ -353,10 +357,14 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                       Flexible(
                         child: TextFormField(
                           controller: _ledate,
-                          decoration: const InputDecoration(
-                            icon: Icon(Icons.calendar_today_rounded),
-                            labelText: "License End Date",
-                          ),
+                          decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              label: Text(
+                                "License End Date",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              )),
                           onTap: () async {
                             DateTime? pickeddate = await showDatePicker(
                                 context: context,
@@ -382,10 +390,14 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                       Flexible(
                         child: TextFormField(
                           controller: _sdate,
-                          decoration: const InputDecoration(
-                            icon: Icon(Icons.calendar_today_rounded),
-                            labelText: "Start Date",
-                          ),
+                          decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              label: Text(
+                                "Start Date",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              )),
                           onTap: () async {
                             DateTime? pickeddate = await showDatePicker(
                                 context: context,
@@ -411,10 +423,14 @@ class _AgencyScreenState extends ConsumerState<AgencyScreen> {
                       Flexible(
                         child: TextFormField(
                           controller: _edate,
-                          decoration: const InputDecoration(
-                            icon: Icon(Icons.calendar_today_rounded),
-                            labelText: "End Date",
-                          ),
+                          decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              label: Text(
+                                "End Date",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              )),
                           onTap: () async {
                             DateTime? pickeddate = await showDatePicker(
                                 context: context,

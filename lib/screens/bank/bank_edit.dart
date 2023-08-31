@@ -280,10 +280,14 @@ class _BankEditState extends State<BankEdit> {
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 controller: startDate,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.calendar_today_rounded),
-                  labelText: "Start Date",
-                ),
+                decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    label: Text(
+                      "Start Date",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    )),
                 onTap: () async {
                   DateTime? pickeddate = await showDatePicker(
                       context: context,
@@ -310,10 +314,14 @@ class _BankEditState extends State<BankEdit> {
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 controller: endDate,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.calendar_today_rounded),
-                  labelText: "End Date",
-                ),
+                decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    label: Text(
+                      "End Date",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    )),
                 onTap: () async {
                   DateTime? pickeddate = await showDatePicker(
                       context: context,

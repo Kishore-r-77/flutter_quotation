@@ -323,10 +323,14 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                             color: Theme.of(context).colorScheme.primary,
                           ),
                           controller: _sdate,
-                          decoration: const InputDecoration(
-                            icon: Icon(Icons.calendar_today_rounded),
-                            labelText: "Start Date",
-                          ),
+                          decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              label: Text(
+                                "Start Date",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              )),
                           onTap: () async {
                             DateTime? pickeddate = await showDatePicker(
                                 context: context,
@@ -355,10 +359,14 @@ class _BankScreenState extends ConsumerState<BankScreen> {
                             color: Theme.of(context).colorScheme.primary,
                           ),
                           controller: _edate,
-                          decoration: const InputDecoration(
-                            icon: Icon(Icons.calendar_today_rounded),
-                            labelText: "End Date",
-                          ),
+                          decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              label: Text(
+                                "End Date",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              )),
                           onTap: () async {
                             DateTime? pickeddate = await showDatePicker(
                                 context: context,
