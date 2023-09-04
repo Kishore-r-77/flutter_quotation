@@ -850,16 +850,22 @@ class _AddressScreenState extends ConsumerState<AddressScreen> {
                         onDoubleTap: () async {
                           addressResponse = await AddressService.getAddress(
                               authToken, addressLists[index]['ID']);
-
                           // ignore: use_build_context_synchronously
-                          Navigator.push(
+                          final resp = await Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AddressEnquiry(
-                                  addressResponse: addressResponse["Address"],
-                                  authToken: authToken),
+                              builder: (context) => AddressEdit(
+                                addressRecord: addressResponse["Address"],
+                                authToken: authToken,
+                                companyId: widget.loginResponse['companyId'],
+                                languageId: widget.loginResponse['languageId'],
+                                loginResponse: widget.loginResponse,
+                              ),
                             ),
                           );
+                          setState(() {
+                            addressLists = resp;
+                          });
                         },
                         child: Card(
                           color: Theme.of(context).colorScheme.surface,
