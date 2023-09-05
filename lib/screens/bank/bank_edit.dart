@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:quotation_flutter/providers/authProvider/login_provider.dart';
-import 'package:quotation_flutter/providers/darkProvider/dark_provider.dart';
-import 'package:quotation_flutter/screens/client/client.dart';
 import 'package:quotation_flutter/services/bank/bank_service.dart';
 import 'package:quotation_flutter/utils/appUtils/app_utils.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
