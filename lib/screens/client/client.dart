@@ -11,6 +11,7 @@ import 'package:quotation_flutter/widgets/client/client_address_modal.dart';
 import 'package:quotation_flutter/widgets/customAppbar/custom_appbar.dart';
 import 'package:quotation_flutter/widgets/mainDrawer/main_drawer.dart';
 
+//Client Screen
 class ClientScreen extends ConsumerStatefulWidget {
   const ClientScreen(
       {super.key, required this.loginResponse, required this.isLookUp});
@@ -127,6 +128,7 @@ class _ClientScreenState extends ConsumerState<ClientScreen> {
     });
   }
 
+// Delete Function
   deleteService(id) async {
     ClientService.softDeleteClient(
       widget.loginResponse['authToken'],
